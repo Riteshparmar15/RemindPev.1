@@ -1,0 +1,3511 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>RemindPe - Enterprise VyaparKhata & Payment Reminders SaaS</title>
+  <meta name="description"
+    content="Production-ready Enterprise SaaS Admin Dashboard for credit ledger management, bahi-khata accounting, in-store UPI checkout, and automated WhatsApp payment reminders.">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap"
+    rel="stylesheet">
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- QRious QR Code Generator -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          screens: {
+            'xs': '420px',
+            'tv': '1920px',
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            },
+            corporate: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              200: '#e2e8f0',
+              300: '#cbd5e1',
+              400: '#94a3b8',
+              500: '#64748b',
+              600: '#475569',
+              700: '#334155',
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#020617',
+            }
+          },
+          boxShadow: {
+            'subtle': '0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02)',
+            'elevated': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+            'modal': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* iOS input auto-zoom prevention: enforce minimum 16px font-size on mobile inputs */
+    @media (max-width: 767px) {
+
+      input,
+      select,
+      textarea {
+        font-size: 16px !important;
+      }
+    }
+
+    /* Touch manipulation & tap highlight removal */
+    button,
+    a,
+    input,
+    select,
+    textarea {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Premium slim scrollbars */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f8fafc;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+    }
+
+    /* Safe bottom for mobile notch & home bar */
+    .safe-bottom-pad {
+      padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+    }
+
+    /* Print styles for customer statements & receipts */
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+        padding: 0 !important;
+      }
+
+      #appSidebar,
+      #appTopbar,
+      #mobileBottomNav,
+      #mobileDrawer,
+      .no-print,
+      button,
+      #txViewSwitcher,
+      #heroStatsSection,
+      #dashboardOverviewModule,
+      #remindersModule,
+      #transactionsModule {
+        display: none !important;
+      }
+
+      #customersModule {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+      }
+
+      #customerListContainer {
+        display: none !important;
+      }
+
+      #customerDetailContainer {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+
+      #printableInvoiceHeader {
+        display: block !important;
+      }
+
+      .print-border {
+        border: 1px solid #e2e8f0 !important;
+      }
+
+      #transactionsTableView {
+        display: block !important;
+      }
+
+      #transactionsCardsView {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body
+  class="h-full flex overflow-hidden bg-slate-50 text-slate-800 font-sans antialiased selection:bg-indigo-600 selection:text-white">
+
+  <!-- ================= 1. ENTERPRISE SIDEBAR (DESKTOP) ================= -->
+  <aside id="appSidebar"
+    class="hidden lg:flex lg:flex-col lg:w-64 bg-slate-900 border-r border-slate-800 flex-shrink-0 transition-all duration-300 z-30 select-none">
+
+    <!-- Sidebar Header: Brand & Workspace with Collapse Button -->
+    <div class="h-16 flex items-center justify-between px-5 border-b border-slate-800/80">
+      <div class="flex items-center space-x-3 cursor-pointer min-w-0" onclick="switchMainView('overview')">
+        <div
+          class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md flex-shrink-0">
+          <i class="fa-solid fa-book-bookmark text-sm"></i>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center space-x-1.5">
+            <span id="sidebarBrandName" class="text-base font-extrabold tracking-tight text-white truncate">Remind<span
+                class="text-indigo-400">Pe</span></span>
+            <span
+              class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 bg-slate-800 text-indigo-300 rounded border border-slate-700">SaaS</span>
+          </div>
+          <p id="sidebarStoreSubtitle" class="text-[10px] text-slate-400 font-medium truncate">Vyapar Credit Cloud</p>
+        </div>
+      </div>
+      <!-- Hide Menu Bar Button -->
+      <button onclick="toggleSidebar(false)"
+        class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition min-h-[32px] min-w-[32px] flex items-center justify-center ml-2 flex-shrink-0 cursor-pointer"
+        title="Hide Menu Bar (Ctrl+B)">
+        <i class="fa-solid fa-chevron-left text-xs"></i>
+      </button>
+    </div>
+
+    <!-- Navigation Menu Items -->
+    <nav class="flex-1 px-3 py-4 space-y-6 overflow-y-auto no-scrollbar">
+
+      <!-- Primary Workspace Section -->
+      <div>
+        <div class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-2">Workspace</div>
+        <div class="space-y-1">
+          <!-- Overview Tab -->
+          <button onclick="switchMainView('overview')" id="navLinkOverview"
+            class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-800 shadow-xs transition-colors">
+            <i class="fa-solid fa-chart-pie w-4 text-center text-indigo-400 text-sm"></i>
+            <span>Dashboard Overview</span>
+          </button>
+
+          <!-- Customers Ledger Tab -->
+          <button onclick="switchMainView('customers')" id="navLinkCustomers"
+            class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors">
+            <div class="flex items-center space-x-3">
+              <i class="fa-solid fa-users w-4 text-center text-sm"></i>
+              <span>Customer Ledgers</span>
+            </div>
+            <span id="sidebarCustCountBadge"
+              class="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700">0</span>
+          </button>
+
+          <!-- All Transactions Audit Tab -->
+          <button onclick="switchMainView('transactions')" id="navLinkTransactions"
+            class="nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors">
+            <i class="fa-solid fa-receipt w-4 text-center text-sm"></i>
+            <span>Audit Ledger</span>
+          </button>
+
+          <!-- WhatsApp Reminder Command Center -->
+          <button onclick="switchMainView('reminders')" id="navLinkReminders"
+            class="nav-item w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors">
+            <div class="flex items-center space-x-3">
+              <i class="fa-brands fa-whatsapp w-4 text-center text-emerald-400 text-sm"></i>
+              <span>WhatsApp Reminders</span>
+            </div>
+            <span id="sidebarPendingCountBadge"
+              class="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-rose-900/40 text-rose-300 border border-rose-800/60">0
+              Due</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Actions Section -->
+      <div>
+        <div class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-2">Quick Actions</div>
+        <div class="space-y-1">
+          <button onclick="openAddCustomerModal()"
+            class="w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">
+            <i class="fa-solid fa-user-plus w-4 text-center text-xs text-indigo-400"></i>
+            <span>Add New Customer</span>
+          </button>
+          <button onclick="openAddTransactionModal()"
+            class="w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">
+            <i class="fa-solid fa-plus-minus w-4 text-center text-xs text-emerald-400"></i>
+            <span>Record Entry (Diye/Liye)</span>
+          </button>
+          <button onclick="openSettingsModal()"
+            class="w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 transition-colors">
+            <i class="fa-solid fa-sliders w-4 text-center text-xs text-slate-400"></i>
+            <span>Business Settings</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Developer & API Section -->
+      <div>
+        <div class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-2">Integrations</div>
+        <div class="space-y-1">
+          <a id="swaggerNavLink" href="/swagger" target="_blank"
+            class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors">
+            <div class="flex items-center space-x-3">
+              <i class="fa-solid fa-code w-4 text-center text-xs text-amber-400"></i>
+              <span id="swaggerNavText">Swagger REST API</span>
+            </div>
+            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500"></i>
+          </a>
+        </div>
+      </div>
+
+    </nav>
+
+    <!-- Sidebar Footer: System Status & Current User -->
+    <div class="p-3 border-t border-slate-800/80 bg-slate-950/60">
+      <div id="systemStatusFooter" class="flex items-center justify-between px-2 py-1.5 text-[11px] text-slate-400">
+        <div class="flex items-center space-x-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="font-semibold text-slate-300">SQLite Connected</span>
+        </div>
+        <span class="font-mono text-[10px] text-slate-400">khata.db</span>
+      </div>
+
+      <div class="mt-2 pt-2 border-t border-slate-800/50 flex items-center justify-between px-2">
+        <div class="flex items-center space-x-2.5 min-w-0">
+          <div
+            class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xs flex-shrink-0 border border-indigo-500/30">
+            A
+          </div>
+          <div class="min-w-0">
+            <p id="sidebarMerchantName" class="text-xs font-bold text-white truncate">Store Admin</p>
+            <p class="text-[10px] text-slate-400 truncate">Store Owner</p>
+          </div>
+        </div>
+        <button onclick="openSettingsModal()" class="text-slate-400 hover:text-white p-1 rounded-md transition"
+          title="Settings">
+          <i class="fa-solid fa-gear text-xs"></i>
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ================= 2. MAIN APPLICATION WRAPPER ================= -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+    <!-- Clean Topbar: Menu Bar Active Toggle + Logo, Back Button & Action Controls -->
+    <header id="appTopbar"
+      class="h-16 border-b border-slate-200/80 bg-white/95 backdrop-blur-md sticky top-0 z-20 px-3 sm:px-6 flex items-center justify-between no-print flex-shrink-0 select-none">
+      <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+        <!-- Menu Bar Active Toggle Button -->
+        <button id="btnSidebarToggle" onclick="toggleSidebar()"
+          class="p-2 -ml-1 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition min-w-[40px] min-h-[40px] flex items-center justify-center cursor-pointer active:scale-95 flex-shrink-0"
+          title="Toggle Menu Bar (Ctrl+B)">
+          <i id="sidebarToggleIcon" class="fa-solid fa-bars text-lg"></i>
+        </button>
+
+        <!-- Brand Logo & Name of Service -->
+        <div id="topbarBrandLogo" class="flex items-center space-x-2.5 sm:space-x-3 cursor-pointer min-w-0"
+          onclick="switchMainView('overview')" title="RemindPe - Digital Khata">
+          <div
+            class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-sm flex-shrink-0">
+            <i class="fa-solid fa-book-bookmark text-sm"></i>
+          </div>
+          <span class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900 truncate">Remind<span
+              class="text-indigo-600">Pe</span></span>
+        </div>
+
+        <span id="topbarPageTag"
+          class="hidden text-xs font-semibold text-slate-400 border-l border-slate-200 pl-2.5 ml-1 md:inline truncate">
+          Digital Khata Cloud
+        </span>
+      </div>
+
+      <!-- Right Action Items: Settings -->
+      <div class="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0 ml-2">
+        <!-- Store & Global Settings -->
+        <button id="topbarSettingsBtn" onclick="openSettingsModal()"
+          class="p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition min-w-[36px] min-h-[36px] flex items-center justify-center cursor-pointer border border-transparent hover:border-slate-200"
+          title="Business & Settings">
+          <i class="fa-solid fa-gear text-sm"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Scrollable Dashboard Content Area -->
+    <main class="flex-1 overflow-y-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 pb-24 lg:pb-8">
+
+      <!-- ================= MODULE 1: DASHBOARD OVERVIEW ================= -->
+      <section id="overviewModule" class="space-y-5 max-w-7xl tv:max-w-[1600px] mx-auto">
+
+        <!-- Header Banner & Period Controls -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1 border-b border-slate-200/60">
+          <div>
+            <div class="flex items-center space-x-2">
+              <h1 class="text-xl sm:text-2xl font-black tracking-tight text-slate-900">Financial Overview & Khata Health
+              </h1>
+              <span
+                class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 hidden sm:inline">खाता
+                सारांश</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Real-time aggregate credit receivables, collections, and
+              settlement metrics.</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <!-- Add Customer Quick Button on Overview -->
+            <button onclick="openAddCustomerModal()"
+              class="px-3 py-1.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition active:scale-95 shadow-xs flex items-center space-x-1.5 cursor-pointer">
+              <i class="fa-solid fa-user-plus text-xs"></i>
+              <span>+ Add Customer</span>
+            </button>
+            <span
+              class="text-xs font-bold px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-slate-600 flex items-center space-x-1.5 shadow-2xs">
+              <i class="fa-regular fa-calendar text-slate-400 text-xs"></i>
+              <span id="currentDateBadge">Today</span>
+            </span>
+            <button onclick="fetchDashboardStats(); fetchCustomers(); showToast('Dashboard refreshed', 'info')"
+              class="p-1.5 px-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition"
+              title="Refresh Live Data">
+              <i class="fa-solid fa-rotate text-xs"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 KPI Metrics Row -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+
+          <!-- KPI 1: Outstanding Receivable (Udhar) -->
+          <div onclick="switchMainView('customers'); filterBy('pending')"
+            class="cursor-pointer bg-white rounded-2xl p-4 sm:p-5 border border-rose-200/90 shadow-subtle hover:border-rose-300 transition group">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-rose-700">Receivable
+                (Udhar)</span>
+              <span
+                class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-50 text-rose-700 flex items-center justify-center text-xs">
+                <i class="fa-solid fa-arrow-up-right-dots"></i>
+              </span>
+            </div>
+            <div class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight font-mono privacy-target"
+              id="statReceivable">₹0</div>
+            <div class="mt-2 text-[11px] text-slate-500 flex items-center space-x-1.5">
+              <span class="font-bold text-rose-600 underline" id="statPendingCount">0 accounts</span>
+              <span class="hidden sm:inline">with overdue balances</span>
+            </div>
+          </div>
+
+          <!-- KPI 2: Collections Received (Jama) -->
+          <div onclick="switchMainView('transactions')"
+            class="cursor-pointer bg-white rounded-2xl p-4 sm:p-5 border border-emerald-200/90 shadow-subtle hover:border-emerald-300 transition group">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-emerald-700">Collections
+                (Jama)</span>
+              <span
+                class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center text-xs">
+                <i class="fa-solid fa-circle-check"></i>
+              </span>
+            </div>
+            <div class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight font-mono privacy-target"
+              id="statReceived">₹0</div>
+            <div class="mt-2 text-[11px] text-slate-500 truncate">
+              Cleared via Cash, UPI & Card
+            </div>
+          </div>
+
+          <!-- KPI 3: Active Customer Accounts -->
+          <div onclick="switchMainView('customers'); filterBy('all')"
+            class="cursor-pointer bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-subtle hover:border-slate-300 transition group">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-600">Active
+                Accounts</span>
+              <span
+                class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center text-xs">
+                <i class="fa-solid fa-users"></i>
+              </span>
+            </div>
+            <div class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight" id="statTotalCustomers">0
+            </div>
+            <div class="mt-2 text-[11px] text-slate-500 flex items-center justify-between">
+              <span>Managed bahi-khatas</span>
+              <span class="text-indigo-600 font-semibold hover:underline hidden sm:inline"
+                onclick="event.stopPropagation(); openAddCustomerModal()">+ Add New</span>
+            </div>
+          </div>
+
+          <!-- KPI 4: Total Transaction Volume -->
+          <div onclick="switchMainView('transactions')"
+            class="cursor-pointer bg-white rounded-2xl p-4 sm:p-5 border border-indigo-200/80 shadow-subtle hover:border-indigo-300 transition group">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-indigo-700">Audit
+                Entries</span>
+              <span
+                class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center text-xs">
+                <i class="fa-solid fa-receipt"></i>
+              </span>
+            </div>
+            <div class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight" id="statTotalTransactions">0
+            </div>
+            <div class="mt-2 text-[11px] text-slate-500 truncate">
+              Total historical ledger records
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Analytical Panels Grid: Recovery Progress & Action Center -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+          <!-- Collection Recovery Health Card (7 cols) -->
+          <div class="lg:col-span-7 bg-white rounded-2xl p-5 border border-slate-200/90 shadow-subtle space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-sm sm:text-base font-bold text-slate-900">Collection Efficiency & Recovery Rate</h3>
+                <p class="text-xs text-slate-500">Ratio of collected settlements against total credit extended.</p>
+              </div>
+              <span id="recoveryRateBadge"
+                class="text-xs font-extrabold font-mono px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                100%
+              </span>
+            </div>
+
+            <!-- Visual Progress Bar -->
+            <div class="space-y-1.5">
+              <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden flex">
+                <div id="recoveryProgressBar" class="bg-emerald-500 h-3 transition-all duration-500"
+                  style="width: 85%;"></div>
+                <div id="outstandingProgressBar" class="bg-rose-400 h-3 transition-all duration-500"
+                  style="width: 15%;"></div>
+              </div>
+              <div class="flex items-center justify-between text-[11px] font-semibold text-slate-500">
+                <span class="flex items-center space-x-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
+                  <span>Collected: <strong id="recoveryCollectedLabel"
+                      class="text-slate-800 font-mono">₹0</strong></span>
+                </span>
+                <span class="flex items-center space-x-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-rose-400 inline-block"></span>
+                  <span>Pending: <strong id="recoveryPendingLabel" class="text-rose-700 font-mono">₹0</strong></span>
+                </span>
+              </div>
+            </div>
+
+            <!-- High Balance Due Priority Watchlist -->
+            <div class="pt-3 border-t border-slate-100 space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-slate-700 uppercase tracking-wider text-[10px]">Priority Collection
+                  Watchlist</span>
+                <button onclick="switchMainView('reminders')" class="text-indigo-600 font-bold hover:underline">View All
+                  Overdue →</button>
+              </div>
+              <div id="priorityWatchlistContainer" class="space-y-2">
+                <!-- Dynamically populated top 3 pending debtors -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Enterprise Quick Launch & Reminders Hub (5 cols) -->
+          <div
+            class="lg:col-span-5 bg-white rounded-2xl p-5 border border-slate-200/90 shadow-subtle flex flex-col justify-between space-y-4">
+            <div>
+              <div class="flex items-center space-x-2 mb-1">
+                <i class="fa-brands fa-whatsapp text-emerald-600 text-lg"></i>
+                <h3 class="text-sm sm:text-base font-bold text-slate-900">WhatsApp Reminder Hub</h3>
+              </div>
+              <p class="text-xs text-slate-500">
+                Personalized payment reminders in Standard English, Polite Hinglish, and Formal Store notice styles.
+              </p>
+
+              <div class="mt-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200/80 space-y-2">
+                <div class="flex items-center justify-between text-xs font-semibold text-slate-700">
+                  <span>Merchant UPI ID</span>
+                  <span id="overviewUpiDisplay" class="font-mono text-slate-900 font-bold">merchant@upi</span>
+                </div>
+                <div class="flex items-center justify-between text-xs font-semibold text-slate-700">
+                  <span>Active Currency</span>
+                  <span id="overviewCurrencyDisplay" class="font-mono text-slate-900 font-bold">₹ INR</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-2 pt-2">
+              <button onclick="switchMainView('reminders')"
+                class="w-full py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center justify-center space-x-2 active:scale-95 min-h-[42px]">
+                <i class="fa-brands fa-whatsapp text-sm"></i>
+                <span>Open WhatsApp Reminders Command Center</span>
+              </button>
+
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="openAddTransactionModal(null, 'Credit')"
+                  class="py-2 px-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-1.5 min-h-[38px]">
+                  <i class="fa-solid fa-minus-circle text-[11px]"></i>
+                  <span>Gave Udhar</span>
+                </button>
+                <button onclick="openAddTransactionModal(null, 'Debit')"
+                  class="py-2 px-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-1.5 min-h-[38px]">
+                  <i class="fa-solid fa-plus-circle text-[11px]"></i>
+                  <span>Got Payment</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ================= MODULE 2: CUSTOMER LEDGERS & ACCOUNTS ================= -->
+      <section id="customersModule" class="hidden space-y-4 max-w-7xl tv:max-w-[1600px] mx-auto">
+
+        <!-- Header Bar -->
+        <div class="flex items-center justify-between pb-1 border-b border-slate-200/60 no-print">
+          <div class="flex items-center">
+            <span class="text-sm font-bold text-slate-800">Customer Accounts & Ledgers</span>
+          </div>
+          <button onclick="openAddCustomerModal()"
+            class="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition active:scale-95 shadow-xs cursor-pointer">
+            <i class="fa-solid fa-user-plus mr-1.5 text-xs"></i> Add Customer
+          </button>
+        </div>
+
+        <!-- Adaptive Grid: Accounts List (Col 5) & Active Customer Ledger (Col 7) -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5 items-start">
+
+          <!-- LEFT COLUMN: CUSTOMERS LIST -->
+          <div id="customerListContainer"
+            class="md:col-span-5 bg-white rounded-2xl border border-slate-200/90 shadow-subtle overflow-hidden flex flex-col no-print transition-all">
+
+            <!-- Search, Sort & Filter Controls -->
+            <div class="p-3 sm:p-4 border-b border-slate-100 space-y-2.5">
+              <div class="flex items-center justify-between">
+                <h2 class="text-xs sm:text-sm font-bold text-slate-900 flex items-center">
+                  <span>Customer Accounts</span>
+                  <span id="customerCountBadge"
+                    class="ml-2 text-[10px] sm:text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full font-bold">0</span>
+                </h2>
+                <div class="flex items-center space-x-1">
+                  <!-- Sort Selector -->
+                  <select id="customerSortSelect" onchange="renderCustomersList()"
+                    class="text-xs font-semibold bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-slate-700 focus:outline-none focus:ring-1 focus:ring-slate-800">
+                    <option value="due-desc">Highest Due First</option>
+                    <option value="due-asc">Lowest Due / Adv</option>
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="recent">Most Entries</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Instant Search Box -->
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                  <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                </div>
+                <input type="text" id="searchInput" oninput="handleSearch(this.value)"
+                  placeholder="Search by customer name or phone..."
+                  class="w-full pl-8 pr-8 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 transition min-h-[40px]">
+                <button id="clearSearchBtn" onclick="clearSearch()"
+                  class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+                  <i class="fa-solid fa-circle-xmark text-xs"></i>
+                </button>
+              </div>
+
+              <!-- Filter Pills -->
+              <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
+                <button id="filterAll" onclick="filterBy('all')"
+                  class="filter-pill active px-3 py-1.5 rounded-xl font-bold bg-slate-900 text-white transition flex-shrink-0 min-h-[34px]">
+                  All Accounts
+                </button>
+                <button id="filterPending" onclick="filterBy('pending')"
+                  class="filter-pill px-3 py-1.5 rounded-xl font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex-shrink-0 min-h-[34px]">
+                  Pending Dues
+                </button>
+                <button id="filterSettled" onclick="filterBy('settled')"
+                  class="filter-pill px-3 py-1.5 rounded-xl font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex-shrink-0 min-h-[34px]">
+                  Settled (0)
+                </button>
+                <button id="filterAdvance" onclick="filterBy('advance')"
+                  class="filter-pill px-3 py-1.5 rounded-xl font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition flex-shrink-0 min-h-[34px]">
+                  Advance
+                </button>
+              </div>
+            </div>
+
+            <!-- Customer Cards List Container -->
+            <div id="customersList"
+              class="divide-y divide-slate-100 overflow-y-auto max-h-[580px] md:max-h-[640px] tv:max-h-[820px] min-h-[260px]">
+              <div class="p-8 text-center text-slate-400">
+                <i class="fa-solid fa-spinner fa-spin text-2xl text-slate-500 mb-2"></i>
+                <p class="text-xs">Loading ledger accounts...</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT COLUMN: ACTIVE CUSTOMER DETAIL LEDGER -->
+          <div id="customerDetailContainer" class="md:col-span-7 flex flex-col space-y-4">
+
+            <!-- Empty State (When no customer is selected) -->
+            <div id="noCustomerSelected"
+              class="bg-white rounded-2xl border border-slate-200/90 p-8 sm:p-12 text-center shadow-subtle no-print">
+              <div
+                class="w-14 h-14 sm:w-18 sm:h-18 bg-slate-100 text-slate-500 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 text-xl sm:text-2xl shadow-inner">
+                <i class="fa-solid fa-receipt"></i>
+              </div>
+              <h3 class="text-sm sm:text-base font-bold text-slate-900 mb-1">Select a Customer Ledger</h3>
+              <p class="text-xs sm:text-sm text-slate-500 max-w-sm mx-auto mb-5">
+                Click any customer from the accounts list to inspect full chronological transactions, print statements,
+                or generate WhatsApp reminders.
+              </p>
+              <div class="flex items-center justify-center space-x-2.5">
+                <button onclick="openAddCustomerModal()"
+                  class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-bold shadow-xs transition min-h-[40px]">
+                  <i class="fa-solid fa-user-plus mr-1"></i> Add Account
+                </button>
+                <button onclick="selectFirstCustomer()"
+                  class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-semibold transition min-h-[40px]">
+                  Open First Ledger
+                </button>
+              </div>
+            </div>
+
+            <!-- Active Customer Profile & Ledger View -->
+            <div id="activeCustomerView" class="hidden space-y-4">
+
+              <!-- PRINT-ONLY INVOICE / STATEMENT HEADER -->
+              <div id="printableInvoiceHeader" class="hidden pb-4 mb-4 border-b border-slate-300">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h1 id="printStoreName" class="text-2xl font-black text-slate-900">Store Name</h1>
+                    <p id="printStoreUPI" class="text-xs text-slate-600">Payment ID: -</p>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-xs uppercase font-bold text-slate-500 block">Khata Ledger Statement</span>
+                    <span id="printDate" class="text-xs text-slate-700 font-mono">14-Oct-2026</span>
+                  </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-slate-200 flex justify-between text-xs">
+                  <div>
+                    <span class="font-bold">Customer: </span><span id="printCustName">-</span><br>
+                    <span class="font-bold">Contact: </span><span id="printCustPhone">-</span>
+                  </div>
+                  <div class="text-right">
+                    <span class="font-bold">Net Balance Due: </span><span id="printNetBalance"
+                      class="text-sm font-black text-rose-600">₹0</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Customer Profile Card -->
+              <div class="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-subtle no-print">
+
+                <!-- Action Buttons Toolbar -->
+                <div class="flex flex-wrap items-center justify-between gap-2 pb-3 sm:pb-4 border-b border-slate-100">
+                  <button onclick="handleCustomerDetailBack()"
+                    class="inline-flex items-center text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-xl transition min-h-[36px] cursor-pointer shadow-2xs"
+                    title="Return to Accounts List">
+                    <i class="fa-solid fa-arrow-left mr-1.5 text-slate-600"></i>
+                    <span class="md:hidden">All Accounts</span>
+                    <span class="hidden md:inline">Back to Accounts</span>
+                  </button>
+
+                  <div class="flex items-center space-x-1.5 sm:space-x-2 ml-auto">
+                    <!-- CSV Statement Export -->
+                    <button onclick="exportLedgerCSV()"
+                      class="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition text-xs font-semibold min-h-[36px] min-w-[36px] flex items-center justify-center border border-slate-200"
+                      title="Export Ledger Statement to CSV">
+                      <i class="fa-solid fa-file-csv text-sm"></i>
+                    </button>
+                    <!-- Print Statement -->
+                    <button onclick="printCustomerStatement()"
+                      class="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition text-xs font-semibold min-h-[36px] min-w-[36px] flex items-center justify-center border border-slate-200"
+                      title="Print Ledger Statement">
+                      <i class="fa-solid fa-print text-sm"></i>
+                    </button>
+                    <!-- Edit Customer -->
+                    <button onclick="openEditCustomerModal()"
+                      class="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition text-xs font-semibold min-h-[36px] min-w-[36px] flex items-center justify-center border border-slate-200"
+                      title="Edit Customer Account Details">
+                      <i class="fa-solid fa-user-pen text-sm"></i>
+                    </button>
+                    <!-- Delete Customer -->
+                    <button onclick="confirmDeleteCustomer()"
+                      class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition min-h-[36px] min-w-[36px] flex items-center justify-center"
+                      title="Delete Customer Account">
+                      <i class="fa-solid fa-trash-can text-sm"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Customer Details Header -->
+                <div class="pt-3 sm:pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+                  <div class="flex items-center space-x-3 min-w-0">
+                    <div id="detailAvatar"
+                      class="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-slate-900 text-white font-extrabold text-base sm:text-lg flex items-center justify-center shadow-xs flex-shrink-0">
+                      R
+                    </div>
+                    <div class="min-w-0">
+                      <h3 id="detailName"
+                        class="text-sm xs:text-base sm:text-xl font-extrabold text-slate-900 leading-tight truncate">
+                        Customer Name</h3>
+                      <div class="flex items-center space-x-2 text-xs text-slate-500 mt-1">
+                        <a id="detailPhoneLink" href="#"
+                          class="flex items-center text-slate-700 hover:underline font-semibold truncate">
+                          <i class="fa-solid fa-phone mr-1 text-[10px]"></i>
+                          <span id="detailPhone" class="privacy-phone">9876543210</span>
+                        </a>
+                        <span>•</span>
+                        <span id="detailCreatedAt" class="text-[11px] truncate">Joined Sep 2026</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Net Balance Pill -->
+                  <div class="text-left sm:text-right bg-slate-50 sm:bg-transparent p-3 sm:p-0 rounded-2xl">
+                    <span
+                      class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 block">Current
+                      Balance</span>
+                    <div id="detailNetBalance"
+                      class="text-xl xs:text-2xl sm:text-3xl font-extrabold text-rose-600 tracking-tight font-mono privacy-target">
+                      ₹0</div>
+                    <div id="detailBalanceStatus" class="text-xs font-semibold text-rose-600 mt-0.5">Payment Due
+                      (Receivable)</div>
+                  </div>
+                </div>
+
+                <!-- Financial Breakdown (Credit Given vs Received) -->
+                <div class="mt-3.5 grid grid-cols-2 gap-2 sm:gap-3 pt-3 border-t border-slate-100">
+                  <div class="bg-rose-50/60 border border-rose-200/70 rounded-xl p-2.5 sm:p-3">
+                    <div
+                      class="flex items-center justify-between text-[11px] sm:text-xs text-rose-800 font-semibold mb-0.5">
+                      <span class="truncate">Gave (Credit / Udhar)</span>
+                      <i class="fa-solid fa-arrow-up text-[10px]"></i>
+                    </div>
+                    <div id="detailTotalCredit"
+                      class="text-sm xs:text-base sm:text-lg font-bold text-rose-700 font-mono privacy-target truncate">
+                      ₹0</div>
+                  </div>
+
+                  <div class="bg-emerald-50/60 border border-emerald-200/70 rounded-xl p-2.5 sm:p-3">
+                    <div
+                      class="flex items-center justify-between text-[11px] sm:text-xs text-emerald-800 font-semibold mb-0.5">
+                      <span class="truncate">Received (Payment / Jama)</span>
+                      <i class="fa-solid fa-arrow-down text-[10px]"></i>
+                    </div>
+                    <div id="detailTotalDebit"
+                      class="text-sm xs:text-base sm:text-lg font-bold text-emerald-700 font-mono privacy-target truncate">
+                      ₹0</div>
+                  </div>
+                </div>
+
+                <!-- PROMINENT WHATSAPP REMINDER ACTION BANNER -->
+                <div
+                  class="mt-3.5 p-3 sm:p-4 rounded-xl bg-slate-900 text-white shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div class="flex items-center space-x-2.5 sm:space-x-3">
+                    <div
+                      class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center text-emerald-400 text-base flex-shrink-0">
+                      <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div>
+                      <div class="text-xs sm:text-sm font-bold">Send WhatsApp Payment Reminder</div>
+                      <p class="text-[10px] sm:text-[11px] text-slate-400">Pre-formats reminder link with exact balance
+                        & store details.</p>
+                    </div>
+                  </div>
+                  <button id="btnSendWhatsApp" onclick="openWhatsAppPreviewModal()"
+                    class="w-full sm:w-auto px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs sm:text-sm shadow-xs active:scale-95 transition flex items-center justify-center space-x-2 min-h-[40px]">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                    <span>Send WhatsApp Reminder</span>
+                  </button>
+                </div>
+
+                <!-- DUAL TRANSACTION ACTIONS -->
+                <div class="mt-3 grid grid-cols-2 gap-2 sm:gap-3">
+                  <button onclick="openQuickAddTransaction('Credit')"
+                    class="py-2.5 sm:py-3 px-3 rounded-xl bg-rose-600 hover:bg-rose-700 active:scale-95 text-white font-bold text-xs sm:text-sm shadow-xs transition flex items-center justify-center space-x-1.5 min-h-[44px]">
+                    <i class="fa-solid fa-minus-circle"></i>
+                    <span>Gave (You Gave)</span>
+                  </button>
+
+                  <button onclick="openQuickAddTransaction('Debit')"
+                    class="py-2.5 sm:py-3 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs sm:text-sm shadow-xs transition flex items-center justify-center space-x-1.5 min-h-[44px]">
+                    <i class="fa-solid fa-plus-circle"></i>
+                    <span>Received (You Got)</span>
+                  </button>
+                </div>
+
+              </div>
+
+              <!-- Transaction History Table Card -->
+              <div class="bg-white rounded-2xl border border-slate-200/90 shadow-subtle overflow-hidden">
+                <div class="p-3 sm:p-4 border-b border-slate-100 flex items-center justify-between">
+                  <div>
+                    <h4 class="text-xs sm:text-sm font-bold text-slate-900">Ledger Statement</h4>
+                    <p class="text-[10px] text-slate-500">Date-wise chronological transactions</p>
+                  </div>
+
+                  <div class="flex items-center space-x-2">
+                    <span id="detailTxnCount"
+                      class="text-[10px] sm:text-xs font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full">0
+                      entries</span>
+
+                    <!-- View Switcher -->
+                    <div id="txViewSwitcher"
+                      class="hidden sm:inline-flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200">
+                      <button id="viewBtnCards" onclick="setTransactionView('cards')"
+                        class="px-2 py-1 rounded-md text-[11px] font-bold transition text-slate-600 hover:text-slate-900"
+                        title="Card View">
+                        <i class="fa-solid fa-table-cells-large"></i>
+                      </button>
+                      <button id="viewBtnTable" onclick="setTransactionView('table')"
+                        class="px-2 py-1 rounded-md text-[11px] font-bold transition bg-white text-slate-900 shadow-xs"
+                        title="Table View">
+                        <i class="fa-solid fa-table-list"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- CARDS VIEW (Mobile / Touch screens) -->
+                <div id="transactionsCardsView" class="hidden p-3 space-y-2">
+                  <div id="transactionsCardsContainer" class="space-y-2">
+                    <!-- Dynamic cards -->
+                  </div>
+                </div>
+
+                <!-- DATA TABLE VIEW (Desktop / Tablet / Print) -->
+                <div id="transactionsTableView" class="overflow-x-auto">
+                  <table class="w-full text-left text-xs">
+                    <thead
+                      class="bg-slate-50 text-slate-600 uppercase text-[10px] tracking-wider font-semibold border-b border-slate-100">
+                      <tr>
+                        <th class="py-2.5 sm:py-3 px-3 sm:px-6">Date</th>
+                        <th class="py-2.5 sm:py-3 px-2 sm:px-3">Type</th>
+                        <th class="py-2.5 sm:py-3 px-2 sm:px-3">Details / Reference</th>
+                        <th class="py-2.5 sm:py-3 px-3 sm:px-4 text-right">Amount</th>
+                        <th class="py-2.5 sm:py-3 px-2 sm:px-3 text-center no-print">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="transactionsTableBody" class="divide-y divide-slate-100">
+                      <!-- Dynamic rows -->
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Empty Transactions State -->
+                <div id="noTransactionsState" class="hidden p-6 sm:p-8 text-center text-slate-400">
+                  <i class="fa-solid fa-file-invoice text-2xl sm:text-3xl mb-2 text-slate-300"></i>
+                  <p class="text-xs font-semibold text-slate-600">No transactions recorded yet.</p>
+                  <p class="text-[11px] text-slate-400 mt-0.5">Click "Gave" or "Received" above to record your first
+                    entry.</p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ================= MODULE 3: ALL TRANSACTIONS AUDIT LEDGER ================= -->
+      <section id="transactionsModule" class="hidden space-y-4 max-w-7xl tv:max-w-[1600px] mx-auto">
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1 border-b border-slate-200/60">
+          <div>
+            <div class="flex items-center space-x-2">
+              <h1 class="text-xl sm:text-2xl font-black tracking-tight text-slate-900">Audit Ledger & Transaction Feed
+              </h1>
+              <span
+                class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 hidden sm:inline">लेखा
+                विवरण</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Comprehensive audit trail of all credit and debit
+              entries across all customer accounts.</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <!-- Export CSV Trigger -->
+            <button onclick="exportAllAuditCSV()"
+              class="px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-bold rounded-xl shadow-2xs transition flex items-center space-x-1.5 cursor-pointer active:scale-95">
+              <i class="fa-solid fa-file-csv text-emerald-600 text-sm"></i>
+              <span>Export CSV</span>
+            </button>
+            <button onclick="openAddTransactionModal()"
+              class="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl shadow-xs transition flex items-center space-x-1.5 cursor-pointer active:scale-95">
+              <i class="fa-solid fa-plus text-[10px]"></i>
+              <span>New Entry</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Audit Table & Cards Card -->
+        <div class="bg-white rounded-2xl border border-slate-200/90 shadow-subtle overflow-hidden">
+          <div
+            class="p-3 sm:p-4 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div class="flex items-center space-x-2 flex-wrap gap-y-1">
+              <span id="auditTxnCount" class="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-full">0
+                entries recorded</span>
+
+              <!-- Filter by Type (Buttons for Playwright & Mobile UX) -->
+              <div
+                class="inline-flex items-center p-0.5 bg-slate-100 rounded-xl border border-slate-200 text-xs font-bold">
+                <button type="button" id="auditBtnAll" onclick="setAuditFilterType('all')"
+                  class="audit-btn px-2.5 py-1 rounded-lg bg-white text-slate-900 shadow-2xs transition">All</button>
+                <button type="button" id="auditBtnCredit" onclick="setAuditFilterType('Credit')"
+                  class="audit-btn px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition">Credit</button>
+                <button type="button" id="auditBtnDebit" onclick="setAuditFilterType('Debit')"
+                  class="audit-btn px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition">Debit</button>
+              </div>
+
+              <!-- Hidden Synchronized Select for Legacy Handlers -->
+              <select id="auditTypeFilter" onchange="filterAuditLedger()" class="hidden">
+                <option value="all">All Types</option>
+                <option value="Credit">Credit</option>
+                <option value="Debit">Debit</option>
+              </select>
+            </div>
+
+            <!-- View Switcher (Cards vs Table) -->
+            <div class="flex items-center space-x-1.5 self-end md:self-auto">
+              <div
+                class="inline-flex items-center p-0.5 bg-slate-100 rounded-xl border border-slate-200 text-xs font-bold">
+                <button type="button" id="auditViewBtnTable" onclick="setAuditViewMode('table')"
+                  class="px-2.5 py-1 rounded-lg bg-white text-slate-900 shadow-2xs transition flex items-center space-x-1"
+                  title="Table View">
+                  <i class="fa-solid fa-table-list text-xs"></i>
+                  <span class="hidden sm:inline">Table</span>
+                </button>
+                <button type="button" id="auditViewBtnCards" onclick="setAuditViewMode('cards')"
+                  class="px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center space-x-1"
+                  title="Cards View">
+                  <i class="fa-solid fa-grip text-xs"></i>
+                  <span class="hidden sm:inline">Cards</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table View Container -->
+          <div id="auditTableView" class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead
+                class="bg-slate-50 text-slate-600 uppercase text-[10px] tracking-wider font-semibold border-b border-slate-100">
+                <tr>
+                  <th class="py-3 px-4 sm:px-6">Date & Time</th>
+                  <th class="py-3 px-3">Customer Account</th>
+                  <th class="py-3 px-3">Type</th>
+                  <th class="py-3 px-3">Reference / Note</th>
+                  <th class="py-3 px-4 text-right">Amount</th>
+                  <th class="py-3 px-3 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody id="auditTableBody" class="divide-y divide-slate-100">
+                <!-- Dynamically populated cross-customer transactions -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Cards View Container -->
+          <div id="auditCardsView" class="hidden p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <!-- Dynamically populated transaction cards -->
+          </div>
+
+          <div id="noAuditState" class="hidden p-8 text-center text-slate-400">
+            <i class="fa-solid fa-receipt text-3xl mb-2 text-slate-300"></i>
+            <p class="text-xs font-semibold text-slate-600">No transactions recorded yet in database.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= MODULE 4: WHATSAPP REMINDERS COMMAND CENTER ================= -->
+      <section id="remindersModule" class="hidden space-y-4 max-w-7xl tv:max-w-[1600px] mx-auto">
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1 border-b border-slate-200/60">
+          <div>
+            <div class="flex items-center space-x-2">
+              <h1 class="text-xl sm:text-2xl font-black tracking-tight text-slate-900">WhatsApp Collection Center</h1>
+              <span
+                class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 hidden sm:inline">तकादा
+                केंद्र</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Priority collection queue for all customers with overdue
+              balances.</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span id="remindersPendingBadge"
+              class="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-3 py-1.5 rounded-xl">
+              0 Pending Accounts
+            </span>
+          </div>
+        </div>
+
+        <!-- Overdue Accounts Cards Grid (remindersListContainer with remindersQueueContainer support) -->
+        <div id="remindersListContainer" data-alt-id="remindersQueueContainer"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <!-- Dynamically populated with overdue accounts -->
+        </div>
+
+        <div id="noPendingDebtorsState"
+          class="hidden bg-white rounded-2xl border border-slate-200/90 p-12 text-center shadow-subtle">
+          <div
+            class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl shadow-inner">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-1">Zero Pending Receivables!</h3>
+          <p class="text-xs text-slate-500 max-w-md mx-auto">
+            All customer accounts are completely settled or have credit advance. Great job maintaining zero bad debt!
+          </p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ================= MOBILE STICKY BOTTOM NAVIGATION ================= -->
+    <nav id="mobileBottomNav"
+      class="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 py-1.5 px-3 shadow-lg flex items-center justify-around safe-bottom-pad no-print transition-transform duration-300">
+      <!-- Overview -->
+      <button onclick="switchMainView('overview')" id="mobileTabOverview"
+        class="flex flex-col items-center text-indigo-600 text-[10px] font-bold transition min-w-[50px] min-h-[44px] justify-center">
+        <i class="fa-solid fa-chart-pie text-base mb-0.5"></i>
+        <span>Overview</span>
+      </button>
+
+      <!-- Accounts -->
+      <button onclick="switchMainView('customers')" id="mobileTabCustomers"
+        class="flex flex-col items-center text-slate-500 hover:text-slate-900 text-[10px] font-semibold transition min-w-[50px] min-h-[44px] justify-center">
+        <i class="fa-solid fa-users text-base mb-0.5"></i>
+        <span>Accounts</span>
+      </button>
+
+      <!-- Quick Add Entry (Floating Center) -->
+      <button onclick="openAddTransactionModal()"
+        class="flex flex-col items-center -mt-6 bg-slate-900 text-white w-12 h-12 rounded-full shadow-lg items-center justify-center transition active:scale-90"
+        title="Record Entry">
+        <i class="fa-solid fa-plus text-base"></i>
+      </button>
+
+      <!-- Reminders -->
+      <button onclick="switchMainView('reminders')" id="mobileTabReminders"
+        class="flex flex-col items-center text-slate-500 hover:text-slate-900 text-[10px] font-semibold transition min-w-[50px] min-h-[44px] justify-center">
+        <i class="fa-brands fa-whatsapp text-base mb-0.5"></i>
+        <span>Reminders</span>
+      </button>
+
+      <!-- Settings -->
+      <button onclick="openSettingsModal()"
+        class="flex flex-col items-center text-slate-500 hover:text-slate-900 text-[10px] font-semibold transition min-w-[50px] min-h-[44px] justify-center">
+        <i class="fa-solid fa-gear text-base mb-0.5"></i>
+        <span>Settings</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- ================= 3. MOBILE DRAWER OVERLAY ================= -->
+  <div id="mobileDrawer" class="fixed inset-0 z-50 lg:hidden hidden">
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="toggleMobileDrawer(false)">
+    </div>
+    <!-- Drawer Panel -->
+    <div class="fixed inset-y-0 left-0 w-72 bg-slate-900 flex flex-col z-10 shadow-2xl">
+      <div class="h-16 flex items-center justify-between px-5 border-b border-slate-800">
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
+            <i class="fa-solid fa-book-bookmark text-xs"></i>
+          </div>
+          <span class="text-base font-extrabold text-white">Remind<span class="text-indigo-400">Pe</span></span>
+        </div>
+        <button onclick="toggleMobileDrawer(false)" class="text-slate-400 hover:text-white p-2 text-lg cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="flex-1 px-4 py-4 space-y-4 overflow-y-auto">
+        <div class="space-y-1">
+          <button id="drawerLinkOverview" onclick="switchMainView('overview'); toggleMobileDrawer(false)"
+            class="w-full flex items-center space-x-3 px-3.5 py-3 rounded-xl text-xs font-bold text-white bg-slate-800 cursor-pointer">
+            <i class="fa-solid fa-chart-pie w-4 text-center text-indigo-400"></i>
+            <span>Dashboard Overview</span>
+          </button>
+          <button id="drawerLinkCustomers" onclick="switchMainView('customers'); toggleMobileDrawer(false)"
+            class="w-full flex items-center space-x-3 px-3.5 py-3 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 cursor-pointer">
+            <i class="fa-solid fa-users w-4 text-center"></i>
+            <span>Customer Ledgers</span>
+          </button>
+          <button id="drawerLinkTransactions" onclick="switchMainView('transactions'); toggleMobileDrawer(false)"
+            class="w-full flex items-center space-x-3 px-3.5 py-3 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 cursor-pointer">
+            <i class="fa-solid fa-receipt w-4 text-center"></i>
+            <span>Audit Ledger</span>
+          </button>
+          <button id="drawerLinkReminders" onclick="switchMainView('reminders'); toggleMobileDrawer(false)"
+            class="w-full flex items-center space-x-3 px-3.5 py-3 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 cursor-pointer">
+            <i class="fa-brands fa-whatsapp w-4 text-center text-emerald-400"></i>
+            <span>WhatsApp Reminders</span>
+          </button>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 space-y-1">
+          <button onclick="openAddCustomerModal(); toggleMobileDrawer(false)"
+            class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 cursor-pointer">
+            <i class="fa-solid fa-user-plus w-4 text-center text-indigo-400"></i>
+            <span>Add Customer</span>
+          </button>
+          <button onclick="openAddTransactionModal(); toggleMobileDrawer(false)"
+            class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 cursor-pointer">
+            <i class="fa-solid fa-plus-minus w-4 text-center text-emerald-400"></i>
+            <span>Record Entry</span>
+          </button>
+          <button onclick="openSettingsModal(); toggleMobileDrawer(false)"
+            class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 cursor-pointer">
+            <i class="fa-solid fa-sliders w-4 text-center text-slate-400"></i>
+            <span>Business Settings</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 4. MODALS & DIALOGS ================= -->
+
+  <!-- MODAL 1: WHATSAPP REMINDER DIALOG -->
+  <div id="whatsAppModal"
+    class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+    <div
+      class="bg-white rounded-2xl max-w-lg w-full max-h-[92vh] flex flex-col p-4 sm:p-6 shadow-modal transform transition-all my-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-shrink-0">
+        <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center">
+          <i class="fa-brands fa-whatsapp text-emerald-600 text-lg mr-2"></i> WhatsApp Payment Reminder
+        </h3>
+        <button onclick="closeWhatsAppModal()"
+          class="text-slate-400 hover:text-slate-600 p-1.5 min-w-[36px] min-h-[36px] flex items-center justify-center">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="mt-3.5 space-y-3 overflow-y-auto pr-1">
+        <!-- Template Style Selector -->
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Reminder
+            Style</label>
+          <div id="templateTabs" class="grid grid-cols-3 gap-1.5 sm:gap-2">
+            <button type="button" onclick="selectTemplate('standard')" id="tplBtn_standard"
+              class="tpl-btn py-2 px-1 sm:px-2 rounded-xl border-2 border-slate-900 bg-slate-900 text-white font-bold text-[11px] sm:text-xs text-center transition min-h-[38px] cursor-pointer">
+              Standard
+            </button>
+            <button type="button" onclick="selectTemplate('hinglish')" id="tplBtn_hinglish"
+              class="tpl-btn py-2 px-1 sm:px-2 rounded-xl border border-slate-200 bg-white text-slate-700 font-semibold text-[11px] sm:text-xs text-center hover:bg-slate-50 transition min-h-[38px] cursor-pointer">
+              Hinglish
+            </button>
+            <button type="button" onclick="selectTemplate('formal')" id="tplBtn_formal"
+              class="tpl-btn py-2 px-1 sm:px-2 rounded-xl border border-slate-200 bg-white text-slate-700 font-semibold text-[11px] sm:text-xs text-center hover:bg-slate-50 transition min-h-[38px] cursor-pointer">
+              Formal Store
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat Bubble Preview -->
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">WhatsApp
+            Chat Bubble Preview</label>
+          <div class="bg-[#EFEAE2] p-3 sm:p-4 rounded-xl border border-slate-200 shadow-inner">
+            <div
+              class="bg-[#D9FDD3] rounded-xl p-2.5 sm:p-3 shadow-xs max-w-sm ml-auto text-xs sm:text-sm text-slate-800 relative">
+              <p id="waMessagePreview" data-alt-id="waPreviewText"
+                class="whitespace-pre-wrap leading-relaxed font-sans">
+                Hello Customer, your pending balance is ₹500. Please clear it soon.
+              </p>
+              <div class="mt-1 text-[10px] text-slate-500 text-right flex items-center justify-end space-x-1">
+                <span>Just now</span>
+                <i class="fa-solid fa-check-double text-blue-500 text-[10px]"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Optional Custom Note -->
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Custom Note
+            / Reference</label>
+          <input type="text" id="waCustomNote" oninput="refreshWhatsAppMessage()"
+            placeholder="e.g. Kindly clear by Friday"
+            class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 min-h-[42px]">
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="pt-3 flex items-center justify-between border-t border-slate-100 flex-shrink-0">
+          <button type="button" onclick="copyReminderText()"
+            class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition flex items-center space-x-1.5 min-h-[40px] cursor-pointer">
+            <i class="fa-solid fa-copy"></i>
+            <span id="copyBtnText">Copy Message</span>
+          </button>
+
+          <div class="flex items-center space-x-2">
+            <button type="button" onclick="closeWhatsAppModal()"
+              class="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 transition min-h-[40px] cursor-pointer">
+              Close
+            </button>
+            <button type="button" id="btnSendWA" onclick="launchWhatsApp()"
+              class="px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-xs active:scale-95 transition flex items-center space-x-1.5 min-h-[40px] cursor-pointer">
+              <i class="fa-brands fa-whatsapp text-base"></i>
+              <span>Launch WhatsApp</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- MODAL 3: STORE, CURRENCY & GLOBAL SETTINGS -->
+  <div id="settingsModal"
+    class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+    <div
+      class="bg-white rounded-2xl max-w-md w-full max-h-[92vh] flex flex-col p-5 sm:p-6 shadow-modal transform transition-all my-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-shrink-0">
+        <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center">
+          <i class="fa-solid fa-gear text-slate-700 mr-2"></i> Business & Settings
+        </h3>
+        <button onclick="closeSettingsModal()"
+          class="text-slate-400 hover:text-slate-600 text-lg p-1.5 min-w-[36px] min-h-[36px] flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="settingsForm" onsubmit="saveStoreSettings(event)" class="mt-3.5 space-y-3.5 overflow-y-auto pr-1">
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Business /
+            Store Name</label>
+          <input type="text" id="cfgStoreName" required placeholder="e.g. Ramesh Kirana / Apex General Trading"
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 min-h-[42px]">
+          <p class="text-[10px] text-slate-400 mt-1">Appears on statements, receipts, and WhatsApp reminders.</p>
+        </div>
+
+        <!-- Currency Selector -->
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Currency
+            Symbol</label>
+          <select id="cfgCurrency"
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 font-semibold min-h-[42px]">
+            <option value="₹">₹ INR (Indian Rupee)</option>
+            <option value="$">$ USD (United States Dollar)</option>
+            <option value="€">€ EUR (Euro)</option>
+            <option value="£">£ GBP (British Pound)</option>
+            <option value="AED">AED (UAE Dirham)</option>
+            <option value="SAR">SAR (Saudi Riyal)</option>
+            <option value="C$">C$ CAD (Canadian Dollar)</option>
+            <option value="A$">A$ AUD (Australian Dollar)</option>
+            <option value="S$">S$ SGD (Singapore Dollar)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">UPI ID or
+            Bank Reference</label>
+          <input type="text" id="cfgUpiId" placeholder="e.g. merchant@upi, payment@bank.com"
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 font-mono text-xs min-h-[42px]">
+          <p class="text-[10px] text-slate-400 mt-1">Used for on-screen QR Code payments and WhatsApp reminders.</p>
+        </div>
+
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">API Key
+            (Production Security)</label>
+          <input type="password" id="cfgApiKey" placeholder="Optional in dev. Required if API Key Auth is enabled."
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 font-mono text-xs min-h-[42px]">
+          <p class="text-[10px] text-slate-400 mt-1">Optional. Sent in X-Api-Key header for authenticated environments.
+          </p>
+        </div>
+
+        <div class="space-y-2.5">
+          <label
+            class="flex items-center space-x-2.5 p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 min-h-[44px]">
+            <input type="checkbox" id="cfgSoundEnabled" class="rounded text-slate-900 focus:ring-slate-900 h-4 w-4">
+            <div>
+              <span class="text-xs font-bold text-slate-800 block">Sound Feedback</span>
+              <span class="text-[10px] text-slate-500">Play subtle audio chime when recording entries.</span>
+            </div>
+          </label>
+        </div>
+
+        <div class="pt-3 flex items-center justify-end space-x-2 border-t border-slate-100 flex-shrink-0">
+          <button type="button" onclick="closeSettingsModal()"
+            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:bg-slate-100 transition min-h-[42px]">
+            Cancel
+          </button>
+          <button type="submit"
+            class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 shadow-xs active:scale-95 transition min-h-[42px]">
+            Save Settings
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: ADD CUSTOMER DIALOG -->
+  <div id="addCustomerModal"
+    class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+    <div
+      class="bg-white rounded-2xl max-w-md w-full max-h-[92vh] flex flex-col p-5 sm:p-6 shadow-modal transform transition-all my-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-shrink-0">
+        <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center">
+          <i class="fa-solid fa-user-plus text-slate-700 mr-2"></i> Add New Account
+        </h3>
+        <button onclick="closeAddCustomerModal()"
+          class="text-slate-400 hover:text-slate-600 text-lg p-1.5 min-w-[36px] min-h-[36px] flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="addCustomerForm" onsubmit="submitAddCustomer(event)" class="mt-3.5 space-y-3.5 overflow-y-auto pr-1">
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Customer /
+            Client Name *</label>
+          <input type="text" id="custName" required placeholder="e.g. Ramesh Kumar, Priya Verma, John Smith"
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 min-h-[42px]">
+        </div>
+
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Mobile /
+            WhatsApp Number *</label>
+          <input type="tel" id="custPhone" required placeholder="e.g. 9876543210 (India) or +1 555 123 4567"
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 font-mono text-xs min-h-[42px]">
+          <p class="text-[10px] text-slate-400 mt-1">Accepts 10-digit Indian numbers or full international format.</p>
+        </div>
+
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Opening
+            Balance (Optional)</label>
+          <div class="grid grid-cols-2 gap-2 mb-2">
+            <label
+              class="flex items-center space-x-2 p-2.5 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 min-h-[44px]">
+              <input type="radio" name="openingType" value="Credit" checked class="text-rose-600 focus:ring-rose-500">
+              <span class="text-xs font-semibold text-rose-700">They Owe (Credit)</span>
+            </label>
+            <label
+              class="flex items-center space-x-2 p-2.5 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 min-h-[44px]">
+              <input type="radio" name="openingType" value="Debit" class="text-emerald-600 focus:ring-emerald-500">
+              <span class="text-xs font-semibold text-emerald-700">You Owe (Advance)</span>
+            </label>
+          </div>
+          <input type="number" id="custOpeningAmount" min="0" step="any" placeholder="0.00 (Leave empty if none)"
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 font-semibold min-h-[42px]">
+        </div>
+
+        <div class="pt-3 flex items-center justify-end space-x-2 border-t border-slate-100 flex-shrink-0">
+          <button type="button" onclick="closeAddCustomerModal()"
+            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:bg-slate-100 transition min-h-[42px]">
+            Cancel
+          </button>
+          <button type="submit" id="btnSaveCustomer"
+            class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 shadow-xs active:scale-95 transition min-h-[42px]">
+            Save Customer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: EDIT CUSTOMER DIALOG -->
+  <div id="editCustomerModal"
+    class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+    <div
+      class="bg-white rounded-2xl max-w-md w-full max-h-[92vh] flex flex-col p-5 sm:p-6 shadow-modal transform transition-all my-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-shrink-0">
+        <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center">
+          <i class="fa-solid fa-user-pen text-slate-700 mr-2"></i> Edit Account Details
+        </h3>
+        <button onclick="closeEditCustomerModal()"
+          class="text-slate-400 hover:text-slate-600 text-lg p-1.5 min-w-[36px] min-h-[36px] flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="editCustomerForm" onsubmit="submitEditCustomer(event)" class="mt-3.5 space-y-3.5 overflow-y-auto pr-1">
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Customer /
+            Client Name *</label>
+          <input type="text" id="editCustName" required minlength="2" maxlength="120" placeholder="e.g. Ramesh Kumar"
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 min-h-[42px]">
+        </div>
+
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Mobile /
+            WhatsApp Number *</label>
+          <input type="tel" id="editCustPhone" required placeholder="e.g. 9876543210"
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 font-mono text-xs min-h-[42px]">
+          <p class="text-[10px] text-slate-400 mt-1">Accepts 10-digit Indian numbers or full international format.</p>
+        </div>
+
+        <div class="pt-3 flex items-center justify-end space-x-2 border-t border-slate-100 flex-shrink-0">
+          <button type="button" onclick="closeEditCustomerModal()"
+            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:bg-slate-100 transition min-h-[42px]">
+            Cancel
+          </button>
+          <button type="submit" id="btnUpdateCustomer"
+            class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 shadow-xs active:scale-95 transition min-h-[42px]">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 5: ADD TRANSACTION ENTRY DIALOG -->
+  <div id="addTransactionModal"
+    class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+    <div
+      class="bg-white rounded-2xl max-w-md w-full max-h-[92vh] flex flex-col p-5 sm:p-6 shadow-modal transform transition-all my-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-shrink-0">
+        <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center">
+          <i class="fa-solid fa-receipt text-slate-700 mr-2"></i> Record Entry (Bahi-Khata)
+        </h3>
+        <button onclick="closeAddTransactionModal()"
+          class="text-slate-400 hover:text-slate-600 text-lg p-1.5 min-w-[36px] min-h-[36px] flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="addTransactionForm" onsubmit="submitAddTransaction(event)"
+        class="mt-3.5 space-y-3.5 overflow-y-auto pr-1">
+        <!-- Customer Select -->
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Customer /
+            Account *</label>
+          <select id="txCustomerId" required
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 font-medium min-h-[42px]">
+            <!-- Dynamically populated options -->
+          </select>
+        </div>
+
+        <!-- Entry Type Switcher -->
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Entry Type
+            *</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" id="typeCreditBtn" onclick="setTxType('Credit')"
+              class="py-2.5 px-3 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-700 font-bold text-xs flex items-center justify-center space-x-1.5 transition min-h-[44px]">
+              <i class="fa-solid fa-arrow-up"></i>
+              <span>Gave (You Gave)</span>
+            </button>
+            <button type="button" id="typeDebitBtn" onclick="setTxType('Debit')"
+              class="py-2.5 px-3 rounded-xl border border-slate-200 bg-white text-slate-600 font-semibold text-xs flex items-center justify-center space-x-1.5 hover:bg-slate-50 transition min-h-[44px]">
+              <i class="fa-solid fa-arrow-down"></i>
+              <span>Got (Payment)</span>
+            </button>
+          </div>
+          <input type="hidden" id="txType" value="Credit">
+        </div>
+
+        <!-- Amount with Shortcut Chips -->
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Amount
+            *</label>
+          <div class="relative">
+            <span id="currencyPrefixLabel"
+              class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-base font-extrabold text-slate-400">₹</span>
+            <input type="number" id="txAmount" required min="0.01" step="any" placeholder="0.00"
+              class="w-full pl-8 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-lg font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 min-h-[44px]">
+          </div>
+
+          <!-- Quick presets -->
+          <div class="flex items-center space-x-1.5 mt-2 overflow-x-auto pb-1 text-[11px] no-scrollbar">
+            <button type="button" onclick="setQuickAmount(100)"
+              class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold transition flex-shrink-0 min-h-[34px]">+100</button>
+            <button type="button" onclick="setQuickAmount(500)"
+              class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold transition flex-shrink-0 min-h-[34px]">+500</button>
+            <button type="button" onclick="setQuickAmount(1000)"
+              class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold transition flex-shrink-0 min-h-[34px]">+1,000</button>
+            <button type="button" onclick="setQuickAmount(2000)"
+              class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold transition flex-shrink-0 min-h-[34px]">+2,000</button>
+            <button type="button" onclick="setQuickAmount(5000)"
+              class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold transition flex-shrink-0 min-h-[34px]">+5,000</button>
+          </div>
+        </div>
+
+        <!-- Note / Bill description -->
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Details /
+            Bill No. / Note</label>
+          <input type="text" id="txNote" placeholder="e.g. Invoice #402, monthly groceries, payment ref"
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 min-h-[42px]">
+        </div>
+
+        <!-- Date & Time -->
+        <div>
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Date &
+            Time</label>
+          <input type="datetime-local" id="txDate"
+            class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 min-h-[42px]">
+        </div>
+
+        <div class="pt-3 flex items-center justify-end space-x-2 border-t border-slate-100 flex-shrink-0">
+          <button type="button" onclick="closeAddTransactionModal()"
+            class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:bg-slate-100 transition min-h-[42px]">
+            Cancel
+          </button>
+          <button type="submit" id="btnSaveTransaction"
+            class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 shadow-xs active:scale-95 transition min-h-[42px]">
+            Save Entry
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toastContainer"
+    class="fixed bottom-20 lg:bottom-6 right-3 left-3 sm:left-auto sm:right-6 z-50 flex flex-col space-y-2 pointer-events-none no-print">
+  </div>
+
+  <!-- ================= 5. PRODUCTION JAVASCRIPT ARCHITECTURE ================= -->
+  <script>
+    // State Management
+    let customers = [];
+    let selectedCustomerId = null;
+    let selectedCustomerDetail = null;
+    let activeFilter = 'all';
+    let searchQuery = '';
+    let currentReminderData = null;
+    let selectedTemplateKey = 'standard';
+    let isPrivacyMode = false;
+    let currentMainView = 'overview'; // 'overview', 'customers', 'transactions', 'reminders'
+    let transactionViewMode = localStorage.getItem('remindpe_tx_view') || (window.innerWidth < 640 ? 'cards' : 'table');
+
+    // Store Configuration
+    let storeConfig = {
+      name: localStorage.getItem('remindpe_store_name') || 'Apex Trading & Services',
+      currency: localStorage.getItem('remindpe_currency') || '₹',
+      upiId: localStorage.getItem('remindpe_upi_id') || 'merchant@upi',
+      soundEnabled: localStorage.getItem('remindpe_sound') !== 'false',
+      apiKey: localStorage.getItem('remindpe_api_key') || ''
+    };
+
+    const API_BASE = window.location.origin;
+    const isGitHubPages = window.location.hostname.endsWith('github.io') || window.location.protocol === 'file:';
+
+    function getMockDb() {
+      const stored = localStorage.getItem('remindpe_demo_db');
+      if (stored) {
+        try { return JSON.parse(stored); } catch (e) {}
+      }
+      const initialDb = {
+        customers: [
+          { id: 1, name: "Ramesh Kumar (Kirana)", phone: "9876543210", createdAt: new Date(Date.now() - 30 * 86400000).toISOString() },
+          { id: 2, name: "Priya Verma", phone: "9123456789", createdAt: new Date(Date.now() - 25 * 86400000).toISOString() },
+          { id: 3, name: "Suresh Patel (Electronics)", phone: "9988776655", createdAt: new Date(Date.now() - 20 * 86400000).toISOString() },
+          { id: 4, name: "Ananya Sharma", phone: "9811223344", createdAt: new Date(Date.now() - 15 * 86400000).toISOString() },
+          { id: 5, name: "Vikram Singh (Hardware)", phone: "9765432109", createdAt: new Date(Date.now() - 10 * 86400000).toISOString() }
+        ],
+        transactions: [
+          { id: 1, customerId: 1, amount: 1500, type: "Credit", note: "Monthly ration & spices", date: new Date(Date.now() - 15 * 86400000).toISOString() },
+          { id: 2, customerId: 1, amount: 1000, type: "Debit", note: "UPI GPay Payment", date: new Date(Date.now() - 7 * 86400000).toISOString() },
+          { id: 3, customerId: 1, amount: 750, type: "Credit", note: "Cooking oil & wheat flour", date: new Date(Date.now() - 2 * 86400000).toISOString() },
+          { id: 4, customerId: 2, amount: 2400, type: "Credit", note: "Festival gift hampers", date: new Date(Date.now() - 10 * 86400000).toISOString() },
+          { id: 5, customerId: 2, amount: 1200, type: "Debit", note: "Cash installment", date: new Date(Date.now() - 3 * 86400000).toISOString() },
+          { id: 6, customerId: 3, amount: 5000, type: "Credit", note: "Smart TV repair parts", date: new Date(Date.now() - 12 * 86400000).toISOString() },
+          { id: 7, customerId: 3, amount: 5000, type: "Debit", note: "Full settlement via PhonePe", date: new Date(Date.now() - 4 * 86400000).toISOString() },
+          { id: 8, customerId: 4, amount: 3200, type: "Credit", note: "Silk sarees & materials", date: new Date(Date.now() - 8 * 86400000).toISOString() },
+          { id: 9, customerId: 4, amount: 1000, type: "Debit", note: "Paytm transfer", date: new Date(Date.now() - 5 * 86400000).toISOString() },
+          { id: 10, customerId: 4, amount: 500, type: "Debit", note: "Counter cash", date: new Date(Date.now() - 1 * 86400000).toISOString() },
+          { id: 11, customerId: 5, amount: 500, type: "Debit", note: "Advance store deposit", date: new Date(Date.now() - 6 * 86400000).toISOString() }
+        ]
+      };
+      saveMockDb(initialDb);
+      return initialDb;
+    }
+
+    function saveMockDb(db) {
+      localStorage.setItem('remindpe_demo_db', JSON.stringify(db));
+    }
+
+    function createMockResponse(data, status = 200) {
+      return {
+        ok: status >= 200 && status < 300,
+        status: status,
+        json: async () => data,
+        text: async () => JSON.stringify(data)
+      };
+    }
+
+    function handleMockApi(url, options = {}) {
+      const db = getMockDb();
+      const method = (options.method || 'GET').toUpperCase();
+      const urlObj = new URL(url, window.location.origin);
+      const path = urlObj.pathname;
+      const search = urlObj.searchParams.get('search') || '';
+
+      const enrichCustomer = (c) => {
+        const txs = db.transactions.filter(t => t.customerId === c.id);
+        const totalCredit = txs.filter(t => t.type.toLowerCase() === 'credit').reduce((s, t) => s + Number(t.amount), 0);
+        const totalDebit = txs.filter(t => t.type.toLowerCase() === 'debit').reduce((s, t) => s + Number(t.amount), 0);
+        const netBalance = totalCredit - totalDebit;
+        const sortedTxs = [...txs].sort((a, b) => new Date(b.date) - new Date(a.date));
+        return {
+          id: c.id,
+          name: c.name,
+          phone: c.phone,
+          createdAt: c.createdAt,
+          netBalance,
+          totalCredit,
+          totalDebit,
+          transactionCount: txs.length,
+          lastTransactionDate: sortedTxs[0] ? sortedTxs[0].date : null
+        };
+      };
+
+      if (path.includes('/api/customers/stats')) {
+        let totalReceivable = 0;
+        let totalReceived = 0;
+        let pendingCount = 0;
+        db.customers.forEach(c => {
+          const enriched = enrichCustomer(c);
+          if (enriched.netBalance > 0) {
+            totalReceivable += enriched.netBalance;
+            pendingCount++;
+          }
+        });
+        db.transactions.forEach(t => {
+          if (t.type.toLowerCase() === 'debit') {
+            totalReceived += Number(t.amount);
+          }
+        });
+        return createMockResponse({
+          totalReceivable,
+          totalReceived,
+          totalCustomers: db.customers.length,
+          totalTransactions: db.transactions.length,
+          pendingCustomersCount: pendingCount
+        });
+      }
+
+      if (path.endsWith('/api/customers') && method === 'GET') {
+        let list = db.customers.map(enrichCustomer);
+        if (search) {
+          const q = search.toLowerCase();
+          list = list.filter(c => c.name.toLowerCase().includes(q) || c.phone.includes(q));
+        }
+        return createMockResponse(list);
+      }
+
+      const custDetailMatch = path.match(/\/api\/customers\/(\d+)$/);
+      if (custDetailMatch && method === 'GET') {
+        const id = parseInt(custDetailMatch[1], 10);
+        const c = db.customers.find(item => item.id === id);
+        if (!c) return createMockResponse({ message: 'Customer not found' }, 404);
+        const enriched = enrichCustomer(c);
+        const txs = db.transactions.filter(t => t.customerId === id).sort((a, b) => new Date(b.date) - new Date(a.date));
+        return createMockResponse({ ...enriched, transactions: txs });
+      }
+
+      if (path.endsWith('/api/customers') && method === 'POST') {
+        const body = options.body ? JSON.parse(options.body) : {};
+        const newId = db.customers.length > 0 ? Math.max(...db.customers.map(c => c.id)) + 1 : 1;
+        const newCust = {
+          id: newId,
+          name: body.name || 'New Customer',
+          phone: body.phone || '',
+          createdAt: new Date().toISOString()
+        };
+        db.customers.push(newCust);
+        saveMockDb(db);
+        return createMockResponse(enrichCustomer(newCust), 201);
+      }
+
+      if (custDetailMatch && method === 'PUT') {
+        const id = parseInt(custDetailMatch[1], 10);
+        const idx = db.customers.findIndex(c => c.id === id);
+        if (idx === -1) return createMockResponse({ message: 'Not found' }, 404);
+        const body = options.body ? JSON.parse(options.body) : {};
+        db.customers[idx].name = body.name || db.customers[idx].name;
+        db.customers[idx].phone = body.phone || db.customers[idx].phone;
+        saveMockDb(db);
+        return createMockResponse(enrichCustomer(db.customers[idx]));
+      }
+
+      if (custDetailMatch && method === 'DELETE') {
+        const id = parseInt(custDetailMatch[1], 10);
+        db.customers = db.customers.filter(c => c.id !== id);
+        db.transactions = db.transactions.filter(t => t.customerId !== id);
+        saveMockDb(db);
+        return createMockResponse({ success: true });
+      }
+
+      if (path.includes('/api/transactions') && method === 'GET') {
+        const type = urlObj.searchParams.get('type') || '';
+        let txs = db.transactions.map(t => {
+          const cust = db.customers.find(c => c.id === t.customerId);
+          return {
+            ...t,
+            customerName: cust ? cust.name : 'Unknown',
+            customerPhone: cust ? cust.phone : ''
+          };
+        });
+        if (type && type !== 'all') {
+          txs = txs.filter(t => t.type.toLowerCase() === type.toLowerCase());
+        }
+        txs.sort((a, b) => new Date(b.date) - new Date(a.date));
+        return createMockResponse(txs);
+      }
+
+      if (path.endsWith('/api/transactions') && method === 'POST') {
+        const body = options.body ? JSON.parse(options.body) : {};
+        const newId = db.transactions.length > 0 ? Math.max(...db.transactions.map(t => t.id)) + 1 : 1;
+        const newTx = {
+          id: newId,
+          customerId: parseInt(body.customerId, 10),
+          amount: parseFloat(body.amount),
+          type: body.type,
+          note: body.note || '',
+          date: body.date ? new Date(body.date).toISOString() : new Date().toISOString()
+        };
+        db.transactions.push(newTx);
+        saveMockDb(db);
+        return createMockResponse(newTx, 201);
+      }
+
+      const txDeleteMatch = path.match(/\/api\/transactions\/(\d+)$/);
+      if (txDeleteMatch && method === 'DELETE') {
+        const id = parseInt(txDeleteMatch[1], 10);
+        db.transactions = db.transactions.filter(t => t.id !== id);
+        saveMockDb(db);
+        return createMockResponse({ success: true });
+      }
+
+      return createMockResponse({ message: 'OK' });
+    }
+
+    async function apiFetch(url, options = {}) {
+      if (isGitHubPages) {
+        return handleMockApi(url, options);
+      }
+      const headers = Object.assign({}, options.headers || {});
+      if (storeConfig.apiKey) {
+        headers['X-Api-Key'] = storeConfig.apiKey;
+      }
+      try {
+        const response = await fetch(url, { ...options, headers });
+        if (response.status === 401) {
+          showToast('Authentication required. Configure your API key in Settings.', 'error');
+        } else if (response.status === 429) {
+          showToast('Rate limit exceeded: Please wait a moment before retrying.', 'warning');
+        }
+        return response;
+      } catch (err) {
+        console.error('API Fetch error:', err);
+        throw err;
+      }
+    }
+
+    // Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      if (isGitHubPages) {
+        const sysFooter = document.getElementById('systemStatusFooter');
+        if (sysFooter) {
+          sysFooter.innerHTML = `
+            <div class="flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="font-semibold text-emerald-300">GitHub Pages Live</span>
+            </div>
+            <span class="font-mono text-[10px] text-slate-400">Demo Storage</span>
+          `;
+        }
+        const swaggerLink = document.getElementById('swaggerNavLink');
+        if (swaggerLink) {
+          swaggerLink.href = 'https://github.com/Riteshparmar15/Remindpe';
+          const swaggerText = document.getElementById('swaggerNavText');
+          if (swaggerText) swaggerText.innerText = 'GitHub Repository';
+        }
+      }
+
+      applySidebarState();
+      applyStoreSettings();
+      updatePrivacyModeUI();
+      updateSoundUI();
+      setCurrentDate();
+      checkApiHealth();
+      fetchDashboardStats();
+      fetchCustomers();
+      setDefaultTxDateTime();
+      setupKeyboardShortcuts();
+      applyTransactionViewUI();
+      initScrollAutoHide();
+      updateTopbarBackButton();
+    });
+
+    window.addEventListener('resize', () => {
+      applySidebarState();
+      updateTopbarBackButton();
+    });
+
+    function setCurrentDate() {
+      const d = new Date();
+      const badge = document.getElementById('currentDateBadge');
+      if (badge) {
+        badge.innerText = d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+      }
+    }
+
+    // View Routing / Navigation Manager
+    function switchMainView(view, pushState = true) {
+      currentMainView = view;
+
+      if (pushState && window.history && window.history.pushState) {
+        window.history.pushState({ view: view }, '', '#' + view);
+      }
+
+      const views = {
+        'overview': document.getElementById('dashboardOverviewModule'),
+        'customers': document.getElementById('customersModule'),
+        'transactions': document.getElementById('transactionsModule'),
+        'reminders': document.getElementById('remindersModule')
+      };
+
+      const titleMap = {
+        'overview': 'Dashboard Overview',
+        'customers': 'Customer Accounts & Ledgers',
+        'transactions': 'Audit Ledger & Transactions',
+        'reminders': 'WhatsApp Collection Center'
+      };
+
+      // Hide all modules, show selected
+      Object.keys(views).forEach(key => {
+        if (views[key]) {
+          if (key === view) {
+            views[key].classList.remove('hidden');
+          } else {
+            views[key].classList.add('hidden');
+          }
+        }
+      });
+
+      // Update Topbar Title
+      const titleElem = document.getElementById('topbarPageTitle');
+      if (titleElem) titleElem.innerText = titleMap[view] || 'Dashboard';
+
+      // Update Desktop Sidebar & Mobile Drawer Active Styles
+      const navLinks = ['Overview', 'Customers', 'Transactions', 'Reminders'];
+      navLinks.forEach(key => {
+        const link = document.getElementById('navLink' + key);
+        if (link) {
+          if (key.toLowerCase() === view) {
+            link.className = 'nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-800 shadow-xs transition-colors';
+          } else {
+            link.className = 'nav-item w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors';
+          }
+        }
+        const dLink = document.getElementById('drawerLink' + key);
+        if (dLink) {
+          if (key.toLowerCase() === view) {
+            dLink.className = 'w-full flex items-center space-x-3 px-3.5 py-3 rounded-xl text-xs font-bold text-white bg-slate-800 shadow-xs';
+          } else {
+            dLink.className = 'w-full flex items-center space-x-3 px-3.5 py-3 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition-colors';
+          }
+        }
+      });
+
+      // Update Mobile Bottom Tabs Active Styles
+      const mobileTabs = {
+        'overview': document.getElementById('mobileTabOverview'),
+        'customers': document.getElementById('mobileTabCustomers'),
+        'reminders': document.getElementById('mobileTabReminders')
+      };
+
+      Object.keys(mobileTabs).forEach(k => {
+        if (mobileTabs[k]) {
+          if (k === view) {
+            mobileTabs[k].className = 'flex flex-col items-center text-indigo-600 text-[10px] font-bold transition min-w-[50px] min-h-[44px] justify-center';
+          } else {
+            mobileTabs[k].className = 'flex flex-col items-center text-slate-500 hover:text-slate-900 text-[10px] font-semibold transition min-w-[50px] min-h-[44px] justify-center';
+          }
+        }
+      });
+
+      // Module-specific initializers
+      if (view === 'transactions') {
+        renderAuditLedgerTable();
+      } else if (view === 'reminders') {
+        renderRemindersCommandCenter();
+      }
+
+      // Close mobile drawer if open
+      if (window.innerWidth < 1024) {
+        toggleMobileDrawer(false);
+      }
+
+      // Update Dynamic Topbar Back Button visibility
+      updateTopbarBackButton();
+    }
+
+    // Dynamic Topbar Back Button Manager
+    function updateTopbarBackButton() {
+      const backBtn = document.getElementById('topbarBackButton');
+      const topbarTag = document.getElementById('topbarPageTag');
+      if (!backBtn) return;
+
+      if (currentMainView !== 'overview') {
+        backBtn.classList.remove('hidden');
+        if (topbarTag) topbarTag.classList.remove('hidden');
+      } else {
+        backBtn.classList.add('hidden');
+        if (topbarTag) topbarTag.classList.add('hidden');
+      }
+    }
+
+    // Universal Back Navigation Handler (Physical, UI, Mobile & Desktop)
+    function handleNavigationBack() {
+      // 1. If any modal is open, close modal
+      const modals = ['whatsAppModal', 'addCustomerModal', 'addTransactionModal', 'settingsModal', 'upiQRModal'];
+      for (const mId of modals) {
+        const m = document.getElementById(mId);
+        if (m && !m.classList.contains('hidden')) {
+          m.classList.add('hidden');
+          return;
+        }
+      }
+
+      // 2. If mobile drawer is open, close drawer
+      const drawer = document.getElementById('mobileDrawer');
+      if (drawer && !drawer.classList.contains('hidden')) {
+        toggleMobileDrawer(false);
+        return;
+      }
+
+      // 3. If inside mobile customer detail view, return to customer list
+      const detailEl = document.getElementById('customerDetailContainer');
+      if (currentMainView === 'customers' && window.innerWidth < 768 && detailEl && !detailEl.classList.contains('hidden')) {
+        setMobileCustomerView('list');
+        return;
+      }
+
+      // 4. If in customer view and a customer is selected on desktop, deselect customer
+      if (currentMainView === 'customers' && selectedCustomerId) {
+        selectedCustomerId = null;
+        const noCust = document.getElementById('noCustomerSelected');
+        const activeCust = document.getElementById('activeCustomerView');
+        if (noCust) noCust.classList.remove('hidden');
+        if (activeCust) activeCust.classList.add('hidden');
+        renderCustomersList();
+        updateTopbarBackButton();
+        return;
+      }
+
+      // 5. If in any other page (customers, transactions, reminders), return to overview
+      if (currentMainView !== 'overview') {
+        switchMainView('overview');
+        return;
+      }
+
+      // 6. Browser history fallback
+      if (window.history.length > 1) {
+        window.history.back();
+      }
+    }
+
+    // Customer Detail Back Handler (used by Customer Profile toolbar on all screens)
+    function handleCustomerDetailBack() {
+      if (window.innerWidth < 768) {
+        setMobileCustomerView('list');
+      } else {
+        selectedCustomerId = null;
+        const noCust = document.getElementById('noCustomerSelected');
+        const activeCust = document.getElementById('activeCustomerView');
+        if (noCust) noCust.classList.remove('hidden');
+        if (activeCust) activeCust.classList.add('hidden');
+        renderCustomersList();
+      }
+      updateTopbarBackButton();
+    }
+
+    // Handle Browser & Android Physical Back Button (popstate)
+    window.addEventListener('popstate', (e) => {
+      if (e.state && e.state.view) {
+        switchMainView(e.state.view, false);
+      } else {
+        const hash = window.location.hash.replace('#', '');
+        if (hash && ['overview', 'customers', 'transactions', 'reminders'].includes(hash)) {
+          switchMainView(hash, false);
+        } else {
+          switchMainView('overview', false);
+        }
+      }
+    });
+
+    // Sidebar & Menu Bar Visibility Control (Desktop + Mobile)
+    let isSidebarHidden = localStorage.getItem('remindpe_sidebar_hidden') === 'true';
+
+    function toggleSidebar(forceState) {
+      const isDesktop = window.innerWidth >= 1024;
+
+      if (isDesktop) {
+        if (typeof forceState === 'boolean') {
+          isSidebarHidden = !forceState; // forceState true means show (isSidebarHidden = false)
+        } else {
+          isSidebarHidden = !isSidebarHidden;
+        }
+        localStorage.setItem('remindpe_sidebar_hidden', isSidebarHidden);
+        applySidebarState();
+      } else {
+        const drawer = document.getElementById('mobileDrawer');
+        const isDrawerHidden = drawer ? drawer.classList.contains('hidden') : true;
+        if (typeof forceState === 'boolean') {
+          toggleMobileDrawer(forceState);
+        } else {
+          toggleMobileDrawer(isDrawerHidden);
+        }
+      }
+    }
+
+    function applySidebarState() {
+      const sidebar = document.getElementById('appSidebar');
+      const toggleIcon = document.getElementById('sidebarToggleIcon');
+      if (!sidebar) return;
+
+      if (window.innerWidth >= 1024) {
+        if (isSidebarHidden) {
+          sidebar.classList.add('hidden');
+          sidebar.classList.remove('lg:flex');
+          if (toggleIcon) {
+            toggleIcon.className = 'fa-solid fa-bars text-base text-slate-600';
+          }
+        } else {
+          sidebar.classList.remove('hidden');
+          sidebar.classList.add('lg:flex');
+          if (toggleIcon) {
+            toggleIcon.className = 'fa-solid fa-bars-staggered text-base text-indigo-600';
+          }
+        }
+      } else {
+        sidebar.classList.add('hidden');
+        sidebar.classList.remove('lg:flex');
+        if (toggleIcon) {
+          toggleIcon.className = 'fa-solid fa-bars text-base text-slate-600';
+        }
+      }
+    }
+
+    function toggleMobileDrawer(open) {
+      const drawer = document.getElementById('mobileDrawer');
+      if (!drawer) return;
+      if (open) {
+        drawer.classList.remove('hidden');
+      } else {
+        drawer.classList.add('hidden');
+      }
+    }
+
+    // Auto-hide mobile bottom nav on scroll down, show on scroll up
+    function initScrollAutoHide() {
+      let lastScrollTop = 0;
+      const mainScrollEl = document.querySelector('main');
+      const bottomNav = document.getElementById('mobileBottomNav');
+      if (!mainScrollEl || !bottomNav) return;
+
+      mainScrollEl.addEventListener('scroll', () => {
+        if (window.innerWidth >= 1024) return;
+        const currentScroll = mainScrollEl.scrollTop;
+        if (currentScroll > lastScrollTop && currentScroll > 60) {
+          bottomNav.classList.add('translate-y-full');
+        } else {
+          bottomNav.classList.remove('translate-y-full');
+        }
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+      }, { passive: true });
+    }
+
+    // Adaptive Mobile Mode inside Customer Module
+    function setMobileCustomerView(mode) {
+      const listEl = document.getElementById('customerListContainer');
+      const detailEl = document.getElementById('customerDetailContainer');
+      if (window.innerWidth < 768) {
+        if (mode === 'list') {
+          if (listEl) listEl.classList.remove('hidden');
+          if (detailEl) detailEl.classList.add('hidden');
+        } else {
+          if (listEl) listEl.classList.add('hidden');
+          if (detailEl) detailEl.classList.remove('hidden');
+        }
+      }
+      updateTopbarBackButton();
+    }
+
+    // View Switcher for Transactions (Cards vs Table)
+    function setTransactionView(mode) {
+      transactionViewMode = mode;
+      localStorage.setItem('remindpe_tx_view', mode);
+      applyTransactionViewUI();
+    }
+
+    function applyTransactionViewUI() {
+      const cardsView = document.getElementById('transactionsCardsView');
+      const tableView = document.getElementById('transactionsTableView');
+      const btnCards = document.getElementById('viewBtnCards');
+      const btnTable = document.getElementById('viewBtnTable');
+
+      if (transactionViewMode === 'cards') {
+        if (cardsView) cardsView.classList.remove('hidden');
+        if (tableView) tableView.classList.add('hidden');
+        if (btnCards) btnCards.className = 'px-2 py-1 rounded-md text-[11px] font-bold transition bg-white text-slate-900 shadow-xs';
+        if (btnTable) btnTable.className = 'px-2 py-1 rounded-md text-[11px] font-bold transition text-slate-600 hover:text-slate-900';
+      } else {
+        if (tableView) tableView.classList.remove('hidden');
+        if (cardsView) cardsView.classList.add('hidden');
+        if (btnTable) btnTable.className = 'px-2 py-1 rounded-md text-[11px] font-bold transition bg-white text-slate-900 shadow-xs';
+        if (btnCards) btnCards.className = 'px-2 py-1 rounded-md text-[11px] font-bold transition text-slate-600 hover:text-slate-900';
+      }
+    }
+
+    function togglePrivacyMode() { }
+    function updatePrivacyModeUI() { }
+
+    // Sound Toggle
+    function toggleSoundPreference() {
+      storeConfig.soundEnabled = !storeConfig.soundEnabled;
+      localStorage.setItem('remindpe_sound', storeConfig.soundEnabled);
+      updateSoundUI();
+      showToast(storeConfig.soundEnabled ? 'Audio chimes enabled' : 'Audio chimes muted', 'info');
+      if (storeConfig.soundEnabled) playCashChime();
+    }
+
+    function updateSoundUI() {
+      const icon = document.getElementById('soundIcon');
+      if (icon) {
+        icon.className = storeConfig.soundEnabled ? 'fa-solid fa-volume-high text-xs text-indigo-600' : 'fa-solid fa-volume-xmark text-xs text-slate-400';
+      }
+    }
+
+    // Audio Chime via Web Audio API
+    function playCashChime() {
+      if (!storeConfig.soundEnabled) return;
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880.00, ctx.currentTime + 0.12);
+
+        gain.gain.setValueAtTime(0.18, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.35);
+      } catch (e) {
+        // Audio policy ignore
+      }
+    }
+
+    // Apply Settings
+    function applyStoreSettings() {
+      document.getElementById('sidebarBrandName').innerHTML = `Remind<span class="text-indigo-400">Pe</span>`;
+      document.getElementById('sidebarStoreSubtitle').innerText = storeConfig.name;
+      document.getElementById('sidebarMerchantName').innerText = storeConfig.name;
+      document.getElementById('printStoreName').innerText = storeConfig.name;
+      const qrUPI = document.getElementById('qrUPIId');
+      if (qrUPI) qrUPI.innerText = storeConfig.upiId;
+      const curLabel = document.getElementById('currencyPrefixLabel');
+      if (curLabel) curLabel.innerText = storeConfig.currency;
+
+      const overviewUpi = document.getElementById('overviewUpiDisplay');
+      if (overviewUpi) overviewUpi.innerText = storeConfig.upiId;
+
+      const overviewCur = document.getElementById('overviewCurrencyDisplay');
+      if (overviewCur) overviewCur.innerText = storeConfig.currency + ' Active';
+    }
+
+    function openSettingsModal() {
+      document.getElementById('cfgStoreName').value = storeConfig.name;
+      document.getElementById('cfgCurrency').value = storeConfig.currency;
+      document.getElementById('cfgUpiId').value = storeConfig.upiId;
+      document.getElementById('cfgApiKey').value = storeConfig.apiKey || '';
+      document.getElementById('cfgSoundEnabled').checked = storeConfig.soundEnabled;
+      document.getElementById('settingsModal').classList.remove('hidden');
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.add('hidden');
+    }
+
+    function saveStoreSettings(e) {
+      e.preventDefault();
+      storeConfig.name = document.getElementById('cfgStoreName').value.trim() || 'Store Ledger';
+      storeConfig.currency = document.getElementById('cfgCurrency').value;
+      storeConfig.upiId = document.getElementById('cfgUpiId').value.trim() || 'merchant@upi';
+      storeConfig.apiKey = document.getElementById('cfgApiKey').value.trim();
+      storeConfig.soundEnabled = document.getElementById('cfgSoundEnabled').checked;
+
+      localStorage.setItem('remindpe_store_name', storeConfig.name);
+      localStorage.setItem('remindpe_currency', storeConfig.currency);
+      localStorage.setItem('remindpe_upi_id', storeConfig.upiId);
+      localStorage.setItem('remindpe_api_key', storeConfig.apiKey);
+      localStorage.setItem('remindpe_sound', storeConfig.soundEnabled);
+
+      applyStoreSettings();
+      updateSoundUI();
+      closeSettingsModal();
+      fetchDashboardStats();
+      renderCustomersList();
+      if (selectedCustomerId) {
+        loadCustomerDetails(selectedCustomerId, false);
+      }
+      showToast('Settings & Currency updated!', 'success');
+      playCashChime();
+    }
+
+    // Keyboard Shortcuts
+    function setupKeyboardShortcuts() {
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
+          e.preventDefault();
+          toggleSidebar();
+        } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'SELECT') {
+          e.preventDefault();
+          switchMainView('customers');
+          const searchInput = document.getElementById('searchInput');
+          if (searchInput) searchInput.focus();
+        } else if (e.key === 'Escape') {
+          closeAddCustomerModal();
+          closeEditCustomerModal();
+          closeAddTransactionModal();
+          closeWhatsAppModal();
+          closeUPIQRModal();
+          closeSettingsModal();
+          toggleMobileDrawer(false);
+          if (window.innerWidth < 1024) {
+            toggleSidebar(false);
+          }
+        }
+      });
+    }
+
+    // Currency Formatter
+    function formatAmount(amount) {
+      if (amount === undefined || amount === null) return storeConfig.currency + '0';
+      const num = Number(amount);
+      return storeConfig.currency + num.toLocaleString('en-US', {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: Number.isInteger(num) ? 0 : 2
+      });
+    }
+
+    function maskPhone(phone) {
+      return phone || '-';
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '-';
+      const d = new Date(dateStr);
+      return d.toLocaleDateString(undefined, {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    // API Health Check
+    async function checkApiHealth() {
+      try {
+        const res = await apiFetch(`${API_BASE}/api/customers/stats`);
+        if (!res.ok) console.warn('API status error');
+      } catch (err) {
+        console.warn('API connecting...', err);
+      }
+    }
+
+    // Dashboard Stats & Visual Progress Calculation
+    async function fetchDashboardStats() {
+      try {
+        const res = await apiFetch(`${API_BASE}/api/customers/stats`);
+        if (!res.ok) throw new Error('Failed to load stats');
+        const stats = await res.json();
+
+        document.getElementById('statReceivable').innerText = formatAmount(stats.totalReceivable);
+        document.getElementById('statReceived').innerText = formatAmount(stats.totalReceived);
+        document.getElementById('statTotalCustomers').innerText = stats.totalCustomers;
+        document.getElementById('statTotalTransactions').innerText = stats.totalTransactions;
+        document.getElementById('statPendingCount').innerText = `${stats.pendingCustomersCount} accounts`;
+
+        const sideCustBadge = document.getElementById('sidebarCustCountBadge');
+        if (sideCustBadge) sideCustBadge.innerText = stats.totalCustomers;
+
+        const sidePendingBadge = document.getElementById('sidebarPendingCountBadge');
+        if (sidePendingBadge) sidePendingBadge.innerText = `${stats.pendingCustomersCount} Due`;
+
+        // Calculate Recovery Rate %
+        const totalTurnover = Number(stats.totalReceivable) + Number(stats.totalReceived);
+        let recoveryRate = 100;
+        if (totalTurnover > 0) {
+          recoveryRate = Math.round((Number(stats.totalReceived) / totalTurnover) * 100);
+        }
+
+        const rateBadge = document.getElementById('recoveryRateBadge');
+        if (rateBadge) rateBadge.innerText = `${recoveryRate}% Recovery`;
+
+        const progressBar = document.getElementById('recoveryProgressBar');
+        if (progressBar) progressBar.style.width = `${recoveryRate}%`;
+
+        const outstandingBar = document.getElementById('outstandingProgressBar');
+        if (outstandingBar) outstandingBar.style.width = `${100 - recoveryRate}%`;
+
+        const collectedLabel = document.getElementById('recoveryCollectedLabel');
+        if (collectedLabel) collectedLabel.innerText = formatAmount(stats.totalReceived);
+
+        const pendingLabel = document.getElementById('recoveryPendingLabel');
+        if (pendingLabel) pendingLabel.innerText = formatAmount(stats.totalReceivable);
+
+      } catch (err) {
+        console.error('Error fetching dashboard stats:', err);
+      }
+    }
+
+    // Fetch Customers
+    async function fetchCustomers() {
+      try {
+        const url = searchQuery
+          ? `${API_BASE}/api/customers?search=${encodeURIComponent(searchQuery)}`
+          : `${API_BASE}/api/customers`;
+
+        const res = await apiFetch(url);
+        if (!res.ok) throw new Error('Failed to fetch customers');
+        customers = await res.json();
+
+        document.getElementById('customerCountBadge').innerText = customers.length;
+        renderCustomersList();
+        renderPriorityWatchlist();
+
+        if (selectedCustomerId) {
+          loadCustomerDetails(selectedCustomerId, false);
+        } else if (customers.length > 0 && window.innerWidth >= 768) {
+          loadCustomerDetails(customers[0].id, false);
+        } else if (customers.length === 0) {
+          showEmptyCustomerView();
+        }
+      } catch (err) {
+        console.error('Error fetching customers:', err);
+        showToast('Error loading accounts from server.', 'error');
+      }
+    }
+
+    // Render Filtered & Sorted Customer List
+    function renderCustomersList() {
+      const container = document.getElementById('customersList');
+      if (!container) return;
+
+      let filtered = [...customers];
+
+      // Filters
+      if (activeFilter === 'pending') {
+        filtered = filtered.filter(c => c.netBalance > 0);
+      } else if (activeFilter === 'settled') {
+        filtered = filtered.filter(c => c.netBalance === 0);
+      } else if (activeFilter === 'advance') {
+        filtered = filtered.filter(c => c.netBalance < 0);
+      }
+
+      // Sorting
+      const sortSelect = document.getElementById('customerSortSelect');
+      const sortVal = sortSelect ? sortSelect.value : 'due-desc';
+
+      if (sortVal === 'due-desc') {
+        filtered.sort((a, b) => b.netBalance - a.netBalance);
+      } else if (sortVal === 'due-asc') {
+        filtered.sort((a, b) => a.netBalance - b.netBalance);
+      } else if (sortVal === 'name-asc') {
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sortVal === 'recent') {
+        filtered.sort((a, b) => b.transactionCount - a.transactionCount);
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="p-8 text-center text-slate-400">
+            <i class="fa-solid fa-user-slash text-2xl mb-2 text-slate-300"></i>
+            <p class="text-xs font-semibold text-slate-600">No accounts match criteria</p>
+            <p class="text-[11px] text-slate-400 mt-1">Try another filter or click "+ Add Customer".</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(c => {
+        const isSelected = c.id === selectedCustomerId;
+        const initial = c.name ? c.name.charAt(0).toUpperCase() : '?';
+
+        let balanceBadge = '';
+        let balanceText = '';
+        if (c.netBalance > 0) {
+          balanceBadge = 'bg-rose-50 text-rose-700 border-rose-200';
+          balanceText = `${formatAmount(c.netBalance)} Due`;
+        } else if (c.netBalance < 0) {
+          balanceBadge = 'bg-blue-50 text-blue-700 border-blue-200';
+          balanceText = `${formatAmount(Math.abs(c.netBalance))} Adv`;
+        } else {
+          balanceBadge = 'bg-slate-100 text-slate-700 border-slate-200';
+          balanceText = '0 Settled';
+        }
+
+        return `
+          <div 
+            onclick="loadCustomerDetails(${c.id})"
+            class="group p-3 sm:p-4 cursor-pointer hover:bg-slate-50 transition-all flex items-center justify-between min-h-[56px] ${isSelected ? 'bg-indigo-50/50 border-l-4 border-indigo-600' : ''}"
+          >
+            <div class="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-900 text-white font-bold flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition text-xs sm:text-sm shadow-2xs">
+                ${initial}
+              </div>
+              <div class="min-w-0 truncate">
+                <h4 class="text-xs sm:text-sm font-bold text-slate-900 truncate transition">
+                  ${escapeHtml(c.name)}
+                </h4>
+                <div class="flex items-center space-x-1.5 text-[11px] text-slate-500 mt-0.5">
+                  <span class="privacy-phone">${maskPhone(c.phone)}</span>
+                  <span>•</span>
+                  <span>${c.transactionCount} entries</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0 ml-2">
+              <span class="text-[10px] sm:text-[11px] font-bold font-mono px-2 py-0.5 rounded-lg border ${balanceBadge}">
+                ${balanceText}
+              </span>
+
+              ${c.netBalance > 0 ? `
+                <button 
+                  onclick="event.stopPropagation(); quickOpenWhatsApp(${c.id})"
+                  class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 flex items-center justify-center transition border border-emerald-200 min-h-[28px] min-w-[28px]"
+                  title="Send WhatsApp Reminder"
+                >
+                  <i class="fa-brands fa-whatsapp text-xs sm:text-sm"></i>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render Priority Watchlist on Overview Dashboard
+    function renderPriorityWatchlist() {
+      const container = document.getElementById('priorityWatchlistContainer');
+      if (!container) return;
+
+      const overdueDebtors = customers.filter(c => c.netBalance > 0).sort((a, b) => b.netBalance - a.netBalance).slice(0, 3);
+
+      if (overdueDebtors.length === 0) {
+        container.innerHTML = `
+          <div class="p-3 text-center bg-slate-50 rounded-xl text-slate-400 text-xs">
+            No customers currently have overdue balances.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = overdueDebtors.map(c => `
+        <div class="p-2.5 bg-slate-50 hover:bg-slate-100/80 rounded-xl border border-slate-200/80 flex items-center justify-between transition">
+          <div class="min-w-0 flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-lg bg-slate-900 text-white font-bold flex items-center justify-center text-xs flex-shrink-0">
+              ${c.name.charAt(0).toUpperCase()}
+            </div>
+            <div class="truncate">
+              <p class="text-xs font-bold text-slate-900 truncate">${escapeHtml(c.name)}</p>
+              <p class="text-[10px] text-slate-500 font-mono">${maskPhone(c.phone)}</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2 flex-shrink-0">
+            <span class="text-xs font-black font-mono text-rose-700">${formatAmount(c.netBalance)}</span>
+            <button onclick="quickOpenWhatsApp(${c.id})" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[10px] font-bold transition flex items-center space-x-1">
+              <i class="fa-brands fa-whatsapp text-xs"></i>
+              <span>Remind</span>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Load Single Customer Details
+    async function loadCustomerDetails(id, switchPane = true) {
+      selectedCustomerId = id;
+      renderCustomersList();
+
+      if (switchPane && window.innerWidth < 768) {
+        setMobileCustomerView('detail');
+      }
+      updateTopbarBackButton();
+
+      try {
+        const res = await apiFetch(`${API_BASE}/api/customers/${id}`);
+        if (!res.ok) throw new Error('Failed to load customer details');
+        selectedCustomerDetail = await res.json();
+
+        document.getElementById('noCustomerSelected').classList.add('hidden');
+        document.getElementById('activeCustomerView').classList.remove('hidden');
+
+        document.getElementById('detailAvatar').innerText = selectedCustomerDetail.name.charAt(0).toUpperCase();
+        document.getElementById('detailName').innerText = selectedCustomerDetail.name;
+        document.getElementById('detailPhone').innerText = maskPhone(selectedCustomerDetail.phone);
+        document.getElementById('detailPhoneLink').href = `tel:${selectedCustomerDetail.phone}`;
+        document.getElementById('detailCreatedAt').innerText = 'Joined ' + formatDate(selectedCustomerDetail.createdAt);
+
+        document.getElementById('detailTotalCredit').innerText = formatAmount(selectedCustomerDetail.totalCredit);
+        document.getElementById('detailTotalDebit').innerText = formatAmount(selectedCustomerDetail.totalDebit);
+
+        // Print elements
+        document.getElementById('printCustName').innerText = selectedCustomerDetail.name;
+        document.getElementById('printCustPhone').innerText = selectedCustomerDetail.phone;
+        document.getElementById('printDate').innerText = new Date().toLocaleDateString();
+
+        const net = selectedCustomerDetail.netBalance;
+        const netElem = document.getElementById('detailNetBalance');
+        const statusElem = document.getElementById('detailBalanceStatus');
+        const waBtn = document.getElementById('btnSendWhatsApp');
+
+        if (net > 0) {
+          netElem.innerText = formatAmount(net);
+          document.getElementById('printNetBalance').innerText = formatAmount(net, false);
+          netElem.className = 'text-xl xs:text-2xl sm:text-3xl font-extrabold text-rose-600 tracking-tight font-mono';
+          statusElem.innerText = 'Payment Due (Receivable)';
+          statusElem.className = 'text-xs font-semibold text-rose-600 mt-0.5';
+          waBtn.classList.remove('opacity-50', 'pointer-events-none');
+          waBtn.innerHTML = `<i class="fa-brands fa-whatsapp text-base"></i><span>Send WhatsApp Reminder (${formatAmount(net)})</span>`;
+        } else if (net < 0) {
+          netElem.innerText = formatAmount(Math.abs(net));
+          document.getElementById('printNetBalance').innerText = formatAmount(Math.abs(net), false) + ' (Advance)';
+          netElem.className = 'text-xl xs:text-2xl sm:text-3xl font-extrabold text-blue-600 tracking-tight font-mono';
+          statusElem.innerText = 'Advance Balance (Payable to Customer)';
+          statusElem.className = 'text-xs font-semibold text-blue-600 mt-0.5';
+          waBtn.classList.add('opacity-50');
+          waBtn.innerHTML = `<i class="fa-brands fa-whatsapp text-base"></i><span>Customer has Advance</span>`;
+        } else {
+          netElem.innerText = formatAmount(0);
+          document.getElementById('printNetBalance').innerText = formatAmount(0, false) + ' (Settled)';
+          netElem.className = 'text-xl xs:text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight font-mono';
+          statusElem.innerText = 'Account Settled (No Dues)';
+          statusElem.className = 'text-xs font-semibold text-slate-600 mt-0.5';
+          waBtn.classList.add('opacity-50');
+          waBtn.innerHTML = `<i class="fa-brands fa-whatsapp text-base"></i><span>Account Settled</span>`;
+        }
+
+        renderTransactionsTable(selectedCustomerDetail.transactions);
+
+      } catch (err) {
+        console.error('Error loading customer:', err);
+        showToast('Error loading account details.', 'error');
+      }
+    }
+
+    // Render Transaction History (Both Table and Mobile Cards)
+    function renderTransactionsTable(transactions) {
+      const tbody = document.getElementById('transactionsTableBody');
+      const cardsContainer = document.getElementById('transactionsCardsContainer');
+      const emptyState = document.getElementById('noTransactionsState');
+      const countBadge = document.getElementById('detailTxnCount');
+
+      countBadge.innerText = `${transactions ? transactions.length : 0} entries`;
+
+      if (!transactions || transactions.length === 0) {
+        tbody.innerHTML = '';
+        cardsContainer.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      // 1. Data Table HTML
+      tbody.innerHTML = transactions.map(t => {
+        const isCredit = t.type === 'Credit';
+        const typeBadge = isCredit
+          ? '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200"><i class="fa-solid fa-arrow-up text-[8px] mr-1"></i> Gave (Udhar)</span>'
+          : '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200"><i class="fa-solid fa-arrow-down text-[8px] mr-1"></i> Got (Jama)</span>';
+
+        const amountClass = isCredit ? 'text-rose-600 font-extrabold' : 'text-emerald-700 font-extrabold';
+        const amountPrefix = isCredit ? '+ ' : '- ';
+
+        return `
+          <tr class="hover:bg-slate-50/80 transition-colors">
+            <td class="py-2.5 sm:py-3 px-3 sm:px-6 whitespace-nowrap text-slate-600 text-xs font-medium">
+              ${formatDate(t.date)}
+            </td>
+            <td class="py-2.5 sm:py-3 px-2 sm:px-3 whitespace-nowrap">
+              ${typeBadge}
+            </td>
+            <td class="py-2.5 sm:py-3 px-2 sm:px-3 text-slate-700 text-xs">
+              <span class="font-medium">${escapeHtml(t.note || 'Ledger Entry')}</span>
+            </td>
+            <td class="py-2.5 sm:py-3 px-3 sm:px-4 text-right whitespace-nowrap ${amountClass} text-xs sm:text-sm font-mono">
+              ${amountPrefix}${formatAmount(t.amount)}
+            </td>
+            <td class="py-2.5 sm:py-3 px-2 sm:px-3 text-center whitespace-nowrap no-print">
+              <button 
+                onclick="deleteTransaction(${t.id})" 
+                class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition min-w-[32px] min-h-[32px]" 
+                title="Delete Entry"
+              >
+                <i class="fa-solid fa-trash-can text-xs"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // 2. Mobile Responsive Cards HTML
+      cardsContainer.innerHTML = transactions.map(t => {
+        const isCredit = t.type === 'Credit';
+        const typeBadge = isCredit
+          ? '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200"><i class="fa-solid fa-arrow-up text-[8px] mr-1"></i> Gave</span>'
+          : '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200"><i class="fa-solid fa-arrow-down text-[8px] mr-1"></i> Got</span>';
+
+        const amountClass = isCredit ? 'text-rose-600 font-extrabold' : 'text-emerald-700 font-extrabold';
+        const amountPrefix = isCredit ? '+ ' : '- ';
+
+        return `
+          <div class="p-3 bg-white rounded-xl border border-slate-200/80 shadow-2xs flex flex-col space-y-1.5">
+            <div class="flex items-center justify-between text-xs">
+              <div class="flex items-center space-x-2">
+                <span class="text-[11px] text-slate-500 font-medium">${formatDate(t.date)}</span>
+                ${typeBadge}
+              </div>
+              <button 
+                onclick="deleteTransaction(${t.id})" 
+                class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" 
+                title="Delete Entry"
+              >
+                <i class="fa-solid fa-trash-can text-xs"></i>
+              </button>
+            </div>
+            <div class="flex items-baseline justify-between pt-1">
+              <span class="text-xs text-slate-700 font-medium truncate max-w-[65%]">${escapeHtml(t.note || 'Ledger Entry')}</span>
+              <span class="text-sm font-extrabold font-mono ${amountClass}">${amountPrefix}${formatAmount(t.amount)}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render Cross-Customer Audit Ledger (Module 3 - Optimized single API query)
+    let allCrossTransactions = [];
+    async function renderAuditLedgerTable() {
+      const tbody = document.getElementById('auditTableBody');
+      const emptyState = document.getElementById('noAuditState');
+      const countLabel = document.getElementById('auditTxnCount');
+
+      try {
+        const filterType = document.getElementById('auditTypeFilter')?.value;
+        const typeParam = (filterType && filterType !== 'all') ? `&type=${encodeURIComponent(filterType)}` : '';
+        const res = await apiFetch(`${API_BASE}/api/transactions?page=1&pageSize=300${typeParam}`);
+        if (!res.ok) return;
+        const result = await res.json();
+
+        allCrossTransactions = (result.items || []).map(tx => ({
+          ...tx,
+          customerName: tx.customerName || 'Customer',
+          customerPhone: tx.customerPhone || ''
+        }));
+
+        filterAuditLedger();
+      } catch (err) {
+        console.error('Error rendering audit ledger:', err);
+      }
+    }
+
+    function setAuditFilterType(type) {
+      const select = document.getElementById('auditTypeFilter');
+      if (select) select.value = type;
+
+      const buttons = {
+        'all': document.getElementById('auditBtnAll'),
+        'Credit': document.getElementById('auditBtnCredit'),
+        'Debit': document.getElementById('auditBtnDebit')
+      };
+
+      Object.keys(buttons).forEach(k => {
+        const btn = buttons[k];
+        if (btn) {
+          if (k === type) {
+            btn.className = 'audit-btn px-2.5 py-1 rounded-lg bg-white text-slate-900 shadow-2xs transition font-bold';
+          } else {
+            btn.className = 'audit-btn px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition font-medium';
+          }
+        }
+      });
+
+      filterAuditLedger();
+    }
+
+    function setAuditViewMode(mode) {
+      const tableView = document.getElementById('auditTableView');
+      const cardsView = document.getElementById('auditCardsView');
+      const btnTable = document.getElementById('auditViewBtnTable');
+      const btnCards = document.getElementById('auditViewBtnCards');
+
+      if (mode === 'table') {
+        if (tableView) tableView.classList.remove('hidden');
+        if (cardsView) cardsView.classList.add('hidden');
+        if (btnTable) btnTable.className = 'px-2.5 py-1 rounded-lg bg-white text-slate-900 shadow-2xs transition flex items-center space-x-1 font-bold';
+        if (btnCards) btnCards.className = 'px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center space-x-1 font-medium';
+      } else {
+        if (tableView) tableView.classList.add('hidden');
+        if (cardsView) cardsView.classList.remove('hidden');
+        if (btnCards) btnCards.className = 'px-2.5 py-1 rounded-lg bg-white text-slate-900 shadow-2xs transition flex items-center space-x-1 font-bold';
+        if (btnTable) btnTable.className = 'px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition flex items-center space-x-1 font-medium';
+      }
+    }
+
+    function filterAuditLedger() {
+      const tbody = document.getElementById('auditTableBody');
+      const cardsView = document.getElementById('auditCardsView');
+      const emptyState = document.getElementById('noAuditState');
+      const countLabel = document.getElementById('auditTxnCount');
+      const filterType = document.getElementById('auditTypeFilter')?.value || 'all';
+
+      let list = allCrossTransactions;
+      if (filterType !== 'all') {
+        list = list.filter(t => t.type === filterType);
+      }
+
+      if (countLabel) countLabel.innerText = `${list.length} entries recorded`;
+
+      if (list.length === 0) {
+        if (tbody) tbody.innerHTML = '';
+        if (cardsView) cardsView.innerHTML = '';
+        if (emptyState) emptyState.classList.remove('hidden');
+        return;
+      }
+
+      if (emptyState) emptyState.classList.add('hidden');
+
+      // 1. Render Table View
+      if (tbody) {
+        tbody.innerHTML = list.map(t => {
+          const isCredit = t.type === 'Credit';
+          const typeBadge = isCredit
+            ? '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200"><i class="fa-solid fa-arrow-up text-[8px] mr-1"></i> Gave (Udhar)</span>'
+            : '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200"><i class="fa-solid fa-arrow-down text-[8px] mr-1"></i> Got (Jama)</span>';
+
+          const amountClass = isCredit ? 'text-rose-600 font-extrabold' : 'text-emerald-700 font-extrabold';
+          const amountPrefix = isCredit ? '+ ' : '- ';
+
+          return `
+            <tr class="hover:bg-slate-50 transition-colors">
+              <td class="py-3 px-4 sm:px-6 whitespace-nowrap text-slate-600 text-xs font-medium">
+                ${formatDate(t.date)}
+              </td>
+              <td class="py-3 px-3 whitespace-nowrap text-slate-900 font-bold text-xs">
+                <span class="hover:underline cursor-pointer" onclick="switchMainView('customers'); loadCustomerDetails(${t.customerId})">
+                  ${escapeHtml(t.customerName)}
+                </span>
+              </td>
+              <td class="py-3 px-3 whitespace-nowrap">
+                ${typeBadge}
+              </td>
+              <td class="py-3 px-3 text-slate-700 text-xs font-medium">
+                ${escapeHtml(t.note || 'Ledger Entry')}
+              </td>
+              <td class="py-3 px-4 text-right whitespace-nowrap ${amountClass} text-xs sm:text-sm font-mono">
+                ${amountPrefix}${formatAmount(t.amount)}
+              </td>
+              <td class="py-3 px-3 text-center whitespace-nowrap">
+                <button 
+                  onclick="deleteTransaction(${t.id})" 
+                  class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" 
+                  title="Delete Entry"
+                >
+                  <i class="fa-solid fa-trash-can text-xs"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // 2. Render Cards View
+      if (cardsView) {
+        cardsView.innerHTML = list.map(t => {
+          const isCredit = t.type === 'Credit';
+          const typeBadge = isCredit
+            ? '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200"><i class="fa-solid fa-arrow-up text-[8px] mr-1"></i> Gave (Udhar)</span>'
+            : '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200"><i class="fa-solid fa-arrow-down text-[8px] mr-1"></i> Got (Jama)</span>';
+          const amountClass = isCredit ? 'text-rose-600 font-extrabold' : 'text-emerald-700 font-extrabold';
+          const amountPrefix = isCredit ? '+ ' : '- ';
+
+          return `
+            <div class="bg-slate-50/80 rounded-xl p-3.5 border border-slate-200/80 shadow-2xs flex flex-col justify-between space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-slate-500">${formatDate(t.date)}</span>
+                ${typeBadge}
+              </div>
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="text-sm font-bold text-slate-900 hover:underline cursor-pointer" onclick="switchMainView('customers'); loadCustomerDetails(${t.customerId})">${escapeHtml(t.customerName)}</h4>
+                  <p class="text-[11px] text-slate-500">${escapeHtml(t.note || 'Ledger Entry')}</p>
+                </div>
+                <div class="${amountClass} text-sm font-mono">${amountPrefix}${formatAmount(t.amount)}</div>
+              </div>
+              <div class="pt-2 border-t border-slate-200/60 flex items-center justify-between">
+                <span class="text-[10px] text-slate-400">ID: #${t.id}</span>
+                <button onclick="deleteTransaction(${t.id})" class="text-slate-400 hover:text-rose-600 text-xs p-1" title="Delete"><i class="fa-solid fa-trash-can"></i></button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    // Render WhatsApp Reminders Command Center (Module 4)
+    function renderRemindersCommandCenter() {
+      const container = document.getElementById('remindersListContainer') || document.getElementById('remindersQueueContainer');
+      const emptyState = document.getElementById('noPendingDebtorsState');
+      const badge = document.getElementById('remindersPendingBadge');
+
+      const overdueDebtors = customers.filter(c => c.netBalance > 0).sort((a, b) => b.netBalance - a.netBalance);
+
+      if (badge) badge.innerText = `${overdueDebtors.length} Pending Accounts`;
+
+      if (overdueDebtors.length === 0) {
+        if (container) {
+          container.innerHTML = '';
+          container.classList.add('hidden');
+        }
+        if (emptyState) emptyState.classList.remove('hidden');
+        return;
+      }
+
+      if (emptyState) emptyState.classList.add('hidden');
+      if (container) {
+        container.classList.remove('hidden');
+        container.innerHTML = overdueDebtors.map(c => {
+          let cleanPhone = c.phone.replace(/\D/g, '');
+          if (cleanPhone.length === 10) cleanPhone = '91' + cleanPhone;
+
+          const defaultMsg = `Namaste ${c.name} ji, aapka ${storeConfig.name} mein pending balance ${formatAmount(c.netBalance, false)} hai. Kripya samay par bhuqtan karein. Payment Ref: ${storeConfig.upiId}. Dhanyawad!`;
+          const waLink = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(defaultMsg)}`;
+
+          return `
+            <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-subtle flex flex-col justify-between space-y-3">
+              <div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2.5 min-w-0">
+                    <div class="w-10 h-10 rounded-xl bg-slate-900 text-white font-extrabold flex items-center justify-center text-sm flex-shrink-0">
+                      ${c.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div class="truncate">
+                      <h4 class="text-sm font-bold text-slate-900 truncate">${escapeHtml(c.name)}</h4>
+                      <p class="text-xs text-slate-500 font-mono">${maskPhone(c.phone)}</p>
+                    </div>
+                  </div>
+                  <span class="text-xs font-bold px-2 py-0.5 rounded-lg bg-rose-50 text-rose-700 border border-rose-200">
+                    Pending Due
+                  </span>
+                </div>
+
+                <div class="mt-3.5 p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+                  <span class="text-xs font-medium text-slate-500">Amount Due</span>
+                  <span class="text-lg font-black font-mono text-rose-700">${formatAmount(c.netBalance)}</span>
+                </div>
+              </div>
+
+              <div class="pt-2 flex items-center space-x-2">
+                <button onclick="quickOpenWhatsApp(${c.id})" class="flex-1 py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs transition flex items-center justify-center space-x-1.5 min-h-[40px] cursor-pointer">
+                  <i class="fa-brands fa-whatsapp text-sm"></i>
+                  <span>Send Reminder</span>
+                </button>
+                <button onclick="switchMainView('customers'); loadCustomerDetails(${c.id})" class="p-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition min-h-[40px] cursor-pointer" title="Inspect Ledger">
+                  <i class="fa-solid fa-receipt"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    // Export All Audit Ledger to CSV
+    function exportAllAuditCSV() {
+      const filterType = document.getElementById('auditTypeFilter')?.value || 'all';
+      let list = allCrossTransactions;
+      if (filterType !== 'all') {
+        list = list.filter(t => t.type === filterType);
+      }
+      let csv = `Date,Customer Name,Phone,Type,Amount (${storeConfig.currency}),Notes / Reference\n`;
+      list.forEach(t => {
+        csv += `"${sanitizeCsvCell(formatDate(t.date))}","${sanitizeCsvCell(t.customerName)}","${sanitizeCsvCell(t.customerPhone)}","${sanitizeCsvCell(t.type)}","${sanitizeCsvCell(t.amount)}","${sanitizeCsvCell(t.note || '')}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `RemindPe_Audit_Ledger_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      showToast('Audit statement exported to CSV successfully!', 'success');
+    }
+
+    function openUPIQRModal() { }
+    function updateDynamicQR() { }
+    function setQRPreset() { }
+    function closeUPIQRModal() { }
+
+    // Sanitize CSV cell to prevent CSV Formula Injection (CWE-1236)
+    function sanitizeCsvCell(value) {
+      if (value === null || value === undefined) return '';
+      let str = String(value);
+      // Neutralize formula injection characters (=, +, -, @, tab, newline)
+      if (/^[=+\-@\t\r\n]/.test(str.trim())) {
+        str = "'" + str;
+      }
+      return str.replace(/"/g, '""');
+    }
+
+    // Export CSV Statement
+    function exportLedgerCSV() {
+      if (!selectedCustomerDetail) return;
+      const txs = selectedCustomerDetail.transactions;
+
+      let csv = `Date,Type,Amount (${storeConfig.currency}),Notes / Reference\n`;
+      txs.forEach(t => {
+        csv += `"${sanitizeCsvCell(formatDate(t.date))}","${sanitizeCsvCell(t.type)}","${sanitizeCsvCell(t.amount)}","${sanitizeCsvCell(t.note || '')}"\n`;
+      });
+      csv += `\nNet Balance Due:,"${sanitizeCsvCell(selectedCustomerDetail.netBalance)}"\n`;
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `${selectedCustomerDetail.name.replace(/\s+/g, '_')}_Ledger_Statement.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('Statement CSV downloaded successfully!', 'success');
+    }
+
+    // Print Statement
+    function printCustomerStatement() {
+      if (!selectedCustomerDetail) return;
+      window.print();
+    }
+
+    // WhatsApp Reminder Modal
+    async function openWhatsAppPreviewModal() {
+      if (!selectedCustomerDetail) {
+        showToast('Please select a customer first.', 'warning');
+        return;
+      }
+
+      if (selectedCustomerDetail.netBalance <= 0) {
+        showToast(`Customer has no pending balance (${formatAmount(selectedCustomerDetail.netBalance, false)}).`, 'info');
+        return;
+      }
+
+      document.getElementById('waCustomNote').value = '';
+      selectTemplate('standard');
+      document.getElementById('whatsAppModal').classList.remove('hidden');
+    }
+
+    function quickOpenWhatsApp(customerId) {
+      loadCustomerDetails(customerId, false).then(() => {
+        openWhatsAppPreviewModal();
+      });
+    }
+
+    function closeWhatsAppModal() {
+      document.getElementById('whatsAppModal').classList.add('hidden');
+    }
+
+    function selectTemplate(key) {
+      selectedTemplateKey = key;
+      document.querySelectorAll('.tpl-btn').forEach(btn => {
+        btn.className = 'tpl-btn py-2 px-1 sm:px-2 rounded-xl border border-slate-200 bg-white text-slate-700 font-semibold text-[11px] sm:text-xs text-center hover:bg-slate-50 transition min-h-[38px]';
+      });
+
+      const activeBtn = document.getElementById('tplBtn_' + key);
+      if (activeBtn) {
+        activeBtn.className = 'tpl-btn py-2 px-1 sm:px-2 rounded-xl border-2 border-slate-900 bg-slate-900 text-white font-bold text-[11px] sm:text-xs text-center transition min-h-[38px]';
+      }
+
+      refreshWhatsAppMessage();
+    }
+
+    async function refreshWhatsAppMessage() {
+      if (!selectedCustomerDetail) return;
+      const note = document.getElementById('waCustomNote').value.trim();
+      const balanceFormatted = formatAmount(selectedCustomerDetail.netBalance, false);
+      const name = selectedCustomerDetail.name;
+
+      let msg = '';
+      if (selectedTemplateKey === 'hinglish') {
+        msg = `Namaste ${name} ji, aapka ${storeConfig.name} mein pending balance ${balanceFormatted} hai. Kripya samay par bhuqtan karein. Dhanyawad!`;
+      } else if (selectedTemplateKey === 'formal') {
+        msg = `Dear ${name}, gentle reminder from ${storeConfig.name} regarding your outstanding balance of ${balanceFormatted}. Kindly arrange the settlement at your earliest convenience. Thank you.`;
+      } else {
+        msg = `Hello ${name}, your pending balance is ${balanceFormatted}. Please clear it soon. - ${storeConfig.name}`;
+      }
+
+      if (storeConfig.upiId) {
+        msg += `\nPayment Ref / UPI: ${storeConfig.upiId}`;
+      }
+      if (note) {
+        msg += `\nNote: ${note}`;
+      }
+
+      let cleanPhone = selectedCustomerDetail.phone.replace(/\D/g, '');
+      if (cleanPhone.length === 10) {
+        cleanPhone = '91' + cleanPhone;
+      }
+
+      currentReminderData = {
+        formattedMessage: msg,
+        whatsAppUrl: `https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`
+      };
+
+      document.getElementById('waPreviewText').innerText = msg;
+    }
+
+    function launchWhatsApp() {
+      if (!currentReminderData || !currentReminderData.whatsAppUrl) return;
+      window.open(currentReminderData.whatsAppUrl, '_blank');
+      closeWhatsAppModal();
+      showToast('Opening WhatsApp reminder...', 'success');
+    }
+
+    function copyReminderText() {
+      if (!currentReminderData || !currentReminderData.formattedMessage) return;
+      navigator.clipboard.writeText(currentReminderData.formattedMessage).then(() => {
+        const btn = document.getElementById('copyBtnText');
+        btn.innerText = 'Copied!';
+        showToast('Message copied to clipboard!', 'info');
+        setTimeout(() => btn.innerText = 'Copy', 2000);
+      });
+    }
+
+    // Add Customer Submission
+    function openAddCustomerModal() {
+      document.getElementById('addCustomerForm').reset();
+      document.getElementById('addCustomerModal').classList.remove('hidden');
+      setTimeout(() => document.getElementById('custName').focus(), 100);
+    }
+
+    function closeAddCustomerModal() {
+      document.getElementById('addCustomerModal').classList.add('hidden');
+    }
+
+    async function submitAddCustomer(e) {
+      e.preventDefault();
+      const saveBtn = document.getElementById('btnSaveCustomer');
+      saveBtn.disabled = true;
+      saveBtn.innerText = 'Saving...';
+
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const openingAmount = parseFloat(document.getElementById('custOpeningAmount').value) || 0;
+      const openingType = document.querySelector('input[name="openingType"]:checked').value;
+
+      try {
+        const payload = {
+          name,
+          phone,
+          openingBalance: openingAmount > 0 ? openingAmount : null,
+          openingType: openingAmount > 0 ? openingType : null
+        };
+
+        const res = await apiFetch(`${API_BASE}/api/customers`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.message || 'Failed to save customer');
+        }
+
+        const createdCustomer = await res.json();
+
+        closeAddCustomerModal();
+        playCashChime();
+        showToast(`Account "${name}" registered successfully!`, 'success');
+
+        await fetchCustomers();
+        await fetchDashboardStats();
+        switchMainView('customers');
+        loadCustomerDetails(createdCustomer.id);
+
+      } catch (err) {
+        console.error('Error creating customer:', err);
+        showToast(err.message, 'error');
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerText = 'Save Customer';
+      }
+    }
+
+    // Edit Customer Modal Handlers
+    function openEditCustomerModal() {
+      if (!selectedCustomerDetail) {
+        showToast('Please select a customer first.', 'warning');
+        return;
+      }
+      document.getElementById('editCustName').value = selectedCustomerDetail.name;
+      document.getElementById('editCustPhone').value = selectedCustomerDetail.phone;
+      document.getElementById('editCustomerModal').classList.remove('hidden');
+      setTimeout(() => document.getElementById('editCustName').focus(), 100);
+    }
+
+    function closeEditCustomerModal() {
+      document.getElementById('editCustomerModal').classList.add('hidden');
+    }
+
+    async function submitEditCustomer(e) {
+      e.preventDefault();
+      if (!selectedCustomerDetail) return;
+
+      const updateBtn = document.getElementById('btnUpdateCustomer');
+      updateBtn.disabled = true;
+      updateBtn.innerText = 'Saving...';
+
+      const name = document.getElementById('editCustName').value.trim();
+      const phone = document.getElementById('editCustPhone').value.trim();
+
+      try {
+        const res = await apiFetch(`${API_BASE}/api/customers/${selectedCustomerDetail.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, phone })
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.message || 'Failed to update customer');
+        }
+
+        const updated = await res.json();
+        closeEditCustomerModal();
+        showToast(`Account "${name}" updated successfully!`, 'success');
+
+        await fetchCustomers();
+        await fetchDashboardStats();
+        loadCustomerDetails(updated.id, false);
+      } catch (err) {
+        console.error('Error updating customer:', err);
+        showToast(err.message, 'error');
+      } finally {
+        updateBtn.disabled = false;
+        updateBtn.innerText = 'Save Changes';
+      }
+    }
+
+    // Add Transaction Submission
+    function openAddTransactionModal(presetCustomerId = null, presetType = 'Credit') {
+      const select = document.getElementById('txCustomerId');
+      select.innerHTML = customers.map(c => `
+        <option value="${c.id}" ${c.id === (presetCustomerId || selectedCustomerId) ? 'selected' : ''}>
+          ${escapeHtml(c.name)} (${c.phone}) - ${formatAmount(c.netBalance)}
+        </option>
+      `).join('');
+
+      setTxType(presetType);
+      document.getElementById('txAmount').value = '';
+      document.getElementById('txNote').value = '';
+      setDefaultTxDateTime();
+
+      document.getElementById('addTransactionModal').classList.remove('hidden');
+      setTimeout(() => document.getElementById('txAmount').focus(), 100);
+    }
+
+    function openQuickAddTransaction(type) {
+      if (!selectedCustomerId) {
+        showToast('Please select a customer first.', 'warning');
+        return;
+      }
+      openAddTransactionModal(selectedCustomerId, type);
+    }
+
+    function closeAddTransactionModal() {
+      document.getElementById('addTransactionModal').classList.add('hidden');
+    }
+
+    function setTxType(type) {
+      document.getElementById('txType').value = type;
+      const creditBtn = document.getElementById('typeCreditBtn');
+      const debitBtn = document.getElementById('typeDebitBtn');
+
+      if (type === 'Credit') {
+        creditBtn.className = 'py-2.5 px-3 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-700 font-bold text-xs flex items-center justify-center space-x-1.5 transition min-h-[44px]';
+        debitBtn.className = 'py-2.5 px-3 rounded-xl border border-slate-200 bg-white text-slate-600 font-semibold text-xs flex items-center justify-center space-x-1.5 hover:bg-slate-50 transition min-h-[44px]';
+      } else {
+        debitBtn.className = 'py-2.5 px-3 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-700 font-bold text-xs flex items-center justify-center space-x-1.5 transition min-h-[44px]';
+        creditBtn.className = 'py-2.5 px-3 rounded-xl border border-slate-200 bg-white text-slate-600 font-semibold text-xs flex items-center justify-center space-x-1.5 hover:bg-slate-50 transition min-h-[44px]';
+      }
+    }
+
+    function setQuickAmount(val) {
+      const input = document.getElementById('txAmount');
+      const current = parseFloat(input.value) || 0;
+      input.value = current + val;
+    }
+
+    function setDefaultTxDateTime() {
+      const now = new Date();
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      const formatted = now.toISOString().slice(0, 16);
+      const dateElem = document.getElementById('txDate');
+      if (dateElem) dateElem.value = formatted;
+    }
+
+    async function submitAddTransaction(e) {
+      e.preventDefault();
+      const saveBtn = document.getElementById('btnSaveTransaction');
+      saveBtn.disabled = true;
+      saveBtn.innerText = 'Saving Entry...';
+
+      const customerId = parseInt(document.getElementById('txCustomerId').value);
+      const amount = parseFloat(document.getElementById('txAmount').value);
+      const type = document.getElementById('txType').value;
+      const note = document.getElementById('txNote').value.trim();
+      const dateVal = document.getElementById('txDate').value;
+      const date = dateVal ? new Date(dateVal).toISOString() : new Date().toISOString();
+
+      try {
+        const res = await apiFetch(`${API_BASE}/api/transactions`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ customerId, amount, type, note, date })
+        });
+
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.message || 'Failed to record entry');
+        }
+
+        closeAddTransactionModal();
+        playCashChime();
+        showToast(`Transaction of ${formatAmount(amount, false)} saved!`, 'success');
+
+        await fetchCustomers();
+        await fetchDashboardStats();
+        loadCustomerDetails(customerId, false);
+
+        if (currentMainView === 'transactions') {
+          renderAuditLedgerTable();
+        }
+
+      } catch (err) {
+        console.error('Error adding transaction:', err);
+        showToast(err.message, 'error');
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerText = 'Save Entry';
+      }
+    }
+
+    async function deleteTransaction(txId) {
+      if (!confirm('Are you sure you want to delete this transaction entry? This will recompute the customer net balance.')) {
+        return;
+      }
+
+      try {
+        const res = await apiFetch(`${API_BASE}/api/transactions/${txId}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Failed to delete transaction');
+
+        showToast('Transaction deleted successfully.', 'info');
+        await fetchCustomers();
+        await fetchDashboardStats();
+        if (selectedCustomerId) {
+          loadCustomerDetails(selectedCustomerId, false);
+        }
+        if (currentMainView === 'transactions') {
+          renderAuditLedgerTable();
+        }
+      } catch (err) {
+        console.error('Error deleting transaction:', err);
+        showToast('Error deleting transaction.', 'error');
+      }
+    }
+
+    async function confirmDeleteCustomer() {
+      if (!selectedCustomerDetail) return;
+      const name = selectedCustomerDetail.name;
+      if (!confirm(`Are you sure you want to delete "${name}" and all associated ledger records? This cannot be undone.`)) {
+        return;
+      }
+
+      try {
+        const res = await apiFetch(`${API_BASE}/api/customers/${selectedCustomerDetail.id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Failed to delete customer');
+
+        showToast(`Customer "${name}" deleted.`, 'info');
+        selectedCustomerId = null;
+        selectedCustomerDetail = null;
+
+        await fetchCustomers();
+        await fetchDashboardStats();
+
+        if (customers.length > 0) {
+          loadCustomerDetails(customers[0].id);
+        } else {
+          showEmptyCustomerView();
+        }
+      } catch (err) {
+        console.error('Error deleting customer:', err);
+        showToast('Error deleting customer.', 'error');
+      }
+    }
+
+    // Filter controls
+    function filterBy(filter) {
+      activeFilter = filter;
+      document.querySelectorAll('.filter-pill').forEach(btn => {
+        btn.classList.remove('bg-slate-900', 'text-white', 'font-bold');
+        btn.classList.add('bg-slate-100', 'text-slate-600');
+      });
+
+      const activeBtn = document.getElementById('filter' + capitalize(filter));
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-slate-100', 'text-slate-600');
+        activeBtn.classList.add('bg-slate-900', 'text-white', 'font-bold');
+      }
+
+      renderCustomersList();
+    }
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    // Search
+    let searchTimeout = null;
+    function handleSearch(val) {
+      searchQuery = val.trim();
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (searchQuery) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        fetchCustomers();
+      }, 250);
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      searchQuery = '';
+      fetchCustomers();
+    }
+
+    function selectFirstCustomer() {
+      if (customers.length > 0) {
+        loadCustomerDetails(customers[0].id);
+      } else {
+        openAddCustomerModal();
+      }
+    }
+
+    function showEmptyCustomerView() {
+      document.getElementById('noCustomerSelected').classList.remove('hidden');
+      document.getElementById('activeCustomerView').classList.add('hidden');
+    }
+
+    // Toast alerts
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+
+      let bg = 'bg-slate-900 text-white';
+      let icon = 'fa-circle-info text-blue-400';
+      if (type === 'success') {
+        bg = 'bg-slate-900 text-white border border-emerald-500/50';
+        icon = 'fa-circle-check text-emerald-400';
+      } else if (type === 'error') {
+        bg = 'bg-slate-900 text-white border border-rose-500/50';
+        icon = 'fa-triangle-exclamation text-rose-400';
+      } else if (type === 'warning') {
+        bg = 'bg-slate-900 text-white border border-amber-500/50';
+        icon = 'fa-circle-exclamation text-amber-400';
+      }
+
+      toast.className = `${bg} pointer-events-auto flex items-center space-x-2.5 px-4 py-3 rounded-2xl shadow-2xl text-xs sm:text-sm font-semibold max-w-sm transition-all transform translate-y-2 opacity-0 duration-200`;
+      toast.innerHTML = `<i class="fa-solid ${icon} text-base flex-shrink-0"></i><span>${escapeHtml(message)}</span>`;
+
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-2', 'opacity-0');
+        setTimeout(() => toast.remove(), 250);
+      }, 3500);
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.innerText = text;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+
+</html>

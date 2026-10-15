@@ -1,0 +1,35 @@
+## Build and binary directories
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+
+## Visual Studio & VS Code cache/options
+.vs/
+.vscode/
+.idea/
+.gemini/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Database & Local State
+*.db
+*.db-shm
+*.db-wal
+khata.db
+backups/
+
+## Node.js & Testing
+node_modules/
+playwright-report/
+test-results/
+npm-debug.log*
+
+## OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store

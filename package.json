@@ -1,0 +1,19 @@
+{
+  "name": "remindpe",
+  "version": "1.0.0",
+  "description": "A lightweight, enterprise-grade micro-SaaS web application tailored for Indian small businesses and local merchants to manage customer credit (*udhar*), payment settlements (*jama*), and one-click WhatsApp payment reminders.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.64.0"
+  }
+}
