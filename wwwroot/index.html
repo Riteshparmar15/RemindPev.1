@@ -190,6 +190,13 @@
         display: none !important;
       }
     }
+
+    /* Counter Privacy Mode Blur Mask */
+    .privacy-masked {
+      filter: blur(8px) !important;
+      user-select: none !important;
+      transition: filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   </style>
 </head>
 
@@ -380,6 +387,44 @@
           class="hidden text-xs font-semibold text-slate-400 border-l border-slate-700 pl-2.5 ml-1 md:inline truncate">
           Digital Khata Cloud
         </span>
+      </div>
+
+      <!-- Right Utility Controls -->
+      <div class="flex items-center space-x-1.5 sm:space-x-2">
+        <!-- Privacy Mode Toggle (Counter Mode) -->
+        <button id="btnPrivacyToggle" onclick="togglePrivacyMode()"
+          class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition min-w-[38px] min-h-[38px] flex items-center justify-center cursor-pointer border border-transparent"
+          title="Privacy Mode: Blur / Mask balances when customers are in front of counter">
+          <i id="privacyToggleIcon" class="fa-solid fa-eye text-sm"></i>
+        </button>
+
+        <!-- Counter UPI QR Modal Trigger -->
+        <button onclick="openUPIQRModal()"
+          class="p-2 rounded-xl text-emerald-400 hover:text-emerald-300 hover:bg-slate-800 transition min-w-[38px] min-h-[38px] flex items-center justify-center cursor-pointer"
+          title="Show In-Store Counter UPI QR Code">
+          <i class="fa-solid fa-qrcode text-sm"></i>
+        </button>
+
+        <!-- Sound Toggle -->
+        <button id="btnSoundToggle" onclick="toggleSoundPreference()"
+          class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition min-w-[38px] min-h-[38px] flex items-center justify-center cursor-pointer"
+          title="Toggle Cash Register Audio Chimes">
+          <i id="soundToggleIcon" class="fa-solid fa-volume-high text-sm"></i>
+        </button>
+
+        <!-- Settings Modal Trigger -->
+        <button onclick="openSettingsModal()"
+          class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition min-w-[38px] min-h-[38px] flex items-center justify-center cursor-pointer"
+          title="Store Settings & Backup">
+          <i class="fa-solid fa-gear text-sm"></i>
+        </button>
+
+        <!-- Header Add Customer Quick Button -->
+        <button onclick="openAddCustomerModal()"
+          class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-bold text-slate-900 bg-white hover:bg-slate-100 transition shadow-sm active:scale-95 space-x-1.5 cursor-pointer ml-1">
+          <i class="fa-solid fa-user-plus text-indigo-600 text-xs"></i>
+          <span>+ Customer</span>
+        </button>
       </div>
     </header>
 
@@ -1772,6 +1817,25 @@
           </label>
         </div>
 
+        <!-- Data Backup & Portability -->
+        <div class="pt-3 border-t border-slate-100">
+          <label class="block text-[11px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Data Portability & Backup</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" onclick="exportDatabaseJsonBackup()"
+              class="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition flex items-center justify-center space-x-1.5 cursor-pointer">
+              <i class="fa-solid fa-cloud-arrow-down text-indigo-600"></i>
+              <span>Export Backup (.json)</span>
+            </button>
+
+            <label class="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition flex items-center justify-center space-x-1.5 cursor-pointer text-center">
+              <i class="fa-solid fa-cloud-arrow-up text-emerald-600"></i>
+              <span>Restore (.json)</span>
+              <input type="file" id="backupFileInput" accept=".json" onchange="importDatabaseJsonBackup(event)" class="hidden">
+            </label>
+          </div>
+          <p class="text-[10px] text-slate-400 mt-1">Export full merchant ledger data or restore into offline browser storage.</p>
+        </div>
+
         <div class="pt-3 flex items-center justify-end space-x-2 border-t border-slate-100 flex-shrink-0">
           <button type="button" onclick="closeSettingsModal()"
             class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-600 hover:bg-slate-100 transition min-h-[42px]">
@@ -1783,6 +1847,70 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL: DYNAMIC COUNTER UPI QR CODE -->
+  <div id="upiQRModal"
+    class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+    <div
+      class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-modal transform transition-all my-auto text-center border border-slate-100">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <i class="fa-solid fa-qrcode text-base"></i>
+          </div>
+          <h3 class="text-sm sm:text-base font-bold text-slate-900">In-Store Counter QR</h3>
+        </div>
+        <button onclick="closeUPIQRModal()"
+          class="text-slate-400 hover:text-slate-600 text-lg p-1 min-w-[32px] min-h-[32px] flex items-center justify-center cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="bg-gradient-to-b from-slate-50 to-white p-4 rounded-2xl border border-slate-200/80 mb-4 flex flex-col items-center">
+        <h4 id="qrStoreName" class="text-xs font-extrabold text-slate-800 uppercase tracking-wider mb-1">Apex Trading</h4>
+        <p class="text-[11px] text-slate-500 mb-3">Scan with PhonePe, Google Pay, Paytm, or BHIM</p>
+        
+        <div class="p-3 bg-white rounded-2xl shadow-sm border border-slate-200 inline-block mb-2">
+          <canvas id="upiQRCanvas" width="220" height="220" class="rounded-lg"></canvas>
+        </div>
+
+        <span id="qrUPIId" class="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+          merchant@upi
+        </span>
+      </div>
+
+      <!-- Amount preset buttons -->
+      <div class="space-y-3 text-left">
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">Custom Amount (Optional)</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">₹</span>
+            <input type="number" id="qrCustomAmount" oninput="updateDynamicQR()" placeholder="0.00"
+              class="w-full pl-8 pr-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 font-mono focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-4 gap-1.5">
+          <button type="button" onclick="setQRPreset(100)" class="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition">₹100</button>
+          <button type="button" onclick="setQRPreset(250)" class="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition">₹250</button>
+          <button type="button" onclick="setQRPreset(500)" class="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition">₹500</button>
+          <button type="button" onclick="setQRPreset(1000)" class="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition">₹1k</button>
+        </div>
+
+        <div class="pt-2 flex items-center space-x-2">
+          <button type="button" onclick="copyUPIString()"
+            class="flex-1 py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-1.5">
+            <i class="fa-regular fa-copy"></i>
+            <span>Copy Link</span>
+          </button>
+          <button type="button" onclick="closeUPIQRModal()"
+            class="flex-1 py-2.5 px-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition">
+            Done
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2872,8 +3000,37 @@
       }
     }
 
-    function togglePrivacyMode() { }
-    function updatePrivacyModeUI() { }
+    let privacyModeEnabled = localStorage.getItem('remindpe_privacy_mode') === 'true';
+
+    function togglePrivacyMode() {
+      privacyModeEnabled = !privacyModeEnabled;
+      localStorage.setItem('remindpe_privacy_mode', privacyModeEnabled);
+      updatePrivacyModeUI();
+      showToast(privacyModeEnabled ? 'Counter Privacy Mode ON (Balances Blurred)' : 'Privacy Mode OFF (Balances Visible)', 'info');
+    }
+
+    function updatePrivacyModeUI() {
+      const btn = document.getElementById('btnPrivacyToggle');
+      const icon = document.getElementById('privacyToggleIcon');
+      if (icon) {
+        if (privacyModeEnabled) {
+          icon.className = 'fa-solid fa-eye-slash text-rose-400 text-sm';
+          if (btn) btn.className = 'p-2 rounded-xl text-white bg-slate-800 border border-rose-500/50 min-w-[38px] min-h-[38px] flex items-center justify-center cursor-pointer transition';
+        } else {
+          icon.className = 'fa-solid fa-eye text-slate-400 text-sm';
+          if (btn) btn.className = 'p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 border border-transparent min-w-[38px] min-h-[38px] flex items-center justify-center cursor-pointer transition';
+        }
+      }
+
+      const targets = document.querySelectorAll('.privacy-target, .privacy-phone');
+      targets.forEach(el => {
+        if (privacyModeEnabled) {
+          el.classList.add('privacy-masked');
+        } else {
+          el.classList.remove('privacy-masked');
+        }
+      });
+    }
 
     // Sound Toggle
     function toggleSoundPreference() {
@@ -2888,6 +3045,10 @@
       const icon = document.getElementById('soundIcon');
       if (icon) {
         icon.className = storeConfig.soundEnabled ? 'fa-solid fa-volume-high text-xs text-indigo-600' : 'fa-solid fa-volume-xmark text-xs text-slate-400';
+      }
+      const topbarIcon = document.getElementById('soundToggleIcon');
+      if (topbarIcon) {
+        topbarIcon.className = storeConfig.soundEnabled ? 'fa-solid fa-volume-high text-sm text-emerald-400' : 'fa-solid fa-volume-xmark text-sm text-slate-500';
       }
     }
 
@@ -3939,10 +4100,142 @@
       showToast('Audit statement exported to CSV successfully!', 'success');
     }
 
-    function openUPIQRModal() { }
-    function updateDynamicQR() { }
-    function setQRPreset() { }
-    function closeUPIQRModal() { }
+    function openUPIQRModal() {
+      const storeNameEl = document.getElementById('qrStoreName');
+      if (storeNameEl) storeNameEl.innerText = storeConfig.name || 'Store';
+      const upiIdEl = document.getElementById('qrUPIId');
+      if (upiIdEl) upiIdEl.innerText = storeConfig.upiId || 'merchant@upi';
+      const amountEl = document.getElementById('qrCustomAmount');
+      if (amountEl) amountEl.value = '';
+      updateDynamicQR();
+      const modal = document.getElementById('upiQRModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function openQRModal() {
+      openUPIQRModal();
+    }
+
+    function closeUPIQRModal() {
+      const modal = document.getElementById('upiQRModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function setQRPreset(amount) {
+      const input = document.getElementById('qrCustomAmount');
+      if (input) input.value = amount;
+      updateDynamicQR();
+    }
+
+    function updateDynamicQR() {
+      const canvas = document.getElementById('upiQRCanvas');
+      if (!canvas || typeof QRious === 'undefined') return;
+      const upiId = storeConfig.upiId || 'merchant@upi';
+      const name = storeConfig.name || 'Apex Trading';
+      const amount = document.getElementById('qrCustomAmount')?.value;
+      let upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(name)}&cu=INR`;
+      if (amount && Number(amount) > 0) {
+        upiUrl += `&am=${encodeURIComponent(Number(amount).toFixed(2))}`;
+      }
+      try {
+        new QRious({
+          element: canvas,
+          value: upiUrl,
+          size: 220,
+          level: 'H'
+        });
+      } catch (err) {
+        console.warn('QRious render error:', err);
+      }
+    }
+
+    function copyUPIString() {
+      const upiId = storeConfig.upiId || 'merchant@upi';
+      const name = storeConfig.name || 'Apex Trading';
+      const amount = document.getElementById('qrCustomAmount')?.value;
+      let upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(name)}&cu=INR`;
+      if (amount && Number(amount) > 0) {
+        upiUrl += `&am=${encodeURIComponent(Number(amount).toFixed(2))}`;
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(upiUrl).then(() => {
+          showToast('UPI payment link copied to clipboard!', 'success');
+        }).catch(() => {
+          prompt('Copy UPI Payment Link:', upiUrl);
+        });
+      } else {
+        prompt('Copy UPI Payment Link:', upiUrl);
+      }
+    }
+
+    // JSON Database Backup & Portability
+    async function exportDatabaseJsonBackup() {
+      try {
+        let exportData = null;
+        if (isGitHubPages) {
+          exportData = getMockDb();
+        } else {
+          const [custRes, statsRes, setRes] = await Promise.all([
+            apiFetch(`${API_BASE}/api/customers`),
+            apiFetch(`${API_BASE}/api/customers/stats`),
+            apiFetch(`${API_BASE}/api/settings`)
+          ]);
+          const custs = custRes.ok ? await custRes.json() : [];
+          const stats = statsRes.ok ? await statsRes.json() : {};
+          const settings = setRes.ok ? await setRes.json() : {};
+          exportData = {
+            exportTimestamp: new Date().toISOString(),
+            application: 'RemindPe SaaS',
+            version: '2.0.0',
+            settings,
+            stats,
+            customers: custs
+          };
+        }
+
+        const jsonStr = JSON.stringify(exportData, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `RemindPe_Khata_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Complete Database Backup exported successfully (.json)', 'success');
+      } catch (err) {
+        console.error('Error exporting backup:', err);
+        showToast('Failed to export backup.', 'error');
+      }
+    }
+
+    function importDatabaseJsonBackup(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (!data || (!data.customers && !data.settings)) {
+            throw new Error('Invalid RemindPe backup format.');
+          }
+
+          if (isGitHubPages) {
+            localStorage.setItem('remindpe_demo_db', JSON.stringify(data));
+          }
+
+          showToast('Backup restored successfully! Reloading...', 'success');
+          setTimeout(() => window.location.reload(), 1000);
+        } catch (err) {
+          console.error('Error importing backup:', err);
+          showToast('Failed to parse backup file: ' + err.message, 'error');
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
 
     // Sanitize CSV cell to prevent CSV Formula Injection (CWE-1236)
     function sanitizeCsvCell(value) {
