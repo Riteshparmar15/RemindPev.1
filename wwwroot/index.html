@@ -203,6 +203,241 @@
 <body
   class="h-full flex overflow-hidden bg-slate-50 text-slate-800 font-sans antialiased selection:bg-indigo-600 selection:text-white">
 
+  <!-- ================= 0. REAL-WORLD AUTH LOGIN / SIGN-IN SCREEN ================= -->
+  <div id="authLoginScreen" class="hidden fixed inset-0 z-50 bg-slate-50 overflow-y-auto flex flex-col lg:flex-row transition-opacity duration-300">
+    
+    <!-- LEFT SIDE: Modern SaaS Brand Showcase (Linear / Stripe / Razorpay style) -->
+    <div class="hidden lg:flex lg:w-1/2 bg-slate-900 border-r border-slate-800 p-12 xl:p-16 flex-col justify-between relative overflow-hidden select-none">
+      <!-- Ambient subtle background glow -->
+      <div class="absolute -top-24 -left-24 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Top Brand -->
+      <div class="relative z-10 flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-lg shadow-md shadow-indigo-600/30">
+          <i class="fa-solid fa-book-bookmark"></i>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight text-white">Remind<span class="text-indigo-400">Pe</span></span>
+          <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 bg-slate-800 text-indigo-300 rounded border border-slate-700 ml-1.5">Enterprise Cloud</span>
+        </div>
+      </div>
+
+      <!-- Center Value Proposition -->
+      <div class="relative z-10 my-auto py-8 space-y-8 max-w-lg">
+        <div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-indigo-300 border border-slate-700/80 inline-flex items-center space-x-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Digital Bahi-Khata & Payment Cloud</span>
+          </span>
+          <h1 class="text-3xl xl:text-4xl font-extrabold text-white tracking-tight leading-tight mt-4">
+            Transform customer credit into predictable cash flow.
+          </h1>
+          <p class="text-sm xl:text-base text-slate-400 mt-3 leading-relaxed">
+            The modern financial ledger built specifically for Indian Kirana, retail shops, and local merchants.
+          </p>
+        </div>
+
+        <!-- 3 Feature Pillars -->
+        <div class="space-y-4">
+          <div class="flex items-start space-x-3.5">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-sm flex-shrink-0 mt-0.5 border border-emerald-500/20">
+              <i class="fa-brands fa-whatsapp text-base"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-slate-200">Instant WhatsApp Reminders</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Automated UPI payment links pre-formatted with balance & store QR.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-3.5">
+            <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-sm flex-shrink-0 mt-0.5 border border-indigo-500/20">
+              <i class="fa-solid fa-scale-balanced"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-slate-200">Double-Entry Verified Accounting</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Chronological audit trails, real-time debtor tracking, and one-click PDF statements.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-3.5">
+            <div class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center text-sm flex-shrink-0 mt-0.5 border border-purple-500/20">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-slate-200">Bank-Grade Encryption</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Zero customer data sharing, automatic encrypted backups, and isolated store tenancy.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Trust / Social Proof -->
+      <div class="relative z-10 pt-6 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-500">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-circle-check text-emerald-400"></i>
+          <span>Trusted by 10,000+ local retailers across India</span>
+        </div>
+        <span>Made for India 🇮🇳</span>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE: Clean, Neat Professional Login Portal -->
+    <div class="flex-1 flex flex-col justify-between p-6 sm:p-10 lg:p-16 max-w-2xl mx-auto w-full min-h-screen">
+      <!-- Top header on mobile/tablet -->
+      <div class="flex items-center justify-between pb-6">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-xl bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-xs">
+            <i class="fa-solid fa-book-bookmark"></i>
+          </div>
+          <span class="text-lg font-black tracking-tight text-slate-900">Remind<span class="text-indigo-600">Pe</span></span>
+        </div>
+        <button onclick="exploreGuestMode()" class="text-xs font-semibold text-slate-600 hover:text-slate-900 bg-white border border-slate-200 px-3 py-1.5 rounded-xl transition shadow-2xs hover:bg-slate-50 cursor-pointer">
+          <span>Explore Demo as Guest</span>
+          <i class="fa-solid fa-arrow-right text-[10px] ml-1"></i>
+        </button>
+      </div>
+
+      <!-- Main Login Container (Card / Form) -->
+      <div class="my-auto py-6 sm:py-8 w-full max-w-md mx-auto">
+        
+        <!-- STEP 1: Phone / Google -->
+        <div id="loginScreenStepPhone" class="space-y-5">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Sign in to your store</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">Enter your mobile number to receive a secure login OTP, or continue with Google.</p>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Mobile Number (मोबाइल नंबर)</label>
+              <div class="flex items-center rounded-2xl border border-slate-200 bg-white focus-within:ring-2 focus-within:ring-slate-900/10 focus-within:border-slate-800 shadow-2xs overflow-hidden transition">
+                <div class="px-3.5 py-3 bg-slate-50 border-r border-slate-200 text-xs font-bold text-slate-700 flex items-center space-x-1.5 select-none">
+                  <span>🇮🇳</span>
+                  <span>+91</span>
+                </div>
+                <input type="tel" id="loginScreenPhoneInput" maxlength="10" placeholder="98765 43210"
+                  class="w-full px-3.5 py-3 bg-transparent text-sm sm:text-base font-mono font-bold text-slate-900 placeholder-slate-400 focus:outline-none min-h-[46px]"
+                  onkeypress="if(event.key==='Enter') submitLoginScreenSendOtp()">
+              </div>
+              <div class="flex items-center justify-between text-xs text-slate-500 mt-2 px-1">
+                <span>Instant SMS & WhatsApp delivery</span>
+                <button type="button" onclick="fillLoginScreenDemoPhone()" class="font-bold text-indigo-600 hover:underline cursor-pointer">Quick Test: 9876543210</button>
+              </div>
+            </div>
+
+            <button id="btnLoginScreenSendOtp" onclick="submitLoginScreenSendOtp()"
+              class="w-full py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl text-xs sm:text-sm font-bold shadow-xs active:scale-95 transition flex items-center justify-center space-x-2 min-h-[46px] cursor-pointer">
+              <span>Send Verification Code</span>
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+
+            <!-- Clean Divider -->
+            <div class="relative flex py-1 items-center">
+              <div class="flex-grow border-t border-slate-200"></div>
+              <span class="flex-shrink mx-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">or sign in with</span>
+              <div class="flex-grow border-t border-slate-200"></div>
+            </div>
+
+            <!-- Google Sign-In Button -->
+            <button onclick="submitLoginScreenGoogleAuth()" type="button"
+              class="w-full py-3 px-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-2xl text-xs sm:text-sm font-semibold shadow-2xs active:scale-95 transition flex items-center justify-center space-x-2.5 min-h-[46px] cursor-pointer">
+              <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+              <span>Continue with Google</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: OTP Verification -->
+        <div id="loginScreenStepOtp" class="hidden space-y-5">
+          <div>
+            <div class="flex items-center justify-between">
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Enter 6-digit code</h2>
+              <button onclick="switchLoginScreenStep('phone')" class="text-xs text-indigo-600 font-semibold hover:underline cursor-pointer">Change</button>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">Verification code sent to <strong id="loginScreenOtpPhoneDisplay" class="text-slate-900 font-mono">+91 9876543210</strong></p>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <input type="text" id="loginScreenOtpInput" maxlength="6" placeholder="• • • • • •"
+                class="w-full text-center tracking-[0.5em] font-mono text-3xl font-black py-3.5 px-4 bg-white border border-slate-200 rounded-2xl shadow-2xs focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 text-slate-900 transition"
+                onkeypress="if(event.key==='Enter') submitLoginScreenVerifyOtp()">
+
+              <div class="flex items-center justify-between text-xs text-slate-500 mt-2 px-1">
+                <span id="loginScreenResendTimerText">Resend code in <strong id="loginScreenCountdownNum">30</strong>s</span>
+                <button id="btnLoginScreenResendOtp" onclick="submitLoginScreenSendOtp()" class="hidden font-bold text-indigo-600 hover:underline cursor-pointer">Resend OTP</button>
+                <button type="button" onclick="fillLoginScreenDemoOtp()" class="font-semibold text-emerald-600 hover:underline cursor-pointer">Use Code 123456</button>
+              </div>
+            </div>
+
+            <button id="btnLoginScreenVerifyOtp" onclick="submitLoginScreenVerifyOtp()"
+              class="w-full py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl text-xs sm:text-sm font-bold shadow-xs active:scale-95 transition flex items-center justify-center space-x-2 min-h-[46px] cursor-pointer">
+              <i class="fa-solid fa-lock text-xs"></i>
+              <span>Verify & Access Store</span>
+            </button>
+
+            <button onclick="switchLoginScreenStep('phone')"
+              class="w-full py-2 text-xs font-semibold text-slate-500 hover:text-slate-800 transition text-center cursor-pointer">
+              &larr; Back to phone number
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: First-time Merchant Store Setup -->
+        <div id="loginScreenStepProfile" class="hidden space-y-4">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Setup your store</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">Configure your store name & payment UPI for invoices and payment reminders.</p>
+          </div>
+
+          <div class="space-y-3.5">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Store / Vyapar Name *</label>
+              <input type="text" id="loginScreenStoreName" placeholder="e.g. Apex Trading & Services, Parmar Kirana"
+                class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 min-h-[42px]">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Owner / Merchant Name</label>
+              <input type="text" id="loginScreenOwnerName" placeholder="e.g. Ritesh Parmar"
+                class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 min-h-[42px]">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Store UPI ID (For Direct Payments)</label>
+              <input type="text" id="loginScreenUpiId" placeholder="e.g. merchant@upi, store@oksbi"
+                class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-mono focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800 min-h-[42px]">
+            </div>
+
+            <button onclick="submitLoginScreenStoreSetup()"
+              class="w-full py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl text-xs sm:text-sm font-bold shadow-xs active:scale-95 transition flex items-center justify-center space-x-2 min-h-[46px] cursor-pointer">
+              <i class="fa-solid fa-check text-xs"></i>
+              <span>Launch Dashboard</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="pt-6 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
+        <span>&copy; 2026 RemindPe. Enterprise Vyapar Cloud.</span>
+        <div class="flex items-center space-x-3">
+          <span class="hover:underline cursor-pointer" onclick="showToast('RemindPe uses double-entry verified ledger accounting.', 'info')">Security</span>
+          <span>•</span>
+          <span class="hover:underline cursor-pointer" onclick="showToast('Your customer records remain 100% private and encrypted.', 'info')">Privacy</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   <!-- ================= 1. ENTERPRISE SIDEBAR (DESKTOP) ================= -->
   <aside id="appSidebar"
     class="hidden lg:flex lg:flex-col lg:w-64 bg-slate-900 border-r border-slate-800 flex-shrink-0 transition-all duration-300 z-30 select-none">
@@ -2603,8 +2838,18 @@
 
     async function initAuth() {
       const storedUser = getStoredAuthUser();
+      const isGuest = sessionStorage.getItem('remindpe_guest_mode') === 'true';
+
       if (storedUser) {
         currentAuthUser = storedUser;
+        hideLoginScreen();
+        updateAuthUI();
+      } else if (isGuest) {
+        hideLoginScreen();
+        updateAuthUI();
+      } else {
+        // Not authenticated: Reveal the proper real-world Login Screen!
+        showLoginScreen('phone');
         updateAuthUI();
       }
 
@@ -2613,7 +2858,7 @@
         const res = await apiFetch(`${API_BASE}/api/auth/me`);
         if (res.ok) {
           const user = await res.json();
-          if (user && user.name) {
+          if (user && user.name && user.phone) {
             currentAuthUser = { ...(currentAuthUser || {}), ...user };
             localStorage.setItem('remindpe_auth_user', JSON.stringify(currentAuthUser));
             updateAuthUI();
@@ -2681,30 +2926,42 @@
       }
     }
 
-    function openAuthModal(initialStep = 'phone') {
-      const modal = document.getElementById('authModal');
-      if (!modal) return;
-      modal.classList.remove('hidden');
-      switchAuthStep(initialStep);
+    // ==========================================
+    // REAL-WORLD FULL-SCREEN LOGIN PORTAL HANDLERS
+    // ==========================================
+    let loginScreenResendTimer = null;
+    let loginScreenCountdownSeconds = 30;
+    let pendingLoginScreenPhone = '';
+
+    function showLoginScreen(step = 'phone') {
+      const screen = document.getElementById('authLoginScreen');
+      if (!screen) return;
+      screen.classList.remove('hidden');
+      switchLoginScreenStep(step);
       
-      const phoneInput = document.getElementById('authPhoneInput');
-      if (phoneInput && initialStep === 'phone') {
+      const phoneInput = document.getElementById('loginScreenPhoneInput');
+      if (phoneInput && step === 'phone') {
         setTimeout(() => phoneInput.focus(), 150);
       }
     }
 
-    function closeAuthModal() {
-      const modal = document.getElementById('authModal');
-      if (modal) modal.classList.add('hidden');
-      clearInterval(authResendTimer);
+    function hideLoginScreen() {
+      const screen = document.getElementById('authLoginScreen');
+      if (screen) screen.classList.add('hidden');
+      clearInterval(loginScreenResendTimer);
     }
 
-    function switchAuthStep(step) {
-      const stepPhone = document.getElementById('authStepPhone');
-      const stepOtp = document.getElementById('authStepOtp');
-      const stepProfile = document.getElementById('authStepProfile');
-      const modalTitle = document.getElementById('authModalTitle');
-      const modalSubtitle = document.getElementById('authModalSubtitle');
+    function exploreGuestMode() {
+      sessionStorage.setItem('remindpe_guest_mode', 'true');
+      hideLoginScreen();
+      updateAuthUI();
+      showToast('Exploring RemindPe in Demo Mode. Click Sign In anytime to bind your personal store.', 'info');
+    }
+
+    function switchLoginScreenStep(step) {
+      const stepPhone = document.getElementById('loginScreenStepPhone');
+      const stepOtp = document.getElementById('loginScreenStepOtp');
+      const stepProfile = document.getElementById('loginScreenStepProfile');
 
       if (stepPhone) stepPhone.classList.add('hidden');
       if (stepOtp) stepOtp.classList.add('hidden');
@@ -2712,73 +2969,65 @@
 
       if (step === 'phone') {
         if (stepPhone) stepPhone.classList.remove('hidden');
-        if (modalTitle) modalTitle.innerText = 'Sign in to RemindPe';
-        if (modalSubtitle) modalSubtitle.innerText = 'Vyapar Khata & Payment Reminders Cloud';
       } else if (step === 'otp') {
         if (stepOtp) stepOtp.classList.remove('hidden');
-        if (modalTitle) modalTitle.innerText = 'Verification Code';
-        if (modalSubtitle) modalSubtitle.innerText = 'Security Verification for Store Access';
-        const otpInput = document.getElementById('authOtpInput');
+        const otpInput = document.getElementById('loginScreenOtpInput');
         if (otpInput) {
           otpInput.value = '';
           setTimeout(() => otpInput.focus(), 150);
         }
-        startAuthCountdown();
+        startLoginScreenCountdown();
       } else if (step === 'profile') {
         if (stepProfile) stepProfile.classList.remove('hidden');
-        if (modalTitle) modalTitle.innerText = 'Personalize Your Store';
-        if (modalSubtitle) modalSubtitle.innerText = 'Setup customer invoices & reminder signatures';
-        
-        // Prefill inputs
-        const storeInput = document.getElementById('authSetupStoreName');
-        const ownerInput = document.getElementById('authSetupOwnerName');
-        const upiInput = document.getElementById('authSetupUpiId');
+        const storeInput = document.getElementById('loginScreenStoreName');
+        const ownerInput = document.getElementById('loginScreenOwnerName');
+        const upiInput = document.getElementById('loginScreenUpiId');
         if (storeInput) storeInput.value = storeConfig.name || 'Apex Trading & Services';
         if (ownerInput) ownerInput.value = (currentAuthUser && currentAuthUser.name) || 'Ritesh Parmar';
         if (upiInput) upiInput.value = storeConfig.upiId || 'merchant@upi';
       }
     }
 
-    function fillDemoPhone() {
-      const phoneInput = document.getElementById('authPhoneInput');
+    function fillLoginScreenDemoPhone() {
+      const phoneInput = document.getElementById('loginScreenPhoneInput');
       if (phoneInput) {
         phoneInput.value = '9876543210';
         phoneInput.focus();
       }
     }
 
-    function fillDemoOtp() {
-      const otpInput = document.getElementById('authOtpInput');
+    function fillLoginScreenDemoOtp() {
+      const otpInput = document.getElementById('loginScreenOtpInput');
       if (otpInput) {
         otpInput.value = '123456';
         otpInput.focus();
       }
     }
 
-    function startAuthCountdown() {
-      clearInterval(authResendTimer);
-      authCountdownSeconds = 30;
-      const timerText = document.getElementById('authResendTimerText');
-      const countdownNum = document.getElementById('authCountdownNum');
-      const resendBtn = document.getElementById('btnResendOtp');
+    function startLoginScreenCountdown() {
+      clearInterval(loginScreenResendTimer);
+      loginScreenCountdownSeconds = 30;
+      const timerText = document.getElementById('loginScreenResendTimerText');
+      const countdownNum = document.getElementById('loginScreenCountdownNum');
+      const resendBtn = document.getElementById('btnLoginScreenResendOtp');
 
       if (timerText) timerText.classList.remove('hidden');
       if (resendBtn) resendBtn.classList.add('hidden');
-      if (countdownNum) countdownNum.innerText = authCountdownSeconds;
+      if (countdownNum) countdownNum.innerText = loginScreenCountdownSeconds;
 
-      authResendTimer = setInterval(() => {
-        authCountdownSeconds--;
-        if (countdownNum) countdownNum.innerText = authCountdownSeconds;
-        if (authCountdownSeconds <= 0) {
-          clearInterval(authResendTimer);
+      loginScreenResendTimer = setInterval(() => {
+        loginScreenCountdownSeconds--;
+        if (countdownNum) countdownNum.innerText = loginScreenCountdownSeconds;
+        if (loginScreenCountdownSeconds <= 0) {
+          clearInterval(loginScreenResendTimer);
           if (timerText) timerText.classList.add('hidden');
           if (resendBtn) resendBtn.classList.remove('hidden');
         }
       }, 1000);
     }
 
-    async function submitSendOtp() {
-      const phoneInput = document.getElementById('authPhoneInput');
+    async function submitLoginScreenSendOtp() {
+      const phoneInput = document.getElementById('loginScreenPhoneInput');
       if (!phoneInput) return;
       const rawPhone = phoneInput.value.replace(/\D/g, '');
       if (rawPhone.length < 10) {
@@ -2787,8 +3036,8 @@
         return;
       }
 
-      pendingAuthPhone = rawPhone.slice(-10);
-      const btn = document.getElementById('btnSendOtp');
+      pendingLoginScreenPhone = rawPhone.slice(-10);
+      const btn = document.getElementById('btnLoginScreenSendOtp');
       const originalText = btn ? btn.innerHTML : '';
       if (btn) {
         btn.disabled = true;
@@ -2799,25 +3048,25 @@
         const res = await apiFetch(`${API_BASE}/api/auth/send-otp`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ phone: pendingAuthPhone })
+          body: JSON.stringify({ phone: pendingLoginScreenPhone })
         });
 
         const data = await res.json();
         if (res.ok && data.success) {
-          const display = document.getElementById('authOtpPhoneDisplay');
-          if (display) display.innerText = '+91 ' + pendingAuthPhone;
+          const display = document.getElementById('loginScreenOtpPhoneDisplay');
+          if (display) display.innerText = '+91 ' + pendingLoginScreenPhone;
           
-          showToast(`OTP sent to +91 ${pendingAuthPhone}! (Test code: ${data.testOtp || '123456'})`, 'success');
-          switchAuthStep('otp');
+          showToast(`OTP sent to +91 ${pendingLoginScreenPhone}! (Test code: ${data.testOtp || '123456'})`, 'success');
+          switchLoginScreenStep('otp');
         } else {
           showToast(data.message || 'Failed to send OTP. Please try again.', 'error');
         }
       } catch (err) {
         console.error('Send OTP error:', err);
-        const display = document.getElementById('authOtpPhoneDisplay');
-        if (display) display.innerText = '+91 ' + pendingAuthPhone;
+        const display = document.getElementById('loginScreenOtpPhoneDisplay');
+        if (display) display.innerText = '+91 ' + pendingLoginScreenPhone;
         showToast(`Verification code sent (Test mode: 123456)`, 'info');
-        switchAuthStep('otp');
+        switchLoginScreenStep('otp');
       } finally {
         if (btn) {
           btn.disabled = false;
@@ -2826,8 +3075,8 @@
       }
     }
 
-    async function submitVerifyOtp() {
-      const otpInput = document.getElementById('authOtpInput');
+    async function submitLoginScreenVerifyOtp() {
+      const otpInput = document.getElementById('loginScreenOtpInput');
       if (!otpInput) return;
       const otp = otpInput.value.trim();
       if (otp.length < 4) {
@@ -2836,7 +3085,7 @@
         return;
       }
 
-      const btn = document.getElementById('btnVerifyOtp');
+      const btn = document.getElementById('btnLoginScreenVerifyOtp');
       const originalText = btn ? btn.innerHTML : '';
       if (btn) {
         btn.disabled = true;
@@ -2848,7 +3097,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            phone: pendingAuthPhone,
+            phone: pendingLoginScreenPhone,
             otp: otp,
             storeName: storeConfig.name,
             ownerName: (currentAuthUser && currentAuthUser.name) || 'Ritesh Parmar'
@@ -2858,13 +3107,15 @@
         const data = await res.json();
         if (res.ok && data.success) {
           setStoredAuthUser(data.token, data.user);
-          showToast(`Welcome, ${data.user.name}! Account verified.`, 'success');
+          showToast(`Welcome back, ${data.user.name}! Account verified.`, 'success');
           
           if (!data.user.storeName || data.user.storeName === 'Apex Trading & Services') {
-            switchAuthStep('profile');
+            switchLoginScreenStep('profile');
           } else {
-            closeAuthModal();
+            hideLoginScreen();
             fetchStoreSettings();
+            fetchDashboardStats();
+            fetchCustomers();
           }
         } else {
           showToast(data.message || 'Invalid OTP code. Please try again.', 'error');
@@ -2872,9 +3123,9 @@
       } catch (err) {
         console.error('Verify OTP error:', err);
         const demoUser = {
-          id: 'usr_' + pendingAuthPhone,
+          id: 'usr_' + pendingLoginScreenPhone,
           name: 'Ritesh Parmar',
-          phone: '+91 ' + pendingAuthPhone,
+          phone: '+91 ' + pendingLoginScreenPhone,
           email: null,
           storeName: storeConfig.name || 'Apex Trading & Services',
           upiId: storeConfig.upiId || 'merchant@upi',
@@ -2883,7 +3134,7 @@
         };
         setStoredAuthUser('remindpe_sec_local', demoUser);
         showToast('Account verified! Welcome to RemindPe.', 'success');
-        closeAuthModal();
+        hideLoginScreen();
       } finally {
         if (btn) {
           btn.disabled = false;
@@ -2892,7 +3143,7 @@
       }
     }
 
-    async function submitGoogleAuth() {
+    async function submitLoginScreenGoogleAuth() {
       showToast('Connecting to Google Account...', 'info');
       
       try {
@@ -2910,8 +3161,10 @@
         if (res.ok && data.success) {
           setStoredAuthUser(data.token, data.user);
           showToast(`Signed in with Google as ${data.user.email}!`, 'success');
-          closeAuthModal();
+          hideLoginScreen();
           fetchStoreSettings();
+          fetchDashboardStats();
+          fetchCustomers();
         } else {
           showToast(data.message || 'Google sign in failed.', 'error');
         }
@@ -2929,14 +3182,14 @@
         };
         setStoredAuthUser('remindpe_goog_local', demoGoogleUser);
         showToast('Signed in with Google!', 'success');
-        closeAuthModal();
+        hideLoginScreen();
       }
     }
 
-    async function submitStoreProfileSetup() {
-      const storeInput = document.getElementById('authSetupStoreName');
-      const ownerInput = document.getElementById('authSetupOwnerName');
-      const upiInput = document.getElementById('authSetupUpiId');
+    async function submitLoginScreenStoreSetup() {
+      const storeInput = document.getElementById('loginScreenStoreName');
+      const ownerInput = document.getElementById('loginScreenOwnerName');
+      const upiInput = document.getElementById('loginScreenUpiId');
 
       const storeName = storeInput ? storeInput.value.trim() : storeConfig.name;
       const ownerName = ownerInput ? ownerInput.value.trim() : 'Ritesh Parmar';
@@ -2982,18 +3235,28 @@
 
       applyStoreSettings();
       showToast('Store profile saved! Welcome to RemindPe.', 'success');
-      closeAuthModal();
+      hideLoginScreen();
+    }
+
+    function openAuthModal(initialStep = 'phone') {
+      showLoginScreen(initialStep);
+    }
+
+    function closeAuthModal() {
+      hideLoginScreen();
     }
 
     async function handleAuthLogout() {
-      if (!confirm('Are you sure you want to sign out of this RemindPe account?')) return;
+      if (!confirm('Are you sure you want to sign out of your RemindPe store account?')) return;
 
       try {
         await apiFetch(`${API_BASE}/api/auth/logout`, { method: 'POST' });
       } catch (err) {}
 
+      sessionStorage.removeItem('remindpe_guest_mode');
       clearStoredAuth();
-      showToast('Signed out successfully. Guest mode active.', 'info');
+      showLoginScreen('phone');
+      showToast('Signed out successfully. Please sign in to access your ledger.', 'info');
     }
 
     // Initialization
