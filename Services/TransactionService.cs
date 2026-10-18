@@ -130,6 +130,42 @@ public class TransactionService : ITransactionService
         );
     }
 
+    public async Task<TransactionResponseDto> UpdateTransactionAsync(int id, UpdateTransactionDto dto)
+    {
+        if (dto.Amount <= 0)
+        {
+            throw new ValidationException("Transaction amount must be strictly greater than zero.");
+        }
+
+        var tx = await _transactionRepository.GetByIdAsync(id);
+        if (tx == null)
+        {
+            throw new NotFoundException($"Transaction with ID {id} was not found.");
+        }
+
+        var normalizedType = dto.Type.Equals("Debit", StringComparison.OrdinalIgnoreCase) ? "Debit" : "Credit";
+
+        tx.Amount = Math.Abs(dto.Amount);
+        tx.Type = normalizedType;
+        tx.Note = string.IsNullOrWhiteSpace(dto.Note) ? null : dto.Note.Trim();
+        if (dto.Date.HasValue)
+        {
+            tx.Date = dto.Date.Value;
+        }
+
+        var updated = await _transactionRepository.UpdateAsync(tx);
+        _logger.LogInformation("Updated transaction ID {Id}: ₹{Amount} ({Type})", updated.Id, updated.Amount, updated.Type);
+
+        return new TransactionResponseDto(
+            updated.Id,
+            updated.CustomerId,
+            updated.Amount,
+            updated.Type,
+            updated.Note,
+            updated.Date
+        );
+    }
+
     public async Task DeleteTransactionAsync(int id)
     {
         var tx = await _transactionRepository.GetByIdAsync(id);

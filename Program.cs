@@ -68,12 +68,15 @@ builder.Services.AddMemoryCache();
 // 4. Dependency Injection: Register Repositories (DIP / Clean Architecture)
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<ISettingsRepository, SettingsRepository>();
 
 // 5. Dependency Injection: Register Business & Notification Services (SRP / ISP)
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IWhatsAppReminderService, WhatsAppReminderService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<ISettingsService, SettingsService>();
+builder.Services.AddScoped<IReportsService, ReportsService>();
 
 // 6. Configure CORS — Restricted to known origins (FIXED: no longer AllowAnyOrigin)
 var allowedOrigins = builder.Configuration.GetSection("AllowedCorsOrigins").Get<string[]>()
@@ -202,6 +205,33 @@ using (var scope = app.Services.CreateScope())
     {
         var context = services.GetRequiredService<KhataDbContext>();
         context.Database.EnsureCreated();
+
+        // Safe schema evolution for existing SQLite databases without wiping data
+        context.Database.ExecuteSqlRaw(@"
+            CREATE TABLE IF NOT EXISTS ""Settings"" (
+                ""Id"" INTEGER NOT NULL CONSTRAINT ""PK_Settings"" PRIMARY KEY AUTOINCREMENT,
+                ""StoreName"" TEXT NOT NULL,
+                ""OwnerName"" TEXT NULL,
+                ""Phone"" TEXT NULL,
+                ""UpiId"" TEXT NULL,
+                ""Currency"" TEXT NULL,
+                ""DefaultReminderTemplate"" TEXT NULL,
+                ""ReceiptFooter"" TEXT NULL,
+                ""UpdatedAt"" TEXT NOT NULL
+            );
+        ");
+
+        try
+        {
+            context.Database.ExecuteSqlRaw(@"ALTER TABLE ""Customers"" ADD COLUMN ""Address"" TEXT NULL;");
+        }
+        catch { /* Column already exists */ }
+
+        try
+        {
+            context.Database.ExecuteSqlRaw(@"ALTER TABLE ""Transactions"" ADD COLUMN ""CreatedAt"" TEXT NULL;");
+        }
+        catch { /* Column already exists */ }
 
         // High-Performance SQLite Configuration for 100k Users (Concurrent Reads, In-Memory Temp Store, 64MB Cache)
         context.Database.ExecuteSqlRaw("PRAGMA journal_mode = WAL;");

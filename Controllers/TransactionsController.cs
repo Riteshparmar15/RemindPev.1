@@ -61,6 +61,25 @@ public class TransactionsController : ControllerBase
     }
 
     /// <summary>
+    /// PUT /api/transactions/{id}
+    /// Updates an existing transaction entry (Amount, Type, Note, Date).
+    /// </summary>
+    [HttpPut("{id:int}")]
+    [ProducesResponseType(typeof(TransactionResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<TransactionResponseDto>> UpdateTransaction(int id, [FromBody] UpdateTransactionDto dto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var updated = await _transactionService.UpdateTransactionAsync(id, dto);
+        return Ok(updated);
+    }
+
+    /// <summary>
     /// DELETE /api/transactions/{id}
     /// Deletes a specific transaction from the ledger.
     /// </summary>

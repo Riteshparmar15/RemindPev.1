@@ -117,6 +117,15 @@ public class CustomerRepository : ICustomerRepository
             .Where(t => t.Type == "Debit")
             .SumAsync(t => (decimal?)t.Amount) ?? 0m;
 
+        var todayUtc = DateTime.UtcNow.Date;
+        var creditToday = await _context.Transactions
+            .Where(t => t.Type == "Credit" && t.Date >= todayUtc)
+            .SumAsync(t => (decimal?)t.Amount) ?? 0m;
+
+        var paymentsToday = await _context.Transactions
+            .Where(t => t.Type == "Debit" && t.Date >= todayUtc)
+            .SumAsync(t => (decimal?)t.Amount) ?? 0m;
+
         // Perform balance projection at database level to avoid loading millions of entity objects into RAM
         var balances = await _context.Customers
             .AsNoTracking()
@@ -125,7 +134,10 @@ public class CustomerRepository : ICustomerRepository
             .ToListAsync();
 
         decimal totalReceivable = 0m;
+        decimal totalAdvance = 0m;
         int pendingCustomersCount = 0;
+        int settledCustomersCount = 0;
+        int advanceCustomersCount = 0;
 
         foreach (var b in balances)
         {
@@ -134,13 +146,27 @@ public class CustomerRepository : ICustomerRepository
                 totalReceivable += b;
                 pendingCustomersCount++;
             }
+            else if (b < 0)
+            {
+                totalAdvance += Math.Abs(b);
+                advanceCustomersCount++;
+            }
+            else
+            {
+                settledCustomersCount++;
+            }
         }
 
         return new RemindPe.Models.DTOs.DashboardStatsDto(
             totalReceivable,
             totalReceived,
+            creditToday,
+            paymentsToday,
+            totalAdvance,
             totalCustomers,
             pendingCustomersCount,
+            settledCustomersCount,
+            advanceCustomersCount,
             totalTransactions
         );
     }

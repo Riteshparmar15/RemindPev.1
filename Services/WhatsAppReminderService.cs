@@ -26,17 +26,30 @@ public class WhatsAppReminderService : IWhatsAppReminderService
         var totalDebit = customer.Transactions.Where(t => t.Type == "Debit").Sum(t => t.Amount);
         var balance = totalCredit - totalDebit;
 
+        if (balance <= 0)
+        {
+            throw new ValidationException($"Customer '{customer.Name}' has no outstanding balance (Current Balance: ₹{balance:N2}). Reminder cannot be generated.");
+        }
+
         var indianCulture = new CultureInfo("en-IN");
-        var formattedBalance = "₹" + balance.ToString("N0", indianCulture);
+        var formattedBalance = balance % 1 == 0
+            ? "₹" + balance.ToString("N0", indianCulture)
+            : "₹" + balance.ToString("N2", indianCulture);
 
         var key = string.IsNullOrWhiteSpace(templateKey) ? "standard" : templateKey.ToLower();
         var message = BuildMessage(key, customer.Name, formattedBalance, customNote);
 
-        var cleanPhone = new string(customer.Phone.Where(char.IsDigit).ToArray());
-        if (cleanPhone.Length == 10)
+        var digits = new string(customer.Phone.Where(char.IsDigit).ToArray());
+        if (digits.StartsWith("91") && digits.Length == 12)
         {
-            cleanPhone = "91" + cleanPhone; // Auto-prefix India code if 10-digit standard mobile
+            digits = digits[2..];
         }
+        else if (digits.StartsWith("0") && digits.Length == 11)
+        {
+            digits = digits[1..];
+        }
+
+        var cleanPhone = "91" + digits;
 
         // WhatsApp Click to Chat URL standard: https://wa.me/[CountryCode][Phone]?text=[EncodedMessage]
         var encodedMessage = Uri.EscapeDataString(message);

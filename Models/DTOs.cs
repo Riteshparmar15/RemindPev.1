@@ -6,6 +6,7 @@ public record CustomerResponseDto(
     int Id,
     string Name,
     string Phone,
+    string? Address,
     DateTime CreatedAt,
     decimal TotalCredit,
     decimal TotalDebit,
@@ -18,6 +19,7 @@ public record CustomerDetailDto(
     int Id,
     string Name,
     string Phone,
+    string? Address,
     DateTime CreatedAt,
     decimal TotalCredit,
     decimal TotalDebit,
@@ -34,6 +36,9 @@ public record CreateCustomerDto(
     [RegularExpression(@"^[0-9+\s-]{10,15}$", ErrorMessage = "Please enter a valid 10-digit mobile number.")]
     string Phone,
 
+    [MaxLength(250)]
+    string? Address = null,
+
     [Range(0, 10000000, ErrorMessage = "Opening balance cannot be negative.")]
     decimal? OpeningBalance = null,
 
@@ -48,7 +53,10 @@ public record UpdateCustomerDto(
 
     [Required(ErrorMessage = "Phone number is required.")]
     [RegularExpression(@"^[0-9+\s-]{10,15}$", ErrorMessage = "Please enter a valid 10-digit mobile number.")]
-    string Phone
+    string Phone,
+
+    [MaxLength(250)]
+    string? Address = null
 );
 
 public record TransactionResponseDto(
@@ -88,6 +96,20 @@ public record CreateTransactionDto(
     DateTime? Date
 );
 
+public record UpdateTransactionDto(
+    [Range(0.01, 10000000, ErrorMessage = "Amount must be strictly greater than zero.")]
+    decimal Amount,
+
+    [Required]
+    [RegularExpression("^(Credit|Debit)$", ErrorMessage = "Type must be either 'Credit' or 'Debit'.")]
+    string Type,
+
+    [MaxLength(300)]
+    string? Note,
+
+    DateTime? Date
+);
+
 public record TransactionFilterDto(
     int? CustomerId = null,
     string? Type = null,
@@ -108,8 +130,13 @@ public record PagedResultDto<T>(
 public record DashboardStatsDto(
     decimal TotalReceivable,
     decimal TotalReceived,
+    decimal CreditToday,
+    decimal PaymentsToday,
+    decimal TotalAdvance,
     int TotalCustomers,
     int PendingCustomersCount,
+    int SettledCustomersCount,
+    int AdvanceCustomersCount,
     int TotalTransactions
 );
 
@@ -129,4 +156,52 @@ public record WhatsAppTemplateOptionDto(
     string Title,
     string Description,
     string Preview
+);
+
+public record MerchantSettingsDto(
+    string StoreName,
+    string OwnerName,
+    string Phone,
+    string UpiId,
+    string Currency,
+    string DefaultReminderTemplate,
+    string? ReceiptFooter
+);
+
+public record UpdateMerchantSettingsDto(
+    [Required(ErrorMessage = "Store name is required.")]
+    [MaxLength(120)]
+    string StoreName,
+
+    [MaxLength(120)]
+    string? OwnerName,
+
+    [MaxLength(20)]
+    string? Phone,
+
+    [MaxLength(100)]
+    string? UpiId,
+
+    [MaxLength(10)]
+    string? Currency,
+
+    [MaxLength(50)]
+    string? DefaultReminderTemplate,
+
+    [MaxLength(200)]
+    string? ReceiptFooter
+);
+
+public record LedgerReportSummaryDto(
+    DateTime StartDate,
+    DateTime EndDate,
+    decimal TotalCreditGiven,
+    decimal TotalPaymentsReceived,
+    decimal NetChange,
+    int TransactionCount,
+    int ActiveCustomersCount,
+    decimal TotalOutstandingReceivables,
+    int DebtorsCount,
+    int SettledCount,
+    int AdvanceCount
 );

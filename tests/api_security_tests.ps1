@@ -182,11 +182,44 @@ try {
     $custDetail = Invoke-RestMethod -Uri "$BaseUrl/api/customers/$($newCust.id)" -Headers $defaultHeaders
     Assert-Test "Net balance accurately computed" ($custDetail.netBalance -eq 1000)
 
-    # 7.6: Cross-customer transactions endpoint (GET /api/transactions)
+    # 7.6: Edit Transaction (PUT /api/transactions/{id})
+    $editTxBody = @{ amount = 600; type = "Debit"; note = "Corrected payment" } | ConvertTo-Json
+    $editedTx = Invoke-RestMethod -Uri "$BaseUrl/api/transactions/$($newTx.id)" -Method PUT -Body $editTxBody -ContentType "application/json" -Headers $defaultHeaders
+    Assert-Test "Transaction edited via PUT" ($editedTx.amount -eq 600 -and $editedTx.note -eq "Corrected payment")
+
+    $custDetailAfterEdit = Invoke-RestMethod -Uri "$BaseUrl/api/customers/$($newCust.id)" -Headers $defaultHeaders
+    Assert-Test "Customer balance updated after transaction edit" ($custDetailAfterEdit.netBalance -eq 900)
+
+    # 7.7: Cross-customer transactions endpoint (GET /api/transactions)
     $txList = Invoke-RestMethod -Uri "$BaseUrl/api/transactions?customerId=$($newCust.id)&page=1&pageSize=10" -Headers $defaultHeaders
     Assert-Test "GET /api/transactions returns paginated result" ($txList.totalCount -ge 2 -and $txList.items.Count -ge 2)
 
-    # 7.7: Delete Customer with cascade
+    # 7.8: Settings Endpoint (GET /api/settings and PUT /api/settings)
+    $settings = Invoke-RestMethod -Uri "$BaseUrl/api/settings" -Headers $defaultHeaders
+    Assert-Test "GET /api/settings returns valid merchant profile" ($settings.storeName.Length -gt 0 -and $settings.currency.Length -gt 0)
+
+    $updateSettingsBody = @{
+        storeName = "Apex Supermarket"
+        ownerName = "Ritesh Parmar"
+        phone = "9876543210"
+        upiId = "apex@oksbi"
+        currency = "INR"
+        defaultReminderTemplate = "hinglish"
+        receiptFooter = "Thank you for shopping with Apex Supermarket!"
+    } | ConvertTo-Json
+    $utf8Body = [System.Text.Encoding]::UTF8.GetBytes($updateSettingsBody)
+    $updatedSettings = Invoke-RestMethod -Uri "$BaseUrl/api/settings" -Method PUT -Body $utf8Body -ContentType "application/json; charset=utf-8" -Headers $defaultHeaders
+    Assert-Test "PUT /api/settings updates store name" ($updatedSettings.storeName -eq "Apex Supermarket" -and $updatedSettings.upiId -eq "apex@oksbi")
+
+    # 7.9: Reports Endpoint (GET /api/reports/summary)
+    $reportSummary = Invoke-RestMethod -Uri "$BaseUrl/api/reports/summary" -Headers $defaultHeaders
+    Assert-Test "GET /api/reports/summary returns verified ledger figures" ($reportSummary.transactionCount -ge 0 -and $reportSummary.totalCreditGiven -ge 0)
+
+    # 7.10: Dashboard Stats Endpoint (GET /api/dashboard/stats)
+    $dashStats = Invoke-RestMethod -Uri "$BaseUrl/api/dashboard/stats" -Headers $defaultHeaders
+    Assert-Test "GET /api/dashboard/stats returns real KPI counts" ($dashStats.totalCustomers -ge 1 -and $dashStats.totalReceivable -ge 0)
+
+    # 7.11: Delete Customer with cascade
     $delCustRes = Invoke-WebRequest -Uri "$BaseUrl/api/customers/$($newCust.id)" -Method DELETE -Headers $defaultHeaders -UseBasicParsing
     Assert-Test "Customer deleted with cascade" ($delCustRes.StatusCode -eq 204)
 

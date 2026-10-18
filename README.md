@@ -1,138 +1,133 @@
-# RemindPe - VyaparKhata & WhatsApp Reminders 📱💼
+# RemindPe - Digital Khata & Customer Payment Management SaaS 📱💼
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-2563eb?style=for-the-badge&logo=github)](https://riteshparmar15.github.io/Remindpe/)
-[![.NET 10.0](https://img.shields.io/badge/.NET-10.0-512bd4?style=for-the-badge&logo=dotnet)](https://dotnet.microsoft.com/)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v3-38bdf8?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+[![.NET 9](https://img.shields.io/badge/.NET-9.0-purple.svg)](https://dotnet.microsoft.com/)
+[![SQLite](https://img.shields.io/badge/SQLite-WAL%20Mode-blue.svg)](https://www.sqlite.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Tests](https://img.shields.io/badge/Tests-25%2F25%20xUnit%20%7C%2031%2F31%20Integration-success.svg)]()
 
-> 🚀 **Live Demo on GitHub Pages**: [https://riteshparmar15.github.io/Remindpe/](https://riteshparmar15.github.io/Remindpe/)
-> 
-> 📦 **GitHub Repository**: [https://github.com/Riteshparmar15/Remindpe](https://github.com/Riteshparmar15/Remindpe)
+**RemindPe** is a reliable, high-performance, mobile-first Digital Khata and Customer Payment Management SaaS tailored for Indian local merchants (Kirana & grocery stores, dairies, hardware & electrical shops, wholesalers, garment retailers, and local service providers).
 
-A lightweight, enterprise-grade micro-SaaS web application tailored for Indian small businesses and local merchants to manage customer credit (*udhar*), payment settlements (*jama*), and one-click WhatsApp payment reminders.
-
-Architected with **Clean Coding**, **SOLID Principles**, **Repository & Service Pattern**, and a **Mobile-First Professional UI**.
+"Manage customer udhar, record payments, track outstanding balances, and send payment reminders from one simple application."
 
 ---
 
-## 🏛️ SOLID Architecture Breakdown
+## 🚀 Key Features
 
-1. **Single Responsibility Principle (SRP)**:
-   - **Controllers**: Thin controllers strictly focused on HTTP routing, request binding, and returning status codes.
-   - **CustomerService**: Handles customer business logic, Indian phone number normalization, and net balance calculation.
-   - **TransactionService**: Manages transaction validation, credit/debit entries, customer existence checks, and deletion.
-   - **WhatsAppReminderService**: Dedicated service for reminder message generation, multi-template localization (Standard English, Polite Hinglish, Formal Store), and URL encoding.
-   - **DashboardService**: Aggregates business financial metrics (receivables, cash collected, active customer counts).
-   - **Repositories**: Abstract all direct EF Core SQLite database queries and persistence.
-
-2. **Open/Closed Principle (OCP)**:
-   - Reminder and notification systems are abstracted behind `IWhatsAppReminderService`. Swapping or adding SMS gateways, WhatsApp Cloud API, or Email providers can be done without modifying controllers or customer services.
-
-3. **Liskov Substitution Principle (LSP)**:
-   - Service and repository contracts (`ICustomerRepository`, `ITransactionService`, etc.) guarantee clear invariants and return types, easily substitutable with unit test mocks or alternative database engines.
-
-4. **Interface Segregation Principle (ISP)**:
-   - Granular interfaces (`ICustomerService`, `ITransactionService`, `IWhatsAppReminderService`, `IDashboardService`) ensure classes only depend on the methods they require.
-
-5. **Dependency Inversion Principle (DIP)**:
-   - High-level modules (Controllers and Services) depend entirely on abstractions/interfaces registered in ASP.NET Core's Dependency Injection container.
+- **Double-Entry Financial Math**:
+  - `Credit` (*Udhar* / Gave): Increases customer dues owed to merchant (+).
+  - `Debit` (*Jama* / Received): Decreases customer dues (-).
+  - `Net Balance = Total Credit - Total Debit`.
+  - Atomic opening balance creation (customer + ledger entry created in one database transaction).
+  - Transaction updates and balance recalculation (`PUT /api/transactions/{id}`).
+- **Strict Indian Mobile Validation**:
+  - Automatically normalizes inputs (e.g. `+91-9876543210`, `09876543210`) down to standard 10-digit format (`^[6-9]\d{9}$`).
+  - Enforces database and service-level uniqueness before persistence.
+- **WhatsApp Payment Reminders**:
+  - One-click click-to-chat links (`wa.me`) with localized templates (*Hinglish*, *Formal Store*, and *Standard*).
+  - Guards against sending reminders for settled or advance-balance accounts.
+- **Dynamic UPI QR Code Generation**:
+  - Instant on-screen payment QR code generation from validated merchant VPA and amount.
+- **Live Reports & Reconciliation**:
+  - Date-range financial summaries (`GET /api/reports/summary`) tracking total credit, total collections, net shift, debtors count, settled count, and advance accounts.
+  - Formula-injection-sanitized CSV exports (neutralizes `=,+,-,@` triggers).
+  - Clean printable statements & receipts.
+- **Merchant Business Settings**:
+  - Server-authoritative store profile (`GET /api/settings`, `PUT /api/settings`) for Store Name, Owner, Phone, UPI ID, Currency, and Receipt Footer.
+- **Security & Hardening**:
+  - `ApiKeyAuthMiddleware` protecting API endpoints.
+  - Restricted CORS policy, CSP headers, nosniff, SAMEORIGIN frame guards, and X-Correlation-ID tracing.
 
 ---
 
-## 📁 Project Architecture
+## 🏛️ Architecture & Clean Design
+
+```
+Presentation (Vanilla HTML5 / Tailwind CSS / QRious in wwwroot/index.html)
+   ↓
+API Controllers (Thin HTTP routes: Customers, Transactions, Reminders, Reports, Settings, Dashboard)
+   ↓
+Domain Services (Business validation, phone normalization, financial calculations, reminder formatting)
+   ↓
+Repositories (ICustomerRepository, ITransactionRepository, ISettingsRepository)
+   ↓
+Persistence (EF Core 9 + SQLite WAL Mode with 64MB Cache & Foreign Keys)
+```
+
+### Directory Structure
 
 ```
 RemindPe/
-├── Common/
-│   ├── ApiResponse.cs            # Standardized API response envelope
-│   └── Exceptions.cs             # Domain exceptions (NotFoundException, ValidationException)
-├── Controllers/
-│   ├── CustomersController.cs    # Thin REST controller for customer accounts
-│   ├── TransactionsController.cs # Thin REST controller for ledger entries
-│   └── RemindersController.cs    # Dedicated controller for WhatsApp reminders & templates
-├── Data/
-│   ├── KhataDbContext.cs         # EF Core DbContext with SQLite configurations
-│   └── DbInitializer.cs          # Seed data with authentic Indian merchant accounts
-├── Middleware/
-│   └── GlobalExceptionMiddleware.cs # Centralized exception handling
-├── Models/
-│   ├── Customer.cs               # Customer entity (Id, Name, Phone, CreatedAt)
-│   ├── Transaction.cs            # Transaction entity (Id, CustomerId, Amount, Type, Note, Date)
-│   └── DTOs.cs                   # Strongly-typed request/response records
-├── Repositories/
-│   ├── ICustomerRepository.cs    # Customer data access abstraction
-│   ├── CustomerRepository.cs     # Customer EF Core implementation
-│   ├── ITransactionRepository.cs # Transaction data access abstraction
-│   └── TransactionRepository.cs  # Transaction EF Core implementation
-├── Services/
-│   ├── ICustomerService.cs       # Customer business logic contract
-│   ├── CustomerService.cs        # Customer service implementation
-│   ├── ITransactionService.cs    # Transaction business logic contract
-│   ├── TransactionService.cs     # Transaction service implementation
-│   ├── IWhatsAppReminderService.cs # Reminder generation contract
-│   ├── WhatsAppReminderService.cs  # Reminder service implementation
-│   ├── IDashboardService.cs      # Metric aggregation contract
-│   └── DashboardService.cs       # Dashboard service implementation
+├── Common/                    # Standardized envelopes & domain exceptions
+├── Controllers/               # REST API controllers
+│   ├── CustomersController.cs
+│   ├── TransactionsController.cs
+│   ├── RemindersController.cs
+│   ├── ReportsController.cs
+│   ├── SettingsController.cs
+│   └── DashboardController.cs
+├── Data/                      # KhataDbContext & sample data seeder
+├── Middleware/                # Security headers, ApiKey auth, CorrelationId, Global exceptions
+├── Models/                    # Customer, Transaction, MerchantSettings, DTOs
+├── Repositories/              # Repositories & Data Access Interfaces
+├── Services/                  # Business logic services & interfaces
+├── tests/
+│   ├── RemindPe.Tests/        # xUnit test suite (25 automated unit tests)
+│   └── api_security_tests.ps1 # PowerShell integration test suite (31 checks)
 ├── wwwroot/
-│   └── index.html                # Professional Tailwind UI & Fetch API single-page dashboard
-├── Program.cs                    # DI setup, CORS, SQLite, Swagger, Static Files, Middleware
-├── appsettings.json              # Connection string: Data Source=khata.db
-├── khata.db                      # SQLite database file (auto-generated on first run)
+│   └── index.html             # Mobile-first single-page dashboard application
+├── Program.cs                 # ASP.NET Core Web API startup & SQLite WAL setup
+├── appsettings.json
 └── RemindPe.csproj
 ```
 
 ---
 
-## ⚡ How to Run
+## ⚡ Quick Start & Local Execution
 
 ### Prerequisites
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) or higher.
+- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 
-### Steps
+### 1. Run the Web Application
+```bash
+dotnet run --launch-profile http
+```
+- Web Application: [http://localhost:5033](http://localhost:5033)
+- Swagger API Docs: [http://localhost:5033/swagger](http://localhost:5033/swagger)
+- Health Check: [http://localhost:5033/health](http://localhost:5033/health)
 
-1. **Navigate to the project directory**:
-   ```bash
-   cd c:\Users\ritesh.parmar.TG\Documents\RP\Services\RemindPe
-   ```
+### 2. Run Automated Unit Tests (xUnit)
+```bash
+dotnet test tests/RemindPe.Tests/RemindPe.Tests.csproj
+```
 
-2. **Run the application**:
-   ```bash
-   dotnet run --launch-profile http
-   ```
-
-3. **Open the Web Application**:
-   Navigate to [http://localhost:5033](http://localhost:5033) in your browser.
-   - The frontend is served directly by Kestrel from `wwwroot/index.html`.
-
-4. **Explore the Swagger API Docs**:
-   Navigate to [http://localhost:5033/swagger](http://localhost:5033/swagger).
+### 3. Run Integration & Security Test Suite
+```powershell
+powershell -ExecutionPolicy Bypass -File tests/api_security_tests.ps1 -ApiKey remindpe-secure-api-key-2026
+```
 
 ---
 
-## 📡 API Endpoints
+## 📡 REST API Reference
 
-| HTTP Method | Endpoint | Description |
+| Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/customers` | Get all customers with calculated net balance (`TotalCredit - TotalDebit`) |
-| `GET` | `/api/customers/stats` | Get dashboard summary metrics (Total Udhar, Payments Received, etc.) |
-| `GET` | `/api/customers/{id}` | Get single customer with ledger history |
-| `POST` | `/api/customers` | Register a new customer (`Name`, `Phone`) |
-| `DELETE` | `/api/customers/{id}` | Delete customer and their transaction history |
-| `GET` | `/api/customers/{id}/transactions` | Get chronological transaction history for a customer |
-| `POST` | `/api/transactions` | Add a new `Credit` (Udhar) or `Debit` (Payment) entry |
-| `DELETE` | `/api/transactions/{id}` | Delete a specific transaction and recompute balances |
-| `GET` | `/api/reminders/whatsapp/{customerId}` | Generate customized WhatsApp reminder with `wa.me` URL |
-| `GET` | `/api/reminders/whatsapp/templates` | Retrieve available message templates |
+| `GET` | `/api/dashboard/stats` | Aggregated receivables, today's credit/collections, customer counts |
+| `GET` | `/api/customers` | Paginated customer list with calculated net balances and search |
+| `POST` | `/api/customers` | Register customer with optional atomic opening balance |
+| `GET` | `/api/customers/{id}` | Customer detail with chronological transaction history |
+| `PUT` | `/api/customers/{id}` | Update customer name or phone number |
+| `DELETE` | `/api/customers/{id}` | Cascade delete customer and transaction records |
+| `GET` | `/api/transactions` | Cross-customer transaction audit ledger |
+| `POST` | `/api/transactions` | Record new `Credit` (Udhar) or `Debit` (Jama) entry |
+| `PUT` | `/api/transactions/{id}` | Update existing transaction and recalculate balances |
+| `DELETE` | `/api/transactions/{id}` | Delete transaction entry |
+| `GET` | `/api/reminders/whatsapp/{id}` | Generate localized WhatsApp reminder link (`wa.me`) |
+| `GET` | `/api/reports/summary` | Live date-range ledger aggregation & reconciliation summary |
+| `GET` | `/api/settings` | Get merchant profile, UPI ID, and store preferences |
+| `PUT` | `/api/settings` | Update merchant profile and store preferences |
 
 ---
 
-## 💬 WhatsApp Reminder Message Format
+## 📄 License
 
-The application generates standard `wa.me` links with customizable templates:
-```
-https://wa.me/91[Phone]?text=Hello%20[Name],%20your%20pending%20balance%20is%20%E2%82%B9[Balance].%20Please%20clear%20it%20soon.
-```
-- **Templates Available**:
-  1. **Standard English**: `Hello [Name], your pending balance is ₹[Balance]. Please clear it soon.`
-  2. **Polite Hinglish**: `Namaste [Name] ji, aapka VyaparKhata mein pending balance ₹[Balance] hai. Kripya samay par bhuqtan karein. Dhanyawad!`
-  3. **Formal Store Notice**: `Dear [Name], gentle reminder from our store regarding your outstanding balance of ₹[Balance]. Kindly settle at the earliest. Thank you.`
+This project is licensed under the MIT License.

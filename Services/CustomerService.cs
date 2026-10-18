@@ -30,6 +30,7 @@ public class CustomerService : ICustomerService
                 c.Id,
                 c.Name,
                 c.Phone,
+                c.Address,
                 c.CreatedAt,
                 credit,
                 debit,
@@ -70,6 +71,7 @@ public class CustomerService : ICustomerService
             customer.Id,
             customer.Name,
             customer.Phone,
+            customer.Address,
             customer.CreatedAt,
             totalCredit,
             totalDebit,
@@ -97,6 +99,7 @@ public class CustomerService : ICustomerService
         {
             Name = dto.Name.Trim(),
             Phone = normalizedPhone,
+            Address = string.IsNullOrWhiteSpace(dto.Address) ? null : dto.Address.Trim(),
             CreatedAt = DateTime.UtcNow
         };
 
@@ -135,6 +138,7 @@ public class CustomerService : ICustomerService
             created.Id,
             created.Name,
             created.Phone,
+            created.Address,
             created.CreatedAt,
             credit,
             debit,
@@ -167,6 +171,7 @@ public class CustomerService : ICustomerService
 
         customer.Name = dto.Name.Trim();
         customer.Phone = normalizedPhone;
+        customer.Address = string.IsNullOrWhiteSpace(dto.Address) ? null : dto.Address.Trim();
 
         await _customerRepository.UpdateAsync(customer);
         _logger.LogInformation("Customer updated: {Name} (ID: {Id})", customer.Name, customer.Id);
@@ -179,6 +184,7 @@ public class CustomerService : ICustomerService
             customer.Id,
             customer.Name,
             customer.Phone,
+            customer.Address,
             customer.CreatedAt,
             credit,
             debit,
@@ -200,14 +206,23 @@ public class CustomerService : ICustomerService
         _logger.LogInformation("Customer deleted: ID {Id}", id);
     }
 
-    private static string NormalizeIndianPhoneNumber(string phone)
+    public static string NormalizeIndianPhoneNumber(string phone)
     {
-        var digitsOnly = new string(phone.Where(char.IsDigit).ToArray());
-        if (digitsOnly.Length < 7 || digitsOnly.Length > 16)
+        var digits = new string(phone.Where(char.IsDigit).ToArray());
+        if (digits.StartsWith("91") && digits.Length == 12)
         {
-            throw new ValidationException("Phone number must contain between 7 and 15 digits.");
+            digits = digits[2..];
+        }
+        else if (digits.StartsWith("0") && digits.Length == 11)
+        {
+            digits = digits[1..];
         }
 
-        return digitsOnly;
+        if (digits.Length != 10)
+        {
+            throw new ValidationException("Please enter a valid 10-digit mobile number.");
+        }
+
+        return digits;
     }
 }

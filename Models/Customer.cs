@@ -14,6 +14,9 @@ public class Customer
     [MaxLength(20)]
     public string Phone { get; set; } = string.Empty;
 
+    [MaxLength(250)]
+    public string? Address { get; set; }
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     // Navigation property

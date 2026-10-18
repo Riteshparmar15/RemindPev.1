@@ -14,5 +14,6 @@ public interface ITransactionRepository
         int page = 1,
         int pageSize = 50);
     Task<Transaction> AddAsync(Transaction transaction);
+    Task<Transaction> UpdateAsync(Transaction transaction);
     Task DeleteAsync(Transaction transaction);
 }

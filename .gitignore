@@ -1,33 +1,38 @@
-## Build and binary directories
+## .NET Core / C#
 bin/
 obj/
-[Bb]in/
-[Oo]bj/
-
-## Visual Studio & VS Code cache/options
-.vs/
-.vscode/
-.idea/
-.gemini/
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
 
-## Database & Local State
+## Visual Studio & VS Code
+.vs/
+.vscode/
+.idea/
+*.swp
+*~
+
+## Database & Local Data
 *.db
 *.db-shm
 *.db-wal
-khata.db
+khata.db*
 backups/
 
-## Node.js & Testing
+## Node / NPM
 node_modules/
-playwright-report/
-test-results/
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-## OS generated files
+## Test & Reports
+TestResults/
+test-results/
+playwright-report/
+.playwright/
+
+## OS generated
 Thumbs.db
 ehthumbs.db
 Desktop.ini
