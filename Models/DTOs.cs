@@ -205,3 +205,54 @@ public record LedgerReportSummaryDto(
     int SettledCount,
     int AdvanceCount
 );
+
+public record SendOtpRequestDto(
+    [Required(ErrorMessage = "Phone number is required.")]
+    [RegularExpression(@"^[0-9+\s-]{10,15}$", ErrorMessage = "Please enter a valid 10-digit mobile number.")]
+    string Phone
+);
+
+public record SendOtpResponseDto(
+    bool Success,
+    string Message,
+    string? TestOtp = null
+);
+
+public record VerifyOtpRequestDto(
+    [Required(ErrorMessage = "Phone number is required.")]
+    string Phone,
+
+    [Required(ErrorMessage = "OTP is required.")]
+    string Otp,
+
+    string? StoreName = null,
+    string? OwnerName = null
+);
+
+public record GoogleAuthRequestDto(
+    string? Credential,
+    [Required(ErrorMessage = "Email is required.")]
+    [EmailAddress(ErrorMessage = "Valid email is required.")]
+    string Email,
+    string? Name = null,
+    string? AvatarUrl = null,
+    string? StoreName = null
+);
+
+public record AuthResponseDto(
+    bool Success,
+    string Token,
+    AuthUserDto User,
+    string Message
+);
+
+public record AuthUserDto(
+    string Id,
+    string Name,
+    string? Phone,
+    string? Email,
+    string StoreName,
+    string UpiId,
+    string Role,
+    DateTime LoginTime
+);
