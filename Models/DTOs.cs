@@ -215,7 +215,8 @@ public record SendOtpRequestDto(
 public record SendOtpResponseDto(
     bool Success,
     string Message,
-    string? TestOtp = null
+    string? TestOtp = null,
+    string? WhatsAppUrl = null
 );
 
 public record VerifyOtpRequestDto(
