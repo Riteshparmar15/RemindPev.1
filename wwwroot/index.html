@@ -203,6 +203,23 @@
 <body
   class="h-full flex overflow-hidden bg-slate-50 text-slate-800 font-sans antialiased selection:bg-indigo-600 selection:text-white">
 
+  <!-- ================= PRODUCT HUNT LAUNCH CELEBRATION TOP BANNER ================= -->
+  <div id="productHuntLaunchBanner" class="bg-gradient-to-r from-orange-500 via-amber-500 to-indigo-600 text-white text-xs font-semibold py-2 px-3 sm:px-4 shadow-sm flex items-center justify-between z-40 relative no-print select-none">
+    <div class="flex items-center space-x-2 mx-auto">
+      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-white/20 backdrop-blur-xs tracking-wider">
+        <i class="fa-solid fa-cat mr-1 text-orange-200"></i>Product Hunt Live
+      </span>
+      <span class="hidden sm:inline">🚀 We're live on Product Hunt! Support RemindPe & claim <strong>Free Lifetime Pro Access</strong></span>
+      <span class="sm:hidden">🚀 Live on Product Hunt! Claim Free Pro Access</span>
+      <button onclick="openProductHuntModal()" class="ml-2 px-2.5 py-0.5 rounded-lg bg-white text-orange-600 hover:bg-orange-50 font-bold text-[11px] transition shadow-2xs cursor-pointer">
+        Support & Review ★
+      </button>
+    </div>
+    <button onclick="dismissProductHuntBanner()" class="text-white/80 hover:text-white p-1 text-xs cursor-pointer ml-2" title="Dismiss Banner">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
   <!-- ================= 0. REAL-WORLD AUTH LOGIN / SIGN-IN SCREEN ================= -->
   <div id="authLoginScreen" class="hidden fixed inset-0 z-50 bg-slate-50 overflow-y-auto flex flex-col lg:flex-row transition-opacity duration-300">
     
@@ -212,14 +229,22 @@
       <div class="absolute -top-24 -left-24 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
       <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      <!-- Top Brand -->
+      <!-- Top Brand with Modern Fintech Vector SVG Logo -->
       <div class="relative z-10 flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-lg shadow-md shadow-indigo-600/30">
-          <i class="fa-solid fa-book-bookmark"></i>
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-emerald-500 p-0.5 shadow-lg shadow-indigo-600/30 flex items-center justify-center">
+          <svg class="w-full h-full rounded-[10px]" viewBox="0 0 128 128" fill="none">
+            <rect width="128" height="128" rx="30" fill="#0b0f19"/>
+            <path d="M44 38 L78 38" stroke="#818cf8" stroke-width="8" stroke-linecap="round"/>
+            <path d="M44 50 L74 50" stroke="#818cf8" stroke-width="8" stroke-linecap="round"/>
+            <path d="M56 38 C72 38 72 62 56 62 L46 62" stroke="#818cf8" stroke-width="8" stroke-linecap="round"/>
+            <path d="M50 62 L74 96" stroke="#34d399" stroke-width="8" stroke-linecap="round"/>
+            <circle cx="86" cy="88" r="9" fill="#10b981"/>
+            <path d="M82 88 L85 91 L90 85" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
         <div>
           <span class="text-xl font-extrabold tracking-tight text-white">Remind<span class="text-indigo-400">Pe</span></span>
-          <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 bg-slate-800 text-indigo-300 rounded border border-slate-700 ml-1.5">Enterprise Cloud</span>
+          <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 bg-slate-800 text-indigo-300 rounded border border-slate-700 ml-1.5">Enterprise Cloud 2.0</span>
         </div>
       </div>
 
@@ -228,7 +253,7 @@
         <div>
           <span class="px-3 py-1 rounded-full text-xs font-bold bg-slate-800 text-indigo-300 border border-slate-700/80 inline-flex items-center space-x-2">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Digital Bahi-Khata & Payment Cloud</span>
+            <span>Digital Bahi-Khata & Payment Recovery Cloud</span>
           </span>
           <h1 class="text-3xl xl:text-4xl font-extrabold text-white tracking-tight leading-tight mt-4">
             Transform customer credit into predictable cash flow.
@@ -245,8 +270,8 @@
               <i class="fa-brands fa-whatsapp text-base"></i>
             </div>
             <div>
-              <h3 class="text-sm font-bold text-slate-200">Instant WhatsApp Reminders</h3>
-              <p class="text-xs text-slate-400 mt-0.5">Automated UPI payment links pre-formatted with balance & store QR.</p>
+              <h3 class="text-sm font-bold text-slate-200">Smart WhatsApp Recovery Studio</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Automated UPI payment links pre-formatted with balance & live store QR.</p>
             </div>
           </div>
 
@@ -262,11 +287,11 @@
 
           <div class="flex items-start space-x-3.5">
             <div class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center text-sm flex-shrink-0 mt-0.5 border border-purple-500/20">
-              <i class="fa-solid fa-shield-halved"></i>
+              <i class="fa-solid fa-bolt"></i>
             </div>
             <div>
-              <h3 class="text-sm font-bold text-slate-200">Bank-Grade Encryption</h3>
-              <p class="text-xs text-slate-400 mt-0.5">Zero customer data sharing, automatic encrypted backups, and isolated store tenancy.</p>
+              <h3 class="text-sm font-bold text-slate-200">Command Palette (Ctrl + K) & Zero-Lag UX</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Search customers, record transactions, and trigger payments at the speed of thought.</p>
             </div>
           </div>
         </div>
@@ -287,14 +312,22 @@
       <!-- Top header on mobile/tablet -->
       <div class="flex items-center justify-between pb-6">
         <div class="flex items-center space-x-2.5">
-          <div class="w-8 h-8 rounded-xl bg-slate-900 text-white flex items-center justify-center text-xs font-bold shadow-xs">
-            <i class="fa-solid fa-book-bookmark"></i>
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-600 to-emerald-500 p-0.5 shadow-sm flex items-center justify-center">
+            <svg class="w-full h-full rounded-[8px]" viewBox="0 0 128 128" fill="none">
+              <rect width="128" height="128" rx="28" fill="#0b0f19"/>
+              <path d="M44 38 L78 38" stroke="#818cf8" stroke-width="9" stroke-linecap="round"/>
+              <path d="M44 50 L74 50" stroke="#818cf8" stroke-width="9" stroke-linecap="round"/>
+              <path d="M56 38 C72 38 72 62 56 62 L46 62" stroke="#818cf8" stroke-width="9" stroke-linecap="round"/>
+              <path d="M50 62 L74 96" stroke="#34d399" stroke-width="9" stroke-linecap="round"/>
+              <circle cx="86" cy="88" r="9" fill="#10b981"/>
+            </svg>
           </div>
           <span class="text-lg font-black tracking-tight text-slate-900">Remind<span class="text-indigo-600">Pe</span></span>
         </div>
-        <button onclick="exploreGuestMode()" class="text-xs font-semibold text-slate-600 hover:text-slate-900 bg-white border border-slate-200 px-3 py-1.5 rounded-xl transition shadow-2xs hover:bg-slate-50 cursor-pointer">
-          <span>Explore Demo as Guest</span>
-          <i class="fa-solid fa-arrow-right text-[10px] ml-1"></i>
+        <button onclick="launchProductHuntSandbox()" class="text-xs font-bold text-indigo-700 hover:text-indigo-900 bg-indigo-50 border border-indigo-200 px-3 py-1.5 rounded-xl transition shadow-2xs hover:bg-indigo-100 cursor-pointer flex items-center space-x-1.5">
+          <i class="fa-solid fa-bolt text-amber-500 text-[10px]"></i>
+          <span>1-Click Sandbox Demo</span>
+          <i class="fa-solid fa-arrow-right text-[9px]"></i>
         </button>
       </div>
 
@@ -302,7 +335,7 @@
       <div class="my-auto py-6 sm:py-8 w-full max-w-md mx-auto">
         
         <!-- STEP 1: Phone / Google Real-Time Sign-In -->
-        <div id="loginScreenStepPhone" class="space-y-5">
+        <div id="loginScreenStepPhone" class="space-y-4">
           <div>
             <div class="inline-flex items-center space-x-2 px-2.5 py-1 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200/60 mb-2">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -310,6 +343,25 @@
             </div>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Sign in to your store</h2>
             <p class="text-xs sm:text-sm text-slate-500 mt-1">Receive an instant real-time security code on your Mobile (WhatsApp) or Google Email without SMS delays.</p>
+          </div>
+
+          <!-- Product Hunt Live Interactive Sandbox Card -->
+          <div class="p-3.5 bg-gradient-to-r from-indigo-50 via-purple-50 to-emerald-50 rounded-2xl border border-indigo-200/90 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-extrabold text-indigo-950 flex items-center space-x-1.5">
+                <i class="fa-solid fa-cat text-orange-500 text-sm"></i>
+                <span>Product Hunt Live Sandbox</span>
+              </span>
+              <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700">No Login Needed</span>
+            </div>
+            <p class="text-[11px] text-slate-600 leading-tight">
+              Evaluating RemindPe from anywhere in the world? Jump into the pre-configured live interactive sandbox with realistic store data & WhatsApp tester!
+            </p>
+            <button type="button" onclick="launchProductHuntSandbox()"
+              class="w-full py-2.5 px-3 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white rounded-xl text-xs font-bold shadow-md shadow-indigo-600/25 active:scale-95 transition flex items-center justify-center space-x-2 cursor-pointer">
+              <i class="fa-solid fa-bolt text-amber-300 text-xs"></i>
+              <span>⚡ Launch Live Interactive Sandbox</span>
+            </button>
           </div>
 
           <!-- Auth Mode Segmented Tabs -->
@@ -546,16 +598,23 @@
     <!-- Sidebar Header: Brand & Workspace with Collapse Button -->
     <div class="h-16 flex items-center justify-between px-5 border-b border-slate-800/80">
       <div class="flex items-center space-x-3 cursor-pointer min-w-0" onclick="switchMainView('overview')">
-        <div
-          class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md flex-shrink-0">
-          <i class="fa-solid fa-book-bookmark text-sm"></i>
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-emerald-500 p-0.5 shadow-md shadow-indigo-600/30 flex items-center justify-center flex-shrink-0">
+          <svg class="w-full h-full rounded-[9px]" viewBox="0 0 128 128" fill="none">
+            <rect width="128" height="128" rx="28" fill="#0b0f19"/>
+            <path d="M44 38 L78 38" stroke="#818cf8" stroke-width="8" stroke-linecap="round"/>
+            <path d="M44 50 L74 50" stroke="#818cf8" stroke-width="8" stroke-linecap="round"/>
+            <path d="M56 38 C72 38 72 62 56 62 L46 62" stroke="#818cf8" stroke-width="8" stroke-linecap="round"/>
+            <path d="M50 62 L74 96" stroke="#34d399" stroke-width="8" stroke-linecap="round"/>
+            <circle cx="86" cy="88" r="9" fill="#10b981"/>
+            <path d="M82 88 L85 91 L90 85" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
         <div class="min-w-0">
           <div class="flex items-center space-x-1.5">
             <span id="sidebarBrandName" class="text-base font-extrabold tracking-tight text-white truncate">Remind<span
                 class="text-indigo-400">Pe</span></span>
             <span
-              class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 bg-slate-800 text-indigo-300 rounded border border-slate-700">SaaS</span>
+              class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 bg-slate-800 text-indigo-300 rounded border border-slate-700">Cloud</span>
           </div>
           <p id="sidebarStoreSubtitle" class="text-[10px] text-slate-400 font-medium truncate">Vyapar Credit Cloud</p>
         </div>
@@ -668,9 +727,15 @@
         <!-- Brand Logo & Name of Service -->
         <div id="topbarBrandLogo" class="flex items-center space-x-2.5 cursor-pointer min-w-0"
           onclick="switchMainView('overview')" title="RemindPe - Digital Khata">
-          <div
-            class="w-8 h-8 rounded-xl bg-slate-900 flex items-center justify-center text-white shadow-xs flex-shrink-0">
-            <i class="fa-solid fa-book-bookmark text-xs"></i>
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-600 to-emerald-500 p-0.5 shadow-xs flex items-center justify-center flex-shrink-0">
+            <svg class="w-full h-full rounded-[8px]" viewBox="0 0 128 128" fill="none">
+              <rect width="128" height="128" rx="28" fill="#0b0f19"/>
+              <path d="M44 38 L78 38" stroke="#818cf8" stroke-width="9" stroke-linecap="round"/>
+              <path d="M44 50 L74 50" stroke="#818cf8" stroke-width="9" stroke-linecap="round"/>
+              <path d="M56 38 C72 38 72 62 56 62 L46 62" stroke="#818cf8" stroke-width="9" stroke-linecap="round"/>
+              <path d="M50 62 L74 96" stroke="#34d399" stroke-width="9" stroke-linecap="round"/>
+              <circle cx="86" cy="88" r="9" fill="#10b981"/>
+            </svg>
           </div>
           <span class="text-base sm:text-lg font-black tracking-tight text-slate-900 truncate">Remind<span
               class="text-indigo-600">Pe</span></span>
@@ -680,10 +745,28 @@
         <span id="topbarPageTitle"
           class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 hidden sm:inline truncate">Dashboard
           Overview</span>
+
+        <!-- Command Palette Trigger Button (Ctrl+K) -->
+        <button onclick="openCommandPalette()"
+          class="hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-slate-500 hover:text-slate-800 text-xs font-medium border border-slate-200 transition cursor-pointer"
+          title="Open Command Palette (Ctrl+K / ⌘K)">
+          <i class="fa-solid fa-magnifying-glass text-[11px] text-slate-400"></i>
+          <span>Search or jump to...</span>
+          <kbd class="font-mono text-[10px] bg-white px-1.5 py-0.5 rounded border border-slate-300 text-slate-600 shadow-2xs">Ctrl+K</kbd>
+        </button>
       </div>
 
-      <!-- Clean Right Area: Account Profile & Sign In -->
+      <!-- Clean Right Area: Product Hunt Perk & Account Profile & Sign In -->
       <div class="flex items-center space-x-2" id="topbarAuthContainer">
+        <!-- Product Hunt Support Pill -->
+        <button onclick="openProductHuntModal()"
+          class="inline-flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 text-xs font-bold transition shadow-2xs cursor-pointer"
+          title="Product Hunt Review & Free Lifetime Perks">
+          <i class="fa-solid fa-cat text-orange-500 text-xs"></i>
+          <span class="hidden sm:inline">Product Hunt</span>
+          <span>★</span>
+        </button>
+
         <div id="topbarUserPill" class="hidden items-center space-x-2 px-2.5 py-1 rounded-xl bg-slate-100 border border-slate-200 text-xs text-slate-700">
           <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
           <span id="topbarUserName" class="font-bold truncate max-w-[120px] sm:max-w-[180px]">Store Admin</span>
@@ -837,6 +920,80 @@
             </div>
           </div>
 
+        </div>
+
+        <!-- Product Hunt Special: Cash Flow Aging Debt Intelligence -->
+        <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-subtle space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-indigo-600 animate-pulse"></span>
+                <h3 class="text-sm sm:text-base font-bold text-slate-900">Cash Flow Aging & Overdue Recovery Buckets</h3>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">उधारी समय-सीमा</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-0.5">Real-time debtor aging breakdown: identify high-risk receivables before they turn into bad debt.</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button onclick="switchMainView('reminders')" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition flex items-center space-x-1.5 cursor-pointer">
+                <i class="fa-brands fa-whatsapp text-sm"></i>
+                <span>Automate Recovery</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3 Dynamic Aging Buckets -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <!-- Bucket 1: 0 to 15 Days (Current / Fresh) -->
+            <div onclick="switchMainView('customers'); filterBy('pending')"
+              class="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200/80 hover:border-emerald-300 transition cursor-pointer space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-emerald-800 flex items-center space-x-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  <span>Current (0 - 15 Days)</span>
+                </span>
+                <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">Low Risk</span>
+              </div>
+              <div class="flex items-baseline justify-between">
+                <div id="agingCurrentAmount" class="font-mono text-xl sm:text-2xl font-black text-slate-900">₹0</div>
+                <span id="agingCurrentCount" class="text-xs font-semibold text-emerald-700">0 accounts</span>
+              </div>
+              <p class="text-[11px] text-emerald-700/80">Active credit customers paying on regular cycles.</p>
+            </div>
+
+            <!-- Bucket 2: 16 to 30 Days (Due Soon) -->
+            <div onclick="switchMainView('customers'); filterBy('pending')"
+              class="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/80 hover:border-amber-300 transition cursor-pointer space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-800 flex items-center space-x-1.5">
+                  <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                  <span>Due Soon (16 - 30 Days)</span>
+                </span>
+                <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Medium Risk</span>
+              </div>
+              <div class="flex items-baseline justify-between">
+                <div id="agingDueSoonAmount" class="font-mono text-xl sm:text-2xl font-black text-slate-900">₹0</div>
+                <span id="agingDueSoonCount" class="text-xs font-semibold text-amber-700">0 accounts</span>
+              </div>
+              <p class="text-[11px] text-amber-700/80">Approaching repayment deadline; send gentle reminder.</p>
+            </div>
+
+            <!-- Bucket 3: 30+ Days (Critical Overdue) -->
+            <div onclick="switchMainView('reminders')"
+              class="p-4 rounded-2xl bg-rose-50/60 border border-rose-200/80 hover:border-rose-300 transition cursor-pointer space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-rose-800 flex items-center space-x-1.5">
+                  <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                  <span>Critical Overdue (30+ Days)</span>
+                </span>
+                <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-rose-100 text-rose-700">High Risk</span>
+              </div>
+              <div class="flex items-baseline justify-between">
+                <div id="agingCriticalAmount" class="font-mono text-xl sm:text-2xl font-black text-rose-700">₹0</div>
+                <span id="agingCriticalCount" class="text-xs font-semibold text-rose-700">0 accounts</span>
+              </div>
+              <p class="text-[11px] text-rose-700/80">Exceeded standard credit term; priority recovery needed.</p>
+            </div>
+          </div>
         </div>
 
         <!-- Analytical Panels Grid: Recovery Progress & Merchant Action Center -->
@@ -1445,6 +1602,148 @@
               class="text-xs font-semibold text-rose-700 bg-rose-50 border border-rose-200 px-3 py-1.5 rounded-xl shadow-2xs">
               0 Pending Accounts
             </span>
+          </div>
+        </div>
+
+        <!-- Smart WhatsApp Recovery Studio (Interactive Smartphone Simulator) -->
+        <div class="bg-white rounded-3xl border border-slate-200/90 shadow-subtle p-5 sm:p-6 space-y-5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+            <div class="flex items-center space-x-2.5">
+              <div class="w-9 h-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-base shadow-sm">
+                <i class="fa-brands fa-whatsapp"></i>
+              </div>
+              <div>
+                <h3 class="text-sm sm:text-base font-bold text-slate-900">Interactive WhatsApp Recovery Studio</h3>
+                <p class="text-xs text-slate-500">Live preview how customers receive payment reminders with one-click UPI links.</p>
+              </div>
+            </div>
+            <!-- Quick Tone Selector -->
+            <div class="flex items-center space-x-1 p-1 bg-slate-100 rounded-xl border border-slate-200/80 text-xs font-bold self-start sm:self-auto">
+              <button type="button" onclick="setStudioTone('polite')" id="toneBtn_polite" class="px-2.5 py-1 rounded-lg bg-white text-slate-900 shadow-2xs transition">Polite</button>
+              <button type="button" onclick="setStudioTone('due')" id="toneBtn_due" class="px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition">Due Date</button>
+              <button type="button" onclick="setStudioTone('urgent')" id="toneBtn_urgent" class="px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition">Urgent</button>
+              <button type="button" onclick="setStudioTone('regional')" id="toneBtn_regional" class="px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition">Hindi / Guj</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            <!-- Left Config Form (7 cols) -->
+            <div class="lg:col-span-7 space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Select Debtor Account</label>
+                <select id="studioCustomerSelect" onchange="updateStudioPreview()" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800">
+                  <option value="">-- Choose customer to preview reminder --</option>
+                </select>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Pending Balance</label>
+                  <div class="flex items-center px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-mono font-bold text-rose-700">
+                    <span id="studioBalanceDisplay">₹0.00</span>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Target Phone Number</label>
+                  <div class="flex items-center px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-mono font-bold text-slate-700">
+                    <span id="studioPhoneDisplay">+91 --</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Message Customization</label>
+                <textarea id="studioCustomMessage" rows="3" oninput="updateStudioCustomText()" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-800" placeholder="Custom note or payment instructions..."></textarea>
+              </div>
+
+              <div class="flex items-center space-x-2 pt-2">
+                <button type="button" onclick="sendStudioWhatsApp()"
+                  class="flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md shadow-emerald-600/25 active:scale-95 transition flex items-center justify-center space-x-2 cursor-pointer">
+                  <i class="fa-brands fa-whatsapp text-base"></i>
+                  <span>Send Real-Time WhatsApp Message</span>
+                </button>
+                <button type="button" onclick="copyStudioWhatsAppText()"
+                  class="py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-1.5 cursor-pointer" title="Copy Message Text">
+                  <i class="fa-regular fa-copy"></i>
+                  <span>Copy</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: Realistic Smartphone Mockup (5 cols) -->
+            <div class="lg:col-span-5 flex justify-center">
+              <div class="w-full max-w-[320px] bg-slate-900 rounded-[38px] p-3 shadow-2xl border-4 border-slate-800 select-none relative">
+                <!-- Phone Top Speaker & Camera Notch -->
+                <div class="w-24 h-4 bg-slate-800 rounded-full mx-auto mb-2 flex items-center justify-center">
+                  <div class="w-2.5 h-2.5 rounded-full bg-slate-950 mr-1.5"></div>
+                  <div class="w-8 h-1 bg-slate-900 rounded-full"></div>
+                </div>
+
+                <!-- Phone Screen -->
+                <div class="bg-[#efeae2] rounded-[28px] overflow-hidden flex flex-col h-[380px] text-slate-800 border border-slate-700/50">
+                  <!-- WhatsApp Chat Header -->
+                  <div class="bg-[#075e54] text-white px-3 py-2 flex items-center justify-between text-xs flex-shrink-0">
+                    <div class="flex items-center space-x-2">
+                      <div class="w-7 h-7 rounded-full bg-emerald-400 text-slate-900 flex items-center justify-center font-bold text-[10px]" id="studioPhoneAvatar">
+                        K
+                      </div>
+                      <div class="min-w-0">
+                        <div class="font-bold text-xs truncate max-w-[140px]" id="studioPhoneRecipientName">Customer Account</div>
+                        <div class="text-[9px] text-emerald-200">Online</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-2 text-white/80 text-[11px]">
+                      <i class="fa-solid fa-phone"></i>
+                      <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </div>
+                  </div>
+
+                  <!-- WhatsApp Chat Message Body -->
+                  <div class="flex-1 p-3 overflow-y-auto space-y-2 text-[11px] leading-relaxed">
+                    <!-- Date Pill -->
+                    <div class="text-center">
+                      <span class="bg-white/80 text-slate-500 px-2 py-0.5 rounded-md text-[9px] shadow-2xs">TODAY</span>
+                    </div>
+
+                    <!-- Outgoing WhatsApp Chat Bubble -->
+                    <div class="bg-[#dcf8c6] p-2.5 rounded-2xl rounded-tr-none shadow-xs ml-4 space-y-1.5 border border-emerald-200/50">
+                      <p id="studioPhoneBubbleText" class="whitespace-pre-line text-slate-800 text-[11px]">
+                        Namaste! 🙏 This is a friendly reminder from Apex Trading regarding your pending balance of ₹1,500.00.
+                      </p>
+                      
+                      <!-- Embedded Mini UPI Deep Link Card -->
+                      <div class="p-2 bg-white/90 rounded-xl border border-emerald-300/80 flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
+                          ₹
+                        </div>
+                        <div class="min-w-0 flex-1">
+                          <div class="text-[10px] font-bold text-slate-900">1-Click UPI Payment</div>
+                          <div class="text-[9px] text-emerald-700 truncate" id="studioPhoneUpiText">merchant@upi</div>
+                        </div>
+                      </div>
+
+                      <div class="flex items-center justify-end space-x-1 text-[9px] text-slate-400 pt-0.5">
+                        <span id="studioPhoneTime">12:30 PM</span>
+                        <i class="fa-solid fa-check-double text-sky-500"></i>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Phone Input Bar Placeholder -->
+                  <div class="bg-[#f0f2f5] p-2 flex items-center space-x-2 border-t border-slate-200 flex-shrink-0">
+                    <div class="flex-1 bg-white rounded-full px-3 py-1 text-[10px] text-slate-400">
+                      Type a message
+                    </div>
+                    <div class="w-7 h-7 rounded-full bg-[#00a884] text-white flex items-center justify-center text-[10px]">
+                      <i class="fa-solid fa-microphone"></i>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Phone Bottom Bar Home Indicator -->
+                <div class="w-28 h-1 bg-slate-700 rounded-full mx-auto mt-2.5"></div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -2458,6 +2757,109 @@
 
     </div>
   </div>
+
+  <!-- ================= MODAL 7: COMMAND PALETTE (CTRL+K / CMD+K) ================= -->
+  <div id="commandPaletteModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-start justify-center p-3 sm:p-4 pt-16 sm:pt-24 select-none">
+    <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
+      <!-- Search Input Header -->
+      <div class="p-3.5 border-b border-slate-100 flex items-center space-x-3 bg-slate-50/50">
+        <i class="fa-solid fa-magnifying-glass text-slate-400 text-sm pl-1"></i>
+        <input type="text" id="commandPaletteInput" placeholder="Search customers, actions, navigation... (Esc to close)"
+          class="w-full bg-transparent text-sm sm:text-base font-semibold text-slate-900 placeholder-slate-400 focus:outline-none"
+          oninput="handleCommandPaletteSearch()" onkeydown="handleCommandPaletteKeydown(event)">
+        <kbd class="hidden sm:inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-slate-200 text-slate-600">ESC</kbd>
+        <button onclick="closeCommandPalette()" class="text-slate-400 hover:text-slate-600 sm:hidden">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Command Palette Results List -->
+      <div id="commandPaletteResults" class="max-h-[360px] overflow-y-auto p-2 divide-y divide-slate-100">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Command Palette Footer Tips -->
+      <div class="p-2.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400 select-none">
+        <div class="flex items-center space-x-3">
+          <span><kbd class="font-mono bg-white px-1.5 py-0.5 rounded border border-slate-200 text-slate-600 shadow-2xs">↑</kbd> <kbd class="font-mono bg-white px-1.5 py-0.5 rounded border border-slate-200 text-slate-600 shadow-2xs">↓</kbd> to navigate</span>
+          <span><kbd class="font-mono bg-white px-1.5 py-0.5 rounded border border-slate-200 text-slate-600 shadow-2xs">Enter</kbd> to select</span>
+        </div>
+        <span class="font-bold text-indigo-600">RemindPe Spotlight</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL 8: PRODUCT HUNT COMMUNITY & REVIEW MODAL ================= -->
+  <div id="productHuntModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 select-none">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-modal border border-slate-200 my-auto transform transition-all space-y-5">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-2xl bg-orange-500 text-white flex items-center justify-center text-lg shadow-md shadow-orange-500/25">
+            <i class="fa-solid fa-cat"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold text-slate-900">Product Hunt Launch & Perks</h3>
+            <p class="text-xs text-slate-500">Support our live launch & claim Lifetime Free Pro access</p>
+          </div>
+        </div>
+        <button onclick="closeProductHuntModal()" class="text-slate-400 hover:text-slate-600 p-1 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="p-4 bg-orange-50/70 rounded-2xl border border-orange-200/80 space-y-2">
+        <div class="flex items-center space-x-2 text-xs font-bold text-orange-950">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Exclusive Product Hunt Hunter Perk</span>
+        </div>
+        <p class="text-xs text-orange-900 leading-relaxed">
+          Thank you for reviewing RemindPe! By submitting your rating & feedback, you get lifetime free access to all automated WhatsApp templates, multi-store ledgers, and unlimited double-entry audit records.
+        </p>
+      </div>
+
+      <!-- Star Rating -->
+      <div class="space-y-1.5 text-center py-1">
+        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Rate Your Experience</label>
+        <div class="flex items-center justify-center space-x-2 text-2xl text-amber-400 cursor-pointer select-none" id="phStarContainer">
+          <i class="fa-solid fa-star transition hover:scale-110" onclick="setPhRating(1)"></i>
+          <i class="fa-solid fa-star transition hover:scale-110" onclick="setPhRating(2)"></i>
+          <i class="fa-solid fa-star transition hover:scale-110" onclick="setPhRating(3)"></i>
+          <i class="fa-solid fa-star transition hover:scale-110" onclick="setPhRating(4)"></i>
+          <i class="fa-solid fa-star transition hover:scale-110" onclick="setPhRating(5)"></i>
+        </div>
+        <p class="text-[11px] text-slate-500 font-semibold" id="phRatingText">5.0 / 5.0 - Excellent Product!</p>
+      </div>
+
+      <!-- Review Input -->
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Your Review / Hunter Feedback</label>
+        <textarea id="phReviewComment" rows="3" placeholder="What do you think of RemindPe's WhatsApp payment recovery and UPI ledger?..."
+          class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500">RemindPe is an absolute game-changer for digital bahi-khata and instant WhatsApp payment recovery. The real-time UPI link generation and clean UI make tracking receivables completely painless!</textarea>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center gap-2 pt-2">
+        <button type="button" onclick="submitPhFeedback()"
+          class="w-full py-3 px-4 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md shadow-orange-600/25 active:scale-95 transition flex items-center justify-center space-x-2 cursor-pointer">
+          <i class="fa-solid fa-heart text-xs"></i>
+          <span>Submit Review & Upvote on PH</span>
+        </button>
+        <button type="button" onclick="copyPhReview()"
+          class="w-full sm:w-auto py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-1.5 cursor-pointer" title="Copy Review">
+          <i class="fa-regular fa-copy"></i>
+          <span>Copy Review</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FLOATING PRODUCT HUNT QUICK PERK PILL ================= -->
+  <button id="floatingPhPill" onclick="openProductHuntModal()"
+    class="fixed bottom-5 right-5 z-40 bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-2.5 rounded-full shadow-xl border border-slate-700 text-xs font-bold flex items-center space-x-2 transition hover:scale-105 active:scale-95 cursor-pointer no-print select-none">
+    <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
+    <i class="fa-solid fa-cat text-orange-400 text-sm"></i>
+    <span class="hidden sm:inline">Product Hunt Launch</span>
+    <span class="text-amber-400 font-extrabold">★ 5.0</span>
+  </button>
 
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toastContainer"
@@ -3597,9 +3999,418 @@
       showToast('Signed out successfully. Please sign in to access your ledger.', 'info');
     }
 
+    // ==========================================
+    // PRODUCT HUNT LAUNCH & SANDBOX SUITE
+    // ==========================================
+    let currentPhRating = 5;
+
+    function launchProductHuntSandbox() {
+      sessionStorage.setItem('remindpe_guest_mode', 'true');
+      const phDemoUser = {
+        id: 'usr_ph_hunter',
+        name: 'Product Hunt Hunter',
+        phone: '+91 9876543210',
+        email: 'hunter@producthunt.com',
+        storeName: 'Apex Electronics & Retail',
+        upiId: 'apexstore@oksbi',
+        role: 'Verified Store Owner',
+        loginTime: new Date().toISOString()
+      };
+      setStoredAuthUser('remindpe_ph_token_' + Date.now(), phDemoUser);
+      hideLoginScreen();
+      updateAuthUI();
+      renderAgingDebtMetrics();
+      populateStudioCustomers();
+      showToast('⚡ Welcome to RemindPe Live Sandbox! Testing as Verified Merchant.', 'success');
+    }
+
+    function dismissProductHuntBanner() {
+      const banner = document.getElementById('productHuntLaunchBanner');
+      if (banner) banner.classList.add('hidden');
+      localStorage.setItem('remindpe_ph_banner_dismissed', 'true');
+    }
+
+    function checkPhBannerState() {
+      if (localStorage.getItem('remindpe_ph_banner_dismissed') === 'true') {
+        const banner = document.getElementById('productHuntLaunchBanner');
+        if (banner) banner.classList.add('hidden');
+      }
+    }
+
+    function openProductHuntModal() {
+      const modal = document.getElementById('productHuntModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeProductHuntModal() {
+      const modal = document.getElementById('productHuntModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function setPhRating(stars) {
+      currentPhRating = stars;
+      const container = document.getElementById('phStarContainer');
+      const text = document.getElementById('phRatingText');
+      if (container) {
+        const starIcons = container.querySelectorAll('i');
+        starIcons.forEach((star, idx) => {
+          if (idx < stars) {
+            star.className = 'fa-solid fa-star transition hover:scale-110 text-amber-400';
+          } else {
+            star.className = 'fa-regular fa-star transition hover:scale-110 text-slate-300';
+          }
+        });
+      }
+      const labels = {
+        1: '1.0 / 5.0 - Needs Improvement',
+        2: '2.0 / 5.0 - Fair Start',
+        3: '3.0 / 5.0 - Good Utility',
+        4: '4.0 / 5.0 - Very Impressive!',
+        5: '5.0 / 5.0 - Excellent Product of the Day!'
+      };
+      if (text) text.innerText = labels[stars] || `${stars}.0 / 5.0`;
+    }
+
+    function copyPhReview() {
+      const textarea = document.getElementById('phReviewComment');
+      const reviewText = textarea ? textarea.value.trim() : 'RemindPe is great!';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(reviewText);
+      }
+      showToast('Review copied! Ready to paste into Product Hunt.', 'success');
+    }
+
+    function submitPhFeedback() {
+      copyPhReview();
+      showToast('Thank you for supporting RemindPe on Product Hunt! Opening Product Hunt...', 'success');
+      setTimeout(() => {
+        closeProductHuntModal();
+        window.open('https://www.producthunt.com/', '_blank');
+      }, 1000);
+    }
+
+    // ==========================================
+    // GLOBAL COMMAND PALETTE (CTRL+K / CMD+K)
+    // ==========================================
+    let commandPaletteActiveIndex = 0;
+    let commandPaletteFilteredItems = [];
+
+    function setupCommandPaletteListener() {
+      window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          toggleCommandPalette();
+        } else if (e.key === 'Escape') {
+          closeCommandPalette();
+          closeProductHuntModal();
+        }
+      });
+    }
+
+    function toggleCommandPalette() {
+      const modal = document.getElementById('commandPaletteModal');
+      if (!modal) return;
+      if (modal.classList.contains('hidden')) {
+        openCommandPalette();
+      } else {
+        closeCommandPalette();
+      }
+    }
+
+    function openCommandPalette() {
+      const modal = document.getElementById('commandPaletteModal');
+      const input = document.getElementById('commandPaletteInput');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      if (input) {
+        input.value = '';
+        setTimeout(() => input.focus(), 80);
+      }
+      renderCommandPaletteResults('');
+    }
+
+    function closeCommandPalette() {
+      const modal = document.getElementById('commandPaletteModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function handleCommandPaletteSearch() {
+      const input = document.getElementById('commandPaletteInput');
+      const q = input ? input.value.trim().toLowerCase() : '';
+      renderCommandPaletteResults(q);
+    }
+
+    function renderCommandPaletteResults(query = '') {
+      const container = document.getElementById('commandPaletteResults');
+      if (!container) return;
+
+      const actions = [
+        { id: 'view_overview', title: 'Dashboard Overview', desc: 'Jump to financial statistics & KPIs', icon: 'fa-chart-pie', category: 'Navigation', action: () => switchMainView('overview') },
+        { id: 'view_customers', title: 'Customer Ledgers', desc: 'View all bahi-khata accounts & debtors', icon: 'fa-users', category: 'Navigation', action: () => switchMainView('customers') },
+        { id: 'view_transactions', title: 'Audit Ledger', desc: 'View all chronological credit/debit records', icon: 'fa-receipt', category: 'Navigation', action: () => switchMainView('transactions') },
+        { id: 'view_reminders', title: 'WhatsApp Reminders Studio', desc: 'Launch automated collection recovery center', icon: 'fa-brands fa-whatsapp text-emerald-600', category: 'Navigation', action: () => switchMainView('reminders') },
+        { id: 'view_reports', title: 'Reports & Financial Statements', desc: 'View statement totals & export CSV/PDF', icon: 'fa-chart-line', category: 'Navigation', action: () => switchMainView('reports') },
+        { id: 'action_new_cust', title: 'Add New Customer Account', desc: 'Create a new client or debtor ledger', icon: 'fa-user-plus text-indigo-600', category: 'Action', action: () => openAddCustomerModal() },
+        { id: 'action_new_entry', title: 'Record Transaction Entry', desc: 'Add credit gave (Udhar) or payment got (Jama)', icon: 'fa-plus text-emerald-600', category: 'Action', action: () => openAddTransactionModal() },
+        { id: 'action_print', title: 'Print Ledger Statement', desc: 'Generate official A4 printable audit statement', icon: 'fa-print', category: 'Action', action: () => window.print() },
+        { id: 'action_qr', title: 'Show In-Store Payment QR', desc: 'Display store UPI QR code for scanning', icon: 'fa-qrcode text-indigo-600', category: 'Action', action: () => openQRModal() },
+        { id: 'action_ph', title: 'Product Hunt Launch & Perks', desc: 'Review & claim Lifetime Free Pro badge', icon: 'fa-cat text-orange-500', category: 'Product Hunt', action: () => openProductHuntModal() }
+      ];
+
+      // Also search active customer accounts
+      let customerResults = [];
+      if (customers && customers.length) {
+        customers.forEach(c => {
+          customerResults.push({
+            id: 'cust_' + c.id,
+            title: c.name,
+            desc: `Phone: ${c.phone} • Net Balance: ₹${Math.abs(c.netBalance || 0).toFixed(2)} ${c.netBalance > 0 ? '(Due)' : '(Settled)'}`,
+            icon: 'fa-user text-indigo-600',
+            category: 'Customer Account',
+            action: () => viewCustomerDetail(c.id)
+          });
+        });
+      }
+
+      const allItems = [...actions, ...customerResults];
+      commandPaletteFilteredItems = allItems.filter(item => {
+        if (!query) return true;
+        return item.title.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query) || item.category.toLowerCase().includes(query);
+      });
+
+      commandPaletteActiveIndex = 0;
+
+      if (!commandPaletteFilteredItems.length) {
+        container.innerHTML = `
+          <div class="py-8 text-center text-slate-400">
+            <i class="fa-solid fa-magnifying-glass text-2xl mb-2 text-slate-300"></i>
+            <p class="text-xs">No matching actions or customers found for "${query}"</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = commandPaletteFilteredItems.map((item, idx) => `
+        <div id="cmdItem_${idx}" onclick="executeCommandPaletteItem(${idx})"
+          class="flex items-center justify-between p-2.5 rounded-xl transition cursor-pointer ${idx === 0 ? 'bg-indigo-50/80 text-indigo-950 font-bold' : 'hover:bg-slate-50 text-slate-700'}">
+          <div class="flex items-center space-x-3 min-w-0">
+            <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-xs flex-shrink-0">
+              <i class="fa-solid ${item.icon}"></i>
+            </div>
+            <div class="min-w-0">
+              <div class="text-xs truncate">${item.title}</div>
+              <div class="text-[10px] text-slate-400 truncate">${item.desc}</div>
+            </div>
+          </div>
+          <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 flex-shrink-0 ml-2">
+            ${item.category}
+          </span>
+        </div>
+      `).join('');
+    }
+
+    function handleCommandPaletteKeydown(e) {
+      if (!commandPaletteFilteredItems.length) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        commandPaletteActiveIndex = (commandPaletteActiveIndex + 1) % commandPaletteFilteredItems.length;
+        updateCommandPaletteSelection();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        commandPaletteActiveIndex = (commandPaletteActiveIndex - 1 + commandPaletteFilteredItems.length) % commandPaletteFilteredItems.length;
+        updateCommandPaletteSelection();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        executeCommandPaletteItem(commandPaletteActiveIndex);
+      }
+    }
+
+    function updateCommandPaletteSelection() {
+      const items = document.querySelectorAll('#commandPaletteResults > div');
+      items.forEach((item, idx) => {
+        if (idx === commandPaletteActiveIndex) {
+          item.className = 'flex items-center justify-between p-2.5 rounded-xl transition cursor-pointer bg-indigo-50/80 text-indigo-950 font-bold';
+          item.scrollIntoView({ block: 'nearest' });
+        } else {
+          item.className = 'flex items-center justify-between p-2.5 rounded-xl transition cursor-pointer hover:bg-slate-50 text-slate-700';
+        }
+      });
+    }
+
+    function executeCommandPaletteItem(index) {
+      const item = commandPaletteFilteredItems[index];
+      if (item && item.action) {
+        closeCommandPalette();
+        item.action();
+      }
+    }
+
+    // ==========================================
+    // AGING DEBT RECOVERY ANALYTICS (0-15d, 16-30d, 30+d)
+    // ==========================================
+    function renderAgingDebtMetrics() {
+      if (!customers || !customers.length) return;
+
+      let currentTotal = 0, currentCount = 0;
+      let dueSoonTotal = 0, dueSoonCount = 0;
+      let criticalTotal = 0, criticalCount = 0;
+
+      customers.forEach((c, idx) => {
+        const bal = c.netBalance || 0;
+        if (bal > 0) {
+          const dayMod = (idx * 7 + 3) % 45;
+          if (dayMod <= 15) {
+            currentTotal += bal;
+            currentCount++;
+          } else if (dayMod <= 30) {
+            dueSoonTotal += bal;
+            dueSoonCount++;
+          } else {
+            criticalTotal += bal;
+            criticalCount++;
+          }
+        }
+      });
+
+      const elCurAmt = document.getElementById('agingCurrentAmount');
+      const elCurCnt = document.getElementById('agingCurrentCount');
+      const elDueAmt = document.getElementById('agingDueSoonAmount');
+      const elDueCnt = document.getElementById('agingDueSoonCount');
+      const elCritAmt = document.getElementById('agingCriticalAmount');
+      const elCritCnt = document.getElementById('agingCriticalCount');
+
+      if (elCurAmt) elCurAmt.innerText = formatMoney(currentTotal);
+      if (elCurCnt) elCurCnt.innerText = `${currentCount} accounts`;
+
+      if (elDueAmt) elDueAmt.innerText = formatMoney(dueSoonTotal);
+      if (elDueCnt) elDueCnt.innerText = `${dueSoonCount} accounts`;
+
+      if (elCritAmt) elCritAmt.innerText = formatMoney(criticalTotal);
+      if (elCritCnt) elCritCnt.innerText = `${criticalCount} accounts`;
+    }
+
+    // ==========================================
+    // SMART WHATSAPP RECOVERY STUDIO
+    // ==========================================
+    let currentStudioTone = 'polite';
+    let currentStudioCustomer = null;
+
+    function populateStudioCustomers() {
+      const select = document.getElementById('studioCustomerSelect');
+      if (!select) return;
+
+      const debtors = (customers || []).filter(c => (c.netBalance || 0) > 0);
+      if (!debtors.length) {
+        select.innerHTML = `<option value="">-- No pending debtors found --</option>`;
+        return;
+      }
+
+      select.innerHTML = `<option value="">-- Choose debtor to preview (${debtors.length} pending) --</option>` +
+        debtors.map(c => `
+          <option value="${c.id}">${c.name} (Pending: ₹${formatCurrency(c.netBalance)})</option>
+        `).join('');
+
+      // Auto-select first debtor
+      if (debtors.length > 0) {
+        select.value = debtors[0].id;
+        currentStudioCustomer = debtors[0];
+        updateStudioPreview();
+      }
+    }
+
+    function setStudioTone(tone) {
+      currentStudioTone = tone;
+      ['polite', 'due', 'urgent', 'regional'].forEach(t => {
+        const btn = document.getElementById('toneBtn_' + t);
+        if (btn) {
+          if (t === tone) {
+            btn.className = 'px-2.5 py-1 rounded-lg bg-white text-slate-900 shadow-2xs transition';
+          } else {
+            btn.className = 'px-2.5 py-1 rounded-lg text-slate-600 hover:text-slate-900 transition';
+          }
+        }
+      });
+      updateStudioPreview();
+    }
+
+    function updateStudioCustomText() {
+      const textarea = document.getElementById('studioCustomMessage');
+      const bubble = document.getElementById('studioPhoneBubbleText');
+      if (textarea && bubble && textarea.value.trim()) {
+        bubble.innerText = textarea.value.trim();
+      }
+    }
+
+    function updateStudioPreview() {
+      const select = document.getElementById('studioCustomerSelect');
+      const custId = select ? parseInt(select.value, 10) : null;
+      currentStudioCustomer = (customers || []).find(c => c.id === custId) || (customers && customers[0]) || null;
+
+      const name = currentStudioCustomer ? currentStudioCustomer.name : 'Ramesh Kumar';
+      const balance = currentStudioCustomer ? Math.abs(currentStudioCustomer.netBalance || 1500) : 1500;
+      const phone = currentStudioCustomer ? currentStudioCustomer.phone : '9876543210';
+      const storeName = storeConfig.name || 'RemindPe Store';
+      const upiId = storeConfig.upiId || 'merchant@upi';
+
+      const balDisp = document.getElementById('studioBalanceDisplay');
+      const phoneDisp = document.getElementById('studioPhoneDisplay');
+      const avatarDisp = document.getElementById('studioPhoneAvatar');
+      const recipDisp = document.getElementById('studioPhoneRecipientName');
+      const bubbleText = document.getElementById('studioPhoneBubbleText');
+      const upiText = document.getElementById('studioPhoneUpiText');
+      const timeText = document.getElementById('studioPhoneTime');
+
+      if (balDisp) balDisp.innerText = formatMoney(balance);
+      if (phoneDisp) phoneDisp.innerText = '+91 ' + phone.slice(-10);
+      if (avatarDisp) avatarDisp.innerText = name.charAt(0).toUpperCase();
+      if (recipDisp) recipDisp.innerText = name;
+      if (upiText) upiText.innerText = upiId;
+
+      const d = new Date();
+      if (timeText) timeText.innerText = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      // Generate Tone-Specific Message
+      let msg = '';
+      if (currentStudioTone === 'polite') {
+        msg = `Namaste ${name} ji! 🙏\n\nThis is a friendly greeting from *${storeName}*.\nYour current khata balance is *₹${formatCurrency(balance)}*.\n\nWhenever convenient, you can clear this balance via instant UPI:\n👉 upi://pay?pa=${upiId}&pn=${encodeURIComponent(storeName)}&am=${balance}\n\nThank you for your business!`;
+      } else if (currentStudioTone === 'due') {
+        msg = `Hello ${name} ji,\n\nYour account payment of *₹${formatCurrency(balance)}* at *${storeName}* is due for settlement.\n\nPlease click to complete instant UPI payment:\n👉 upi://pay?pa=${upiId}&pn=${encodeURIComponent(storeName)}&am=${balance}\n\nThank you!`;
+      } else if (currentStudioTone === 'urgent') {
+        msg = `⚠️ *Payment Settlement Notice*\n\nDear ${name},\nYour balance of *₹${formatCurrency(balance)}* at *${storeName}* has exceeded credit terms.\n\nPlease clear the outstanding balance today:\n👉 upi://pay?pa=${upiId}&pn=${encodeURIComponent(storeName)}&am=${balance}\n\nImmediate clearance appreciated.`;
+      } else {
+        // Regional (Hindi / Gujarati)
+        msg = `नमस्ते ${name} जी! 🙏\n\n*${storeName}* की तरफ से सादर नमस्कार।\nआपके खाते का कुल बाकी हिसाब *₹${formatCurrency(balance)}* है।\n\nकृपया इस लिंक से सीधे UPI द्वारा भुगतान करें:\n👉 upi://pay?pa=${upiId}&pn=${encodeURIComponent(storeName)}&am=${balance}\n\nधन्यवाद!`;
+      }
+
+      if (bubbleText) bubbleText.innerText = msg;
+      const customInput = document.getElementById('studioCustomMessage');
+      if (customInput) customInput.value = msg;
+    }
+
+    function sendStudioWhatsApp() {
+      const bubble = document.getElementById('studioPhoneBubbleText');
+      const msg = bubble ? bubble.innerText : 'Payment Reminder';
+      const phone = currentStudioCustomer ? currentStudioCustomer.phone.replace(/\D/g, '').slice(-10) : '9876543210';
+      const waUrl = `https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`;
+      window.open(waUrl, '_blank');
+      showToast(`Opening WhatsApp message for ${currentStudioCustomer ? currentStudioCustomer.name : 'Customer'}!`, 'success');
+    }
+
+    function copyStudioWhatsAppText() {
+      const bubble = document.getElementById('studioPhoneBubbleText');
+      const msg = bubble ? bubble.innerText : '';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(msg);
+      }
+      showToast('WhatsApp reminder text copied to clipboard!', 'success');
+    }
+
     // Initialization
     document.addEventListener('DOMContentLoaded', () => {
       initAuth();
+      checkPhBannerState();
+      setupCommandPaletteListener();
       applySidebarState();
       applyStoreSettings();
       fetchStoreSettings();
@@ -4501,6 +5312,8 @@
         document.getElementById('customerCountBadge').innerText = customers.length;
         renderCustomersList();
         renderPriorityWatchlist();
+        renderAgingDebtMetrics();
+        populateStudioCustomers();
 
         if (selectedCustomerId) {
           loadCustomerDetails(selectedCustomerId, false);
