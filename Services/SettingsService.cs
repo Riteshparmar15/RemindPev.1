@@ -1,4 +1,5 @@
 using RemindPe.Common;
+using RemindPe.Data;
 using RemindPe.Models.DTOs;
 using RemindPe.Repositories;
 
@@ -7,11 +8,16 @@ namespace RemindPe.Services;
 public class SettingsService : ISettingsService
 {
     private readonly ISettingsRepository _settingsRepository;
+    private readonly KhataDbContext _context;
     private readonly ILogger<SettingsService> _logger;
 
-    public SettingsService(ISettingsRepository settingsRepository, ILogger<SettingsService> logger)
+    public SettingsService(
+        ISettingsRepository settingsRepository,
+        KhataDbContext context,
+        ILogger<SettingsService> logger)
     {
         _settingsRepository = settingsRepository;
+        _context = context;
         _logger = logger;
     }
 
@@ -57,5 +63,12 @@ public class SettingsService : ISettingsService
             updated.DefaultReminderTemplate,
             updated.ReceiptFooter
         );
+    }
+
+    public async Task<MerchantSettingsDto> SeedDemoDataAsync()
+    {
+        DbInitializer.SeedDemoData(_context, clearExisting: true);
+        _logger.LogInformation("Demo data seeded successfully.");
+        return await GetSettingsAsync();
     }
 }

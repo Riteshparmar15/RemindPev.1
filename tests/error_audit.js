@@ -45,7 +45,7 @@ async function checkConsoleAndNetwork() {
   await page.waitForTimeout(500);
 
   console.log('6. Opening Modals (Settings, UPI QR, Add Customer, Add Transaction)...');
-  await page.locator('#topbarSettingsBtn').click();
+  await page.locator('#topbarUserPill').click();
   await page.waitForTimeout(300);
   await page.keyboard.press('Escape');
 

@@ -44,4 +44,16 @@ public class SettingsController : ControllerBase
         var updated = await _settingsService.UpdateSettingsAsync(dto);
         return Ok(updated);
     }
+
+    /// <summary>
+    /// POST /api/settings/seed-demo
+    /// Populates full realistic demo dataset (18 customers, 45+ transactions, aging buckets).
+    /// </summary>
+    [HttpPost("seed-demo")]
+    [ProducesResponseType(typeof(MerchantSettingsDto), StatusCodes.Status200OK)]
+    public async Task<ActionResult<MerchantSettingsDto>> SeedDemo()
+    {
+        var settings = await _settingsService.SeedDemoDataAsync();
+        return Ok(settings);
+    }
 }

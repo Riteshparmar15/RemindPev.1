@@ -6,4 +6,5 @@ public interface ISettingsService
 {
     Task<MerchantSettingsDto> GetSettingsAsync();
     Task<MerchantSettingsDto> UpdateSettingsAsync(UpdateMerchantSettingsDto dto);
+    Task<MerchantSettingsDto> SeedDemoDataAsync();
 }

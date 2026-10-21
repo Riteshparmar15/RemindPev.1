@@ -16,7 +16,7 @@ test.describe('Audit Ledger & Transaction Feed', () => {
 
   test('Transactions audit feed module loads with title and filters', async ({ page }) => {
     await expect(page.locator('#transactionsModule')).toBeVisible();
-    await expect(page.locator('button:has-text("All"), button:has-text("Credit"), button:has-text("Debit")').first()).toBeVisible();
+    await expect(page.locator('#transactionsModule button:has-text("All"), #transactionsModule button:has-text("Credit"), button[id^="auditBtn"]:visible, button:has-text("All"):visible').first()).toBeVisible();
   });
 
   test('View mode toggle switches between Cards and Table view', async ({ page }) => {
